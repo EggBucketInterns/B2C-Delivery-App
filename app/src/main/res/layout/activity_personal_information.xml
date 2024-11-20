@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/scrollPersonal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/person"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".PersonalInformation">
+
+
+        <TextView
+            android:id="@+id/personalInfoTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Personal Information"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/personalInfoText"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:fontFamily="@font/radio_canada_medium"
+            android:text="Enter the details below so we can get to know and serve you better"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/personalInfoTitle"
+            app:layout_constraintTop_toBottomOf="@+id/personalInfoTitle" />
+
+        <TextView
+            android:id="@+id/firstName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/istok_web"
+            android:text="First Name"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/personalInfoText"
+            app:layout_constraintTop_toBottomOf="@+id/personalInfoText" />
+
+        <EditText
+            android:id="@+id/firstNameInput"
+            android:layout_width="362dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/firstName"
+            android:layout_margin="1dp"
+
+            android:background="@drawable/rounded_edittext_border"
+            android:drawablePadding="0dp"
+            android:hint="Please Enter First Name"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/firstName"
+            app:layout_constraintTop_toBottomOf="@+id/firstName" />
+
+
+        <TextView
+            android:id="@+id/lastName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/istok_web"
+            android:text="Last Name"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/firstNameInput"
+            app:layout_constraintTop_toBottomOf="@+id/firstNameInput" />
+
+        <EditText
+            android:id="@+id/lastNameInput"
+            android:layout_width="362dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/lastName"
+            android:layout_margin="1dp"
+            android:background="@drawable/rounded_edittext_border"
+            android:drawablePadding="0dp"
+            android:hint="Please Enter Last Name"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/lastName"
+            app:layout_constraintTop_toBottomOf="@+id/lastName" />
+
+        <TextView
+            android:id="@+id/fatherName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/istok_web"
+            android:text="Father's Name"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/lastNameInput"
+            app:layout_constraintTop_toBottomOf="@+id/lastNameInput" />
+
+        <EditText
+            android:id="@+id/fatherNameInput"
+            android:layout_width="362dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/fatherName"
+            android:layout_margin="1dp"
+            android:background="@drawable/rounded_edittext_border"
+            android:drawablePadding="0dp"
+            android:hint="Please Enter Father's Name"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/fatherName"
+            app:layout_constraintTop_toBottomOf="@+id/fatherName" />
+
+        <TextView
+            android:id="@+id/dateOfBirth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/istok_web"
+            android:text="Date of Birth"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/fatherNameInput"
+            app:layout_constraintTop_toBottomOf="@+id/fatherNameInput" />
+
+        <EditText
+            android:id="@+id/dateOfBirthInput"
+            android:layout_width="362dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/dateOfBirth"
+            android:layout_margin="1dp"
+            android:background="@drawable/rounded_edittext_border"
+            android:drawablePadding="0dp"
+            android:ems="10"
+            android:hint="dd-mm-yyyy"
+            android:inputType="date"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/dateOfBirth"
+            app:layout_constraintTop_toBottomOf="@+id/dateOfBirth" />
+
+        <TextView
+            android:id="@+id/primaryNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/istok_web"
+            android:text="Primary Mobile Number(Whatsapp)"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/dateOfBirthInput"
+            app:layout_constraintTop_toBottomOf="@+id/dateOfBirthInput" />
+
+        <EditText
+            android:id="@+id/primaryPhoneInput"
+            android:layout_width="362dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/primaryNumber"
+
+            android:background="@drawable/rounded_edittext_border"
+            android:drawablePadding="0dp"
+            android:ems="10"
+            android:hint="+91 9999988888"
+            android:inputType="phone"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/primaryNumber"
+            app:layout_constraintTop_toBottomOf="@+id/primaryNumber" />
+
+        <TextView
+            android:id="@+id/secondaryNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/istok_web"
+            android:text="Secondary Mobile Number(Optional)"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/primaryPhoneInput"
+            app:layout_constraintTop_toBottomOf="@+id/primaryPhoneInput" />
+
+        <EditText
+            android:id="@+id/secondaryPhoneInput"
+            android:layout_width="362dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/secondaryNumber"
+
+            android:background="@drawable/rounded_edittext_border"
+            android:drawablePadding="0dp"
+            android:ems="10"
+            android:hint="+91 9999988888"
+            android:inputType="phone"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/secondaryNumber"
+            app:layout_constraintTop_toBottomOf="@+id/secondaryNumber" />
+
+
+        <TextView
+            android:id="@+id/bloodGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/istok_web"
+            android:text="Blood Name"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/secondaryPhoneInput"
+            app:layout_constraintTop_toBottomOf="@+id/secondaryPhoneInput" />
+
+        <EditText
+            android:id="@+id/bloodGroupInput"
+            android:layout_width="362dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/bloodGroup"
+
+            android:background="@drawable/rounded_edittext_border"
+            android:drawablePadding="0dp"
+            android:hint="Enter Blood Group Here"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/bloodGroup"
+            app:layout_constraintTop_toBottomOf="@+id/bloodGroup" />
+
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/istok_web"
+            android:text="City"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/bloodGroupInput"
+            app:layout_constraintTop_toBottomOf="@+id/bloodGroupInput" />
+
+        <EditText
+            android:id="@+id/cityInput"
+            android:layout_width="362dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/city"
+
+            android:background="@drawable/rounded_edittext_border"
+            android:drawablePadding="0dp"
+            android:hint="e.g. Bangalore"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/city"
+            app:layout_constraintTop_toBottomOf="@+id/city" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/istok_web"
+            android:text="Enter Complete Address Here"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/cityInput"
+            app:layout_constraintTop_toBottomOf="@+id/cityInput" />
+
+        <EditText
+            android:id="@+id/addressInput"
+            android:layout_width="362dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/address"
+
+            android:background="@drawable/rounded_edittext_border"
+            android:drawablePadding="0dp"
+            android:hint="Search Address"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/address"
+            app:layout_constraintTop_toBottomOf="@+id/address" />
+
+        <TextView
+            android:id="@+id/languages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/istok_web"
+            android:text="Languages You Know"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/addressInput"
+            app:layout_constraintTop_toBottomOf="@+id/addressInput" />
+
+        <EditText
+            android:id="@+id/languagesInput"
+            android:layout_width="362dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/languages"
+
+            android:background="@drawable/rounded_edittext_border"
+            android:drawablePadding="0dp"
+            android:hint="Select one or more"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/languages"
+            app:layout_constraintTop_toBottomOf="@+id/languages" />
+        <TextView
+            android:id="@+id/photoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/istok_web"
+            android:text="Your Profile Picture"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/languagesInput"
+            app:layout_constraintTop_toBottomOf="@+id/languagesInput" />
+
+        <LinearLayout
+            android:id="@+id/outerLinearLayoutPersonalInformationMain"
+            android:layout_width="348dp"
+            android:layout_height="118dp"
+            android:layout_marginStart="155dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="-60dp"
+            android:background="@drawable/border"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/photoText"
+            app:layout_constraintStart_toStartOf="@+id/photoText"
+            app:layout_constraintTop_toBottomOf="@+id/photoText">
+
+            <!-- ImageView on the left -->
+            <ImageView
+                android:id="@+id/imgVehicleDetails"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/img" />
+
+            <!-- Spacer for separation -->
+            <View
+                android:layout_width="36dp"
+                android:layout_height="match_parent" />
+
+
+            <LinearLayout
+                android:id="@+id/ButtonUploadVehicleDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/orange_round"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/img_1" />
+
+                <TextView
+                    android:id="@+id/uploadImageVehicleDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:text="Upload Photo"
+                    android:textSize="19sp"
+                    android:textAlignment="center"
+                    android:textColor="#D96928" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/referralCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/istok_web"
+            android:text="Referral code (Optional)"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/outerLinearLayoutPersonalInformationMain"
+            app:layout_constraintTop_toBottomOf="@+id/outerLinearLayoutPersonalInformationMain" />
+
+        <EditText
+            android:id="@+id/referralCodeInput"
+            android:layout_width="362dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/referralCode"
+
+            android:background="@drawable/rounded_edittext_border"
+            android:drawablePadding="0dp"
+            android:hint="Enter referral code"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/referralCode"
+            app:layout_constraintTop_toBottomOf="@+id/referralCode" />
+
+        <TextView
+            android:id="@+id/submitButtonPersonalInfo"
+            android:layout_width="366dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/orange_button_background"
+            android:backgroundTint="@null"
+            android:elevation="4dp"
+            android:fontFamily="@font/istok_web_bold"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="Submit"
+            android:textColor="#FFFFFF"
+            android:textColorLink="#FF5722"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="@+id/referralCodeInput"
+            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintStart_toStartOf="@+id/referralCodeInput"
+            app:layout_constraintTop_toBottomOf="@+id/referralCodeInput"
+            android:clickable="true"
+            android:focusable="true"
+            />
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
