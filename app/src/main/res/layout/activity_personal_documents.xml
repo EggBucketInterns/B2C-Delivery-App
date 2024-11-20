@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/personalDocuments"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/egg_bucket_doc"
+    tools:context=".PersonalDocuments">
+
+    <TextView
+        android:id="@+id/titleWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="55dp"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="Welcome to Egg Bucket "
+        android:textColor="@color/white"
+        android:textSize="23sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="377dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="7dp"
+        android:fontFamily="@font/radio_canada_medium"
+        android:text="Just a few steps to complete and then you can start earning with Us"
+        android:textColor="#FDFCFC"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/titleWelcome"
+        app:layout_constraintTop_toBottomOf="@+id/titleWelcome" />
+
+    <TextView
+        android:id="@+id/pendingDocuments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/istok_web_bold"
+        android:text="Pending Documents"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/welcomeText"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
+
+    <LinearLayout
+        android:id="@+id/linearPersonalDocuments"
+        android:layout_width="378dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_background"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="@+id/pendingDocuments"
+        app:layout_constraintTop_toBottomOf="@+id/pendingDocuments">
+
+
+
+        <TextView
+            android:id="@+id/buttonTextPersonalDocuments"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/istok_web"
+            android:text="Personal Documents"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/buttonIconPersonalDocuments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Arrow Icon"
+            android:src="@drawable/img_2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearVehicleDocuments"
+        android:layout_width="378dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_background"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="@+id/linearPersonalDocuments"
+        app:layout_constraintTop_toBottomOf="@+id/linearPersonalDocuments">
+
+
+
+        <TextView
+            android:id="@+id/buttonTextVehicleDocuments"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/istok_web"
+            android:text="Vehicle Documents"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/buttonIconVehicleDocuments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Arrow Icon"
+            android:src="@drawable/img_2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearBankDocuments"
+        android:layout_width="378dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_background"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="@+id/linearVehicleDocuments"
+        app:layout_constraintTop_toBottomOf="@+id/linearVehicleDocuments">
+
+
+
+        <TextView
+            android:id="@+id/buttonTextBankDocuments"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/istok_web"
+            android:text="Bank Account Details"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/buttonIconBankDocuments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Arrow Icon"
+            android:src="@drawable/img_2" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/completedDocuments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/istok_web_bold"
+        android:text="Completed Documents"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/linearBankDocuments"
+        app:layout_constraintTop_toBottomOf="@+id/linearBankDocuments" />
+
+    <LinearLayout
+        android:id="@+id/linearPersonalInformation"
+        android:layout_width="378dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_background"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="@+id/completedDocuments"
+        app:layout_constraintTop_toBottomOf="@+id/completedDocuments">
+
+
+
+        <TextView
+            android:id="@+id/buttonTextPersonalInformation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/istok_web"
+            android:text="Personal Information"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/buttonIconPersonalInformation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Arrow Icon"
+            android:src="@drawable/img_2" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/submitButtonDocs"
+        android:layout_width="366dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/orange_button_background"
+        android:backgroundTint="@null"
+        android:elevation="4dp"
+        android:fontFamily="@font/istok_web_bold"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="Submit"
+        android:textColor="#FFFFFF"
+        android:textColorLink="#FF5722"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/linearPersonalInformation"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/linearPersonalInformation"
+        app:layout_constraintTop_toBottomOf="@+id/linearPersonalInformation" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

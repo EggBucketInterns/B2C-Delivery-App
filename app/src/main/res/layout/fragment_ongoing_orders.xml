@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".DeliveredOrders">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="25dp"
+        android:background="@color/appThemeColor">
+
+        <!-- Back Arrow -->
+        <ImageView
+            app:tint="@color/white"
+            android:id="@+id/backIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Back"
+            android:onClick="onBackPressed"
+            android:padding="8dp"
+            android:scaleType="center"
+            android:src="@drawable/baseline_arrow_back_black"
+            android:layout_gravity="start|center_vertical" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Orders"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            android:textStyle="normal" />
+    </FrameLayout>
+
+    <!-- Main Content Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="100dp"
+        android:paddingVertical="16dp">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp">
+
+            <!-- TextView -->
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="dd/mm/yyyy"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <!-- Downward icon -->
+            <ImageView
+                android:id="@+id/downwardIcon"
+                android:layout_width="18dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="8dp"
+                android:contentDescription="Downward icon"
+                android:src="@drawable/arrow_down" />
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/dateText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp"
+            android:text="25th September, 2025"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/grey"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ordersRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/delivery_order_item" />
+    </LinearLayout>
+
+</FrameLayout>
