@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bankDetails"
+    android:background="@drawable/details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BankAccountDetails">
+    <ImageView
+        android:id="@+id/backArrowBank"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="44dp"
+        android:contentDescription="Back Arrow"
+        android:src="@drawable/back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/bankDetailsMainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Bank Account  Details"
+        android:textColor="#F8F0F0"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/accountHolderName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-70dp"
+        android:layout_marginTop="65dp"
+        android:fontFamily="@font/istok_web"
+        android:text="Account holder’s Name"
+        android:textColor="@color/dark_gray"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/bankDetailsMainTitle"
+        app:layout_constraintTop_toBottomOf="@+id/bankDetailsMainTitle" />
+
+    <EditText
+        android:id="@+id/accountHolderNameInput"
+        android:layout_width="362dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/accountHolderName"
+        android:layout_margin="1dp"
+        android:background="@drawable/rounded_edittext_border"
+        android:drawablePadding="0dp"
+        android:hint="Enter Account Holder’s Name"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_gray"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/accountHolderName"
+        app:layout_constraintTop_toBottomOf="@+id/accountHolderName" />
+
+    <TextView
+        android:id="@+id/bankName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/istok_web"
+        android:text="Bank Name"
+        android:textColor="@color/dark_gray"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/accountHolderNameInput"
+        app:layout_constraintTop_toBottomOf="@+id/accountHolderNameInput" />
+
+    <EditText
+        android:id="@+id/bankNameInput"
+        android:layout_width="362dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/accountHolderName"
+        android:layout_margin="1dp"
+        android:layout_marginStart="76dp"
+        android:background="@drawable/rounded_edittext_border"
+        android:drawablePadding="0dp"
+        android:hint="Enter Bank Name"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_gray"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/bankName"
+        app:layout_constraintTop_toBottomOf="@+id/bankName" />
+
+    <TextView
+        android:id="@+id/accountNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/istok_web"
+        android:text="Account Number"
+        android:textColor="@color/dark_gray"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/bankNameInput"
+        app:layout_constraintTop_toBottomOf="@+id/bankNameInput" />
+
+    <EditText
+        android:id="@+id/accountNumberInput"
+        android:layout_width="362dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/accountNumber"
+        android:layout_margin="1dp"
+        android:layout_marginStart="76dp"
+        android:background="@drawable/rounded_edittext_border"
+        android:drawablePadding="0dp"
+        android:hint="Enter Account Number"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_gray"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/accountNumber"
+        app:layout_constraintTop_toBottomOf="@+id/accountNumber" />
+
+    <TextView
+        android:id="@+id/branchName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/istok_web"
+        android:text="Branch Name"
+        android:textColor="@color/dark_gray"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/accountNumberInput"
+        app:layout_constraintTop_toBottomOf="@+id/accountNumberInput" />
+
+    <EditText
+        android:id="@+id/branchNameInput"
+        android:layout_width="362dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/branchName"
+        android:layout_margin="1dp"
+        android:layout_marginStart="76dp"
+        android:background="@drawable/rounded_edittext_border"
+        android:drawablePadding="0dp"
+        android:hint="Enter Branch Name"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_gray"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/branchName"
+        app:layout_constraintTop_toBottomOf="@+id/branchName" />
+
+    <TextView
+        android:id="@+id/ifscCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/istok_web"
+        android:text="IFSC Code"
+        android:textColor="@color/dark_gray"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/branchNameInput"
+        app:layout_constraintTop_toBottomOf="@+id/branchNameInput" />
+
+    <EditText
+        android:id="@+id/ifscCodeInput"
+        android:layout_width="362dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/ifscCode"
+        android:layout_margin="1dp"
+        android:layout_marginStart="76dp"
+        android:background="@drawable/rounded_edittext_border"
+        android:drawablePadding="0dp"
+        android:hint="Enter IFSC Code"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_gray"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/ifscCode"
+        app:layout_constraintTop_toBottomOf="@+id/ifscCode" />
+
+    <TextView
+        android:id="@+id/submitButtonBankDoc"
+        android:layout_width="366dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="112dp"
+        android:background="@drawable/orange_button_background"
+        android:backgroundTint="@null"
+        android:elevation="4dp"
+        android:fontFamily="@font/istok_web_bold"
+        android:padding="12dp"
+        android:text="Submit"
+        android:textColor="#FFFFFF"
+        android:textColorLink="#FF5722"
+        android:textSize="22sp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@+id/ifscCodeInput"
+        app:layout_constraintHorizontal_bias="0.416"
+        app:layout_constraintStart_toStartOf="@+id/ifscCodeInput"
+        app:layout_constraintTop_toBottomOf="@+id/ifscCodeInput" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
