@@ -9,4 +9,5 @@
     <color name="orange">#FF9431</color>
     <color name="text_primary">#000000</color>
     <color name="text_accent">#0000FF</color>
+    <color name="dark_gray">#A9A9A9</color>
 </resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_activity_navigation_graph"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.eggbucket.b2c_delivery_app.Dashboard"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.eggbucket.b2c_delivery_app.Menu"
+        android:label="Menu"
+        tools:layout="@layout/fragment_menu" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.eggbucket.b2c_delivery_app.Profile"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.eggbucket.b2c_delivery_app.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+</navigation>
