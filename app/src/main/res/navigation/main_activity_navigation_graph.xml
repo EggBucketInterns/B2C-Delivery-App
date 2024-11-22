@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.eggbucket.b2c_delivery_app.Profile"
+        android:name="com.eggbucket.b2c_delivery_app.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
     <activity
