@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#F7F8F9"
     android:padding="10dp"
-    tools:context=".Dashboard">
+    tools:context=".DashboardFragment">
 
 
     <TextView

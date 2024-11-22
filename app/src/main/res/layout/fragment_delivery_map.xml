@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".PickupMap">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/map_layout"
         android:layout_width="406dp"
@@ -21,8 +22,8 @@
             android:id="@+id/back_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/circular_button_background"
             android:scaleType="centerInside"
             android:src="@drawable/baseline_arrow_left"
@@ -43,42 +44,29 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+    <!-- Address Layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/address_layout"
-        android:layout_width="410dp"
-        android:layout_height="237dp"
+        android:layout_width="407dp"
+        android:layout_height="278dp"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="25dp"
-            android:src="@drawable/baseline_location_pin_24"
-            app:layout_constraintBottom_toTopOf="@+id/address_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:text="name"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="Name"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/reached_outlet_button"
+        <TextView
+            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -87,46 +75,36 @@
             android:background="@drawable/orange_rounded_background"
             android:gravity="center"
             android:padding="15dp"
-            android:text="REACHED OUTLET"
+            android:text="DELIVERED"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <!-- Address Text -->
 
+        <!-- View Order Details Button -->
         <TextView
             android:id="@+id/address_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="72dp"
-            android:text="Street Number, Sector Number, City Name, State, India"
+            android:layout_marginBottom="116dp"
+            android:text="Delivery Address"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/textView3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/change_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:text="Change"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
         <Button
             android:id="@+id/view_order_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="28dp"
             android:layout_marginEnd="10dp"
             android:backgroundTint="@android:color/holo_orange_light"
             android:gravity="center"
@@ -136,6 +114,7 @@
             android:textColor="@android:color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/address_text" />
 
