@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_deliveredOrders"
             app:destination="@id/deliveredOrders" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_orderSummary"
+            app:destination="@id/orderSummary" />
     </fragment>
 
     <fragment
@@ -74,4 +77,13 @@
         android:name="com.eggbucket.b2c_delivery_app.OrderDetails"
         android:label="fragment_order_details"
         tools:layout="@layout/fragment_order_details" />
+    <fragment
+        android:id="@+id/orderSummary"
+        android:name="com.eggbucket.b2c_delivery_app.OrderSummary"
+        android:label="fragment_order_history"
+        tools:layout="@layout/fragment_order_history" >
+        <action
+            android:id="@+id/action_orderSummary_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
 </navigation>

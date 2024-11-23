@@ -16,13 +16,13 @@
         <ImageView
             android:id="@+id/backIcon"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_gravity="start|center_vertical"
+            android:layout_height="wrap_content"
             android:contentDescription="Back"
             android:onClick="onBackPressed"
             android:padding="8dp"
             android:scaleType="center"
             android:src="@drawable/baseline_arrow_back_black"
+            android:layout_gravity="start|center_vertical"
             app:tint="@color/white" />
 
 
@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
-            android:background="@color/grey"/>
+            android:background="#A9A9A9"/>
 
 
         <androidx.recyclerview.widget.RecyclerView

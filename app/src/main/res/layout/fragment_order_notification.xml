@@ -12,7 +12,7 @@
         android:background="@color/white"
         android:paddingVertical="20dp">
 
-
+        <!-- Back Arrow -->
         <ImageView
             android:id="@+id/backIcon"
             android:layout_width="wrap_content"
@@ -24,7 +24,7 @@
             android:src="@drawable/baseline_arrow_back_black"
             app:tint="@color/black" />
 
-
+        <!-- Title -->
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-
+        <!-- Map -->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             android:scaleType="fitCenter"
             android:src="@drawable/map_random" />
 
-
+        <!-- Unified Layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,12 +61,12 @@
             android:background="@drawable/rounded_with_border"
             android:padding="14dp">
 
-
+            <!-- Order Value -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Order Value: ₹x"
-                android:textSize="20sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 android:paddingVertical="10dp"
                 android:gravity="center" />
@@ -77,13 +77,13 @@
                 android:layout_marginTop="8dp"
                 android:background="#A9A9A9"/>
 
-
+            <!-- Pickup Info -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Pickup From:"
                 android:textColor="#000000"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 android:paddingTop="14dp" />
             <TextView
                 android:layout_width="match_parent"
@@ -91,7 +91,7 @@
                 android:text="EggBucket Centre, Primary Location"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="27sp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp" />
 
@@ -102,20 +102,20 @@
                 android:background="#A9A9A9"/>
 
 
-
+            <!-- Order Table -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Order Details:"
                 android:textColor="#000000"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 android:paddingTop="10dp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
+                <!-- Row 1 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                         android:layout_weight="1"
                         android:text="Eggs x 6"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="22sp" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -137,10 +137,10 @@
                         android:text="1"
                         android:textColor="@color/black"
                         android:gravity="end"
-                        android:textSize="18sp" />
+                        android:textSize="22sp" />
                 </LinearLayout>
 
-
+                <!-- Row 2 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -153,7 +153,7 @@
                         android:layout_weight="1"
                         android:text="Eggs x 12"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="22sp" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -162,31 +162,48 @@
                         android:text="3"
                         android:textColor="@color/black"
                         android:gravity="end"
-                        android:textSize="18sp" />
+                        android:textSize="22sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
-
-        <LinearLayout
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:id="@+id/pickUpButton"
+            android:background="@color/white">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/pickUpButton"
+            <!-- Other Content -->
+
+            <RelativeLayout
+                android:id="@+id/outer_border"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_background"
-                android:backgroundTint="@color/appThemeColor"
-                android:gravity="center"
-                android:padding="15dp"
-                android:text="Pick Up"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:layout_height="70dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/rounded_outer_orange"
+                >
+
+                <RelativeLayout
+                    android:id="@+id/sliding_pill"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rounded_pill">
+
+                    <ImageView
+                        android:id="@+id/double_arrows"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/double_arrow"
+                        app:tint="@android:color/black" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
 
 
-        </LinearLayout>
+
+
 
     </LinearLayout>
 
