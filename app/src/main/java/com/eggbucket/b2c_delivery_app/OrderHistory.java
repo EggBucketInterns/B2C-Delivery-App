@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderSummary extends Fragment {
+public class OrderHistory extends Fragment {
 
     // Parameters for fragment arguments
     private static final String ARG_PARAM1 = "param1";
@@ -28,12 +28,12 @@ public class OrderSummary extends Fragment {
     private OrderHistoryAdapter orderHistoryAdapter;
     private List<OrderHistoryModel> orderHistoryModelList;
 
-    public OrderSummary() {
+    public OrderHistory() {
         // Required empty public constructor
     }
 
-    public static OrderSummary newInstance(String param1, String param2) {
-        OrderSummary fragment = new OrderSummary();
+    public static OrderHistory newInstance(String param1, String param2) {
+        OrderHistory fragment = new OrderHistory();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -81,7 +81,7 @@ public class OrderSummary extends Fragment {
         // Back Icon Click Listener
         View backIcon = view.findViewById(R.id.backIcon);
         backIcon.setOnClickListener(v -> {
-            NavHostFragment.findNavController(OrderSummary.this)
+            NavHostFragment.findNavController(OrderHistory.this)
                     .navigate(R.id.action_orderSummary_to_dashboardFragment);
         });
 

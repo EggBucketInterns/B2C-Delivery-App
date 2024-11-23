@@ -1,14 +1,15 @@
 package com.eggbucket.b2c_delivery_app;
 
+import static androidx.navigation.Navigation.findNavController;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,12 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeliveredOrders extends Fragment {
+public class OngoingOrders extends Fragment {
 
     private RecyclerView ordersRecyclerView;
     private OngoingOrdersAdapter ordersAdapter;
 
-    public DeliveredOrders() {
+    public OngoingOrders() {
         // Required empty public constructor
     }
 
@@ -32,6 +33,8 @@ public class DeliveredOrders extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ongoing_orders, container, false);
+
+
 
         // Apply WindowInsets to handle status bar spacing
         view.setOnApplyWindowInsetsListener((v, insets) -> {
@@ -48,9 +51,16 @@ public class DeliveredOrders extends Fragment {
         // Handle back icon click
         View backIcon = view.findViewById(R.id.backIcon);
         backIcon.setOnClickListener(v -> {
-            NavHostFragment.findNavController(DeliveredOrders.this)
+            NavHostFragment.findNavController(OngoingOrders.this)
                     .navigate(R.id.action_deliveredOrders_to_dashboardFragment);
         });
+
+//        for testing Purposes
+//        TextView dateText = view.findViewById(R.id.dateText);
+//        dateText.setOnClickListener(v -> {
+//            NavHostFragment.findNavController(OngoingOrders.this)
+//                    .navigate(R.id.action_deliveredOrders_to_newOrder);
+//        });
 
         // Set up RecyclerView
         ordersRecyclerView = view.findViewById(R.id.ordersRecyclerView);
@@ -61,8 +71,10 @@ public class DeliveredOrders extends Fragment {
         ordersAdapter = new OngoingOrdersAdapter(orders);
         ordersRecyclerView.setAdapter(ordersAdapter);
 
+
         return view;
     }
+
 
     // Generate dummy data for testing
     private List<OngoingOrdersModel> generateDummyOrders() {
