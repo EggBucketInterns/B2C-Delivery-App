@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.eggbucket.b2c_delivery_app.R
 
 class ProfileFragment : Fragment() {
@@ -30,7 +31,7 @@ class ProfileFragment : Fragment() {
         }
 
         view.findViewById<View>(R.id.llOrderHistory).setOnClickListener {
-            // Handle Order History button click
+            findNavController().navigate(R.id.action_profileFragment_to_orderSummary)
         }
 
         view.findViewById<View>(R.id.llHelpSupport).setOnClickListener {
@@ -38,11 +39,11 @@ class ProfileFragment : Fragment() {
         }
 
         view.findViewById<View>(R.id.llNotifications).setOnClickListener {
-            // Handle Notifications button click
+//            findNavController().navigate(R.id.action_profileFragment_to_newOrder)
         }
 
         view.findViewById<View>(R.id.llLogout).setOnClickListener {
-            // Handle Log Out button click
+            findNavController().navigate(R.id.action_profileFragment_to_login)
         }
     }
 }
