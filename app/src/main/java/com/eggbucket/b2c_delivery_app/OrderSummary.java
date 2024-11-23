@@ -82,7 +82,7 @@ public class OrderSummary extends Fragment {
         View backIcon = view.findViewById(R.id.backIcon);
         backIcon.setOnClickListener(v -> {
             NavHostFragment.findNavController(OrderSummary.this)
-                    .navigate(R.id.action_orderSummary_to_dashboardFragment);
+                    .navigate(R.id.action_orderSummary_to_profileFragment);
         });
 
         return view;

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:paddingVertical="20dp">
+        android:paddingVertical="40dp">
 
         <!-- Back Arrow -->
         <ImageView
@@ -45,6 +45,8 @@
         android:padding="20dp">
 
         <!-- Map -->
+
+        <!-- Unified Layout -->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +54,6 @@
             android:scaleType="fitCenter"
             android:src="@drawable/map_random" />
 
-        <!-- Unified Layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
