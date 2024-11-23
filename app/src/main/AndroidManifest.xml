@@ -12,6 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.B2CDeliveryApp"
         tools:targetApi="31">
+
+        <activity
+            android:name=".DrivingLicense"
+            android:exported="false" />
+        <activity
+            android:name=".PanCard"
+            android:exported="false" />
+        <activity
+            android:name=".aadhar"
+            android:exported="false"
+            android:theme="@style/Theme.B2CDeliveryApp" />
         <activity
             android:name=".PersonalDocuments"
             android:exported="false" />
@@ -25,10 +36,15 @@
             android:name=".Docs"
             android:exported="false" />
         <activity
-            android:name=".PersonalInformation"
+            android:name=".SubmittedApplication"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".DocumentStatus"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".PersonalInformation"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,6 +52,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

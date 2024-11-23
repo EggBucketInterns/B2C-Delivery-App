@@ -3,6 +3,7 @@ package com.eggbucket.b2c_delivery_app
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,5 +24,11 @@ class VehicleDetails : AppCompatActivity() {
             val intent = Intent(this, PersonalDocuments::class.java)
             startActivity(intent)
         }
+        val submitButton: TextView = findViewById(R.id.submitButtonVehicleDoc)
+        submitButton.setOnClickListener {
+            val intent = Intent(this, PersonalDocuments::class.java)
+            startActivity(intent)
+        }
+
     }
 }

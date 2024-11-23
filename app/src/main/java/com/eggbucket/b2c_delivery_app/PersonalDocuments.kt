@@ -2,6 +2,7 @@ package com.eggbucket.b2c_delivery_app
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -42,6 +43,11 @@ class PersonalDocuments : AppCompatActivity() {
         val personalDocButton: LinearLayout= findViewById(R.id.linearPersonalDocuments)
         personalDocButton.setOnClickListener {
             val intent = Intent(this, Docs::class.java)
+            startActivity(intent)
+        }
+        val submitButton: TextView= findViewById(R.id.submitButtonDocs)
+        submitButton.setOnClickListener {
+            val intent = Intent(this, SubmittedApplication::class.java)
             startActivity(intent)
         }
 

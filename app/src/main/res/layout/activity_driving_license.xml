@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/linearLayoutDL"
     android:orientation="vertical">
 
 
@@ -15,11 +17,12 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:id="@+id/DlBackBtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginLeft="20dp"
-            android:background=""
+            android:contentDescription="do"
+            android:background="@android:color/transparent"
             android:drawableLeft="@drawable/baseline_arrow_back_black"
             android:gravity="center_vertical" />
 
@@ -32,9 +35,9 @@
             android:fontFamily="@font/archivo_bold"
 
             android:gravity="center"
-            android:text="PAN Card Details"
+            android:text="Driving license Details"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="24sp" />
 
 
@@ -46,7 +49,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="30dp"
         android:fontFamily="@font/archivo_medium"
-        android:text="Upload focused photo of your \nPAN Card for faster verification"
+        android:text="Upload focused photo of your \nDriving License for faster verification"
         android:textAlignment="center"
         android:textColor="#101010"
         android:textSize="18sp" />
@@ -67,7 +70,7 @@
             android:layout_height="80dp"
             android:fontFamily="@font/archivo_medium"
             android:paddingTop="10dp"
-            android:text="Upload photo of your PAN\n card with your clear Name \n and Photo"
+            android:text="Upload photo of your Driving\n license with your clear Name \n and Photo"
             android:textAlignment="center"
             android:textColor="#101010" />
 
@@ -75,17 +78,17 @@
             android:id="@+id/Upploadbutton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:drawableLeft="@drawable/camera"
-            android:textAlignment="center"
-            android:backgroundTint="@color/orange"
             android:layout_gravity="center"
-            android:text="Upload Image" />
+            android:drawableLeft="@drawable/camera"
+            android:padding="8dp"
+            android:backgroundTint="@color/orange"
+            android:text="Upload Image"
+            android:textAlignment="center" />
     </LinearLayout>
 
 
     <Button
-        android:id="@+id/update_profile_btn"
+        android:id="@+id/submit_DL_btn"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -94,9 +97,9 @@
         android:textSize="20sp"
         android:textColor="#FFFFFF"
         android:paddingTop="16dp"
-        android:text="Submit"
         android:paddingHorizontal="8dp"
         android:paddingBottom="12dp"
+        android:text="Submit"
         android:backgroundTint="@color/orange"
         android:layout_gravity="center"/>
 

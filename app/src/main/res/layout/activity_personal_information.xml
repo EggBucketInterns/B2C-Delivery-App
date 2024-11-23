@@ -83,7 +83,7 @@
         <EditText
             android:id="@+id/lastNameInput"
             android:layout_width="362dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_below="@id/lastName"
             android:layout_margin="1dp"
             android:background="@drawable/rounded_edittext_border"
@@ -157,7 +157,7 @@
         <TextView
             android:id="@+id/primaryNumber"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/istok_web"
             android:text="Primary Mobile Number(Whatsapp)"
@@ -169,7 +169,7 @@
         <EditText
             android:id="@+id/primaryPhoneInput"
             android:layout_width="362dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_below="@id/primaryNumber"
 
             android:background="@drawable/rounded_edittext_border"
@@ -187,7 +187,7 @@
         <TextView
             android:id="@+id/secondaryNumber"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/istok_web"
             android:text="Secondary Mobile Number(Optional)"
@@ -199,7 +199,7 @@
         <EditText
             android:id="@+id/secondaryPhoneInput"
             android:layout_width="362dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_below="@id/secondaryNumber"
 
             android:background="@drawable/rounded_edittext_border"
@@ -230,7 +230,7 @@
         <EditText
             android:id="@+id/bloodGroupInput"
             android:layout_width="362dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_below="@id/bloodGroup"
 
             android:background="@drawable/rounded_edittext_border"
@@ -259,7 +259,7 @@
         <EditText
             android:id="@+id/cityInput"
             android:layout_width="362dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_below="@id/city"
 
             android:background="@drawable/rounded_edittext_border"
@@ -288,7 +288,7 @@
         <EditText
             android:id="@+id/addressInput"
             android:layout_width="362dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_below="@id/address"
 
             android:background="@drawable/rounded_edittext_border"
@@ -317,7 +317,7 @@
         <EditText
             android:id="@+id/languagesInput"
             android:layout_width="362dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_below="@id/languages"
 
             android:background="@drawable/rounded_edittext_border"
@@ -373,7 +373,7 @@
             <LinearLayout
                 android:id="@+id/ButtonUploadVehicleDetails"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/orange_round"
                 android:orientation="horizontal"
@@ -389,7 +389,7 @@
                     android:id="@+id/uploadImageVehicleDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+
                     android:layout_marginStart="8dp"
                     android:text="Upload Photo"
                     android:textSize="19sp"
