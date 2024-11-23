@@ -44,7 +44,7 @@
 
 
         <activity
-            android:name=".PersonalInformation"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,7 +53,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".PersonalInformation"
             android:exported="false"></activity>
 
         <meta-data
