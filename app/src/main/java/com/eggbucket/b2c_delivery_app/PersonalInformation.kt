@@ -31,8 +31,5 @@ class PersonalInformation : AppCompatActivity() {
             val intent = Intent(this, PersonalDocuments::class.java)
             startActivity(intent)
         }
-
-
-
     }
 }
