@@ -27,7 +27,7 @@ class Docs : AppCompatActivity() {
         }
         val takeaadharbutton: TextView = findViewById(R.id.buttonTextAadharDocument)
         takeaadharbutton.setOnClickListener {
-            val intent = Intent(this, aadhar::class.java)
+            val intent = Intent(this, Aadhar::class.java)
             startActivity(intent)
         }
         val takepanbutton: LinearLayout = findViewById(R.id.linearPANCard)
