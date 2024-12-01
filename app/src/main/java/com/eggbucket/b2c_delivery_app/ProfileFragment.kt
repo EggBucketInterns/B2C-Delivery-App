@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 
 
-object RetrofitClient {
+/*object RetrofitClient {
     private const val BASE_URL = "https://b2c-backend-1.onrender.com/"
 
     private val okHttpClient = OkHttpClient.Builder()
@@ -41,14 +41,14 @@ object RetrofitClient {
             .build()
             .create(ApiService::class.java)
     }
-}
+}*/
 
 
-interface ApiService {
+/*interface ApiService {
 
     @GET("api/v1/deliveryPartner/profile/{phone}")
     fun getUserByPhone(@Path("phone") phone: String): Call<User>
-}
+}*/
 data class User(
     val generalDetails: GeneralDetails? = null,
 )
@@ -89,10 +89,7 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         // SharedPreferences
         sharedPref = requireActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
-        //Testing
-        val editor = sharedPref.edit()
-        editor.putString("phone", "0987654321")
-        editor.apply()
+
 
 
         val phoneNumber = sharedPref.getString("phone", null)
@@ -177,7 +174,7 @@ class ProfileFragment : Fragment() {
             logout()
         }
 
-        // Additional button clicks can be added as needed
+
         binding.llHelpSupport.setOnClickListener {
             // Handle Help and Support button click
         }
