@@ -3,7 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#E4E0E0</color>
-    <color name="dark_gray">#878282</color>
+    <color name="dark_gray">#57585A</color>
+    <color name="custom_gray">#A9A9A9</color>
+
     <color name="appThemeColor">#F8810B</color>
     <color name="deletecolor">#FF5722</color>
     <color name="archivecolor">#8BC34A</color>
