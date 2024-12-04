@@ -4,8 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/liniarlayoutpan"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearlayoutpan"
+    android:orientation="vertical"
+    tools:context=".PanCard">
 
 
     <LinearLayout
@@ -65,17 +67,49 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/frontPanTextView"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:fontFamily="@font/archivo_medium"
             android:paddingTop="10dp"
-            android:text="Upload photo of your PAN\n card with your clear Name \n and Photo"
+            android:text="Upload front photo of your PAN\n card with your clear Name \n and Photo"
             android:textAlignment="center"
             android:textColor="#101010" />
 
         <Button
-            android:id="@+id/Upploadbutton"
+            android:id="@+id/front_pan_upload_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:drawableLeft="@drawable/camera"
+            android:textAlignment="center"
+            android:backgroundTint="@color/orange"
+            android:layout_gravity="center"
+            android:text="Upload Image" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/border"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/back_pan_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:fontFamily="@font/archivo_medium"
+            android:paddingTop="10dp"
+            android:text="Upload back photo of your PAN\n card with your clear Name \n and Photo"
+            android:textAlignment="center"
+            android:textColor="#101010" />
+
+        <Button
+            android:id="@+id/back_pan_upload_button"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="8dp"

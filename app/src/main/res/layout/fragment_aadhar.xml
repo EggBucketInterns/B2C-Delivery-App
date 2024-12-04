@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AadharFragment">
+    tools:context=".AadharActivity">
 
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -105,7 +105,7 @@
                 android:textColor="#101010" />
 
             <Button
-                android:id="@+id/Upploadbutton2"
+                android:id="@+id/Uploadbutton2"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
