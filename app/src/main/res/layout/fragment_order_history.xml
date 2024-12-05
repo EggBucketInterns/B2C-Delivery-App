@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".OrderHistory">
+
     <!-- Header Section -->
     <FrameLayout
         android:layout_width="match_parent"
@@ -35,6 +36,37 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:textStyle="normal" />
+    </FrameLayout>
+
+    <!-- Loader Section -->
+    <FrameLayout
+        android:id="@+id/loaderContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ProgressBar
+                android:id="@+id/loader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+
+            <TextView
+                android:id="@+id/loaderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Fetching Order History..."
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray" />
+        </LinearLayout>
     </FrameLayout>
 
     <!-- RecyclerView for order items -->
