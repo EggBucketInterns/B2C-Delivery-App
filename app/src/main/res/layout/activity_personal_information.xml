@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         tools:context=".PersonalInformation">
 
-
         <TextView
             android:id="@+id/personalInfoTitle"
             android:layout_width="wrap_content"
@@ -53,7 +52,7 @@
         <EditText
             android:id="@+id/firstNameInput"
             android:layout_width="362dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_below="@id/firstName"
             android:layout_margin="1dp"
 
@@ -111,7 +110,7 @@
         <EditText
             android:id="@+id/fatherNameInput"
             android:layout_width="362dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_below="@id/fatherName"
             android:layout_margin="1dp"
             android:background="@drawable/rounded_edittext_border"
@@ -139,7 +138,7 @@
         <EditText
             android:id="@+id/dateOfBirthInput"
             android:layout_width="362dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_below="@id/dateOfBirth"
             android:layout_margin="1dp"
             android:background="@drawable/rounded_edittext_border"
@@ -373,84 +372,42 @@
             <LinearLayout
                 android:id="@+id/ButtonUploadVehicleDetails"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="70dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/orange_round"
                 android:orientation="horizontal"
                 android:padding="8dp">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/img_1" />
 
-                <TextView
-                    android:id="@+id/uploadImageVehicleDetails"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/Upploadbutton"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-
-                    android:layout_marginStart="8dp"
-                    android:text="Upload Photo"
-                    android:textSize="19sp"
+                    android:padding="8dp"
+                    android:drawableLeft="@drawable/camera"
                     android:textAlignment="center"
-                    android:textColor="#D96928" />
+                    android:backgroundTint="@color/orange"
+                    android:layout_gravity="center"
+                    android:text="Upload Image" />
             </LinearLayout>
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/referralCode"
-            android:layout_width="wrap_content"
+
+        <Button
+            android:id="@+id/submit_vehicle_button"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-
-            android:layout_marginStart="-10dp"
-            android:layout_marginTop="12dp"
-            android:fontFamily="@font/istok_web"
-            android:text="Referral code (Optional)"
-            android:textColor="@color/dark_gray"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/outerLinearLayoutPersonalInformationMain"
-            app:layout_constraintTop_toBottomOf="@+id/outerLinearLayoutPersonalInformationMain" />
-
-        <EditText
-            android:id="@+id/referralCodeInput"
-            android:layout_width="362dp"
-            android:layout_height="45dp"
-            android:layout_below="@id/referralCode"
-
-            android:background="@drawable/rounded_edittext_border"
-            android:drawablePadding="0dp"
-            android:hint="Enter referral code"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/dark_gray"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/referralCode"
-            app:layout_constraintTop_toBottomOf="@+id/referralCode" />
-
-        <TextView
-            android:id="@+id/submitButtonPersonalInfo"
-            android:layout_width="366dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/orange_button_background"
-            android:backgroundTint="@null"
-            android:elevation="4dp"
-            android:fontFamily="@font/istok_web_bold"
-            android:gravity="center"
-            android:padding="12dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/orange"
+            android:paddingHorizontal="8dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="12dp"
             android:text="Submit"
             android:textColor="#FFFFFF"
-            android:textColorLink="#FF5722"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="@+id/referralCodeInput"
-            app:layout_constraintHorizontal_bias="0.52"
-            app:layout_constraintStart_toStartOf="@+id/referralCodeInput"
-            app:layout_constraintTop_toBottomOf="@+id/referralCodeInput"
-            android:clickable="true"
-            android:focusable="true"
-            />
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/outerLinearLayoutPersonalInformationMain"
+            app:layout_constraintStart_toStartOf="@+id/outerLinearLayoutPersonalInformationMain"
+            app:layout_constraintTop_toBottomOf="@+id/outerLinearLayoutPersonalInformationMain" />
 
 
 
