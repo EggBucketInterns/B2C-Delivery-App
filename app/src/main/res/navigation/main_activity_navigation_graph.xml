@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_orderSummary"
             app:destination="@id/orderSummary" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_pickupMap"
+            app:destination="@id/pickupMap" />
     </fragment>
 
     <fragment

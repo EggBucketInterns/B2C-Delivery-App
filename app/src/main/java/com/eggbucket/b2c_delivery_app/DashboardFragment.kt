@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
+import android.widget.Button
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -34,6 +35,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         val orderCompleted = view.findViewById<LinearLayout>(R.id.total_orders_completed_layout)
         orderCompleted.setOnClickListener{
             findNavController().navigate(R.id.action_dashboardFragment_to_orderSummary)
+        }
+        val trial_btn=view.findViewById<Button>(R.id.trialBtn)
+        trial_btn.setOnClickListener{
+            findNavController().navigate(R.id.action_dashboardFragment_to_pickupMap)
         }
     }
 }
