@@ -42,9 +42,9 @@ class Docs : AppCompatActivity() {
         }
         val submitbutton: TextView = findViewById(R.id.submitButtonPersonalDoc)
         submitbutton.setOnClickListener {
-            val intent = Intent(this, PersonalDocuments::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
+            val resultIntent = Intent()
+            resultIntent.putExtra("isDocsSubmitted", true) //Flag to PersonalDocuments
+            setResult(RESULT_OK, resultIntent)
             finish()
         }
 
