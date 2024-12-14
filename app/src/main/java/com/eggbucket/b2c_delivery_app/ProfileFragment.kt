@@ -53,19 +53,7 @@ data class User(
     val generalDetails: GeneralDetails? = null,
 )
 
-data class GeneralDetails(
-    val firstName: String? = null,
-    val lastName: String? = null,
-    val phone: String? = null,
-    val image: String? = null,
-    val bloodGroup: String? = null,
-    val fatherName: String? = null,
-    val secondaryNumber: String? = null,
-    val address: String? = null,
-    val city: String? = null,
-    val dob: Dob? = null,
-    val languageKnown: List<String>? = null
-)
+
 
 data class Dob(
     val _seconds: Long,

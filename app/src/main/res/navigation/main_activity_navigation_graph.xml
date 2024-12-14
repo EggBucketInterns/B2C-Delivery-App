@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_profileFragment_to_newOrder"
             app:destination="@id/newOrder" />
+        <action
+            android:id="@+id/action_profileFragment_to_personalDetails"
+            app:destination="@id/personalDetails" />
     </fragment>
     <activity
         android:id="@+id/mainActivity"
@@ -110,4 +113,9 @@
         android:name="com.eggbucket.b2c_delivery_app.Login"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
+    <fragment
+        android:id="@+id/personalDetails"
+        android:name="com.eggbucket.b2c_delivery_app.personalDetails"
+        android:label="fragment_personal_details"
+        tools:layout="@layout/fragment_personal_details" />
 </navigation>

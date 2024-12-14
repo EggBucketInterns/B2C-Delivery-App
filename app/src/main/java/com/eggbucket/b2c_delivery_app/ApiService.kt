@@ -64,5 +64,8 @@ interface ApiService {
         @Part("languageKnown") languageKnown: RequestBody,
         @Part img: MultipartBody.Part
     ): Call<ResponseBody>
-
+    @GET("drivers/{driverId}/details")
+    suspend fun getGeneralDetails(
+        @Path("driverId") driverId: String
+    ): ApiResponse
 }
