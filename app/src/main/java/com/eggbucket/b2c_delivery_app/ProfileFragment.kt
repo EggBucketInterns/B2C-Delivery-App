@@ -143,8 +143,7 @@ class ProfileFragment : Fragment() {
     private fun setupClickListeners() {
         // Navigate to Personal Information
         binding.llPersonalInfo.setOnClickListener {
-            val intent = Intent(requireContext(), PersonalInformation::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_profileFragment_to_personalDetails)
         }
 
         // Navigate to Order History
