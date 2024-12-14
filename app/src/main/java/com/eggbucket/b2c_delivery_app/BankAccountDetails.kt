@@ -20,15 +20,20 @@ class BankAccountDetails : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val prevButton: ImageView = findViewById(R.id.backArrowBank)
         prevButton.setOnClickListener {
             val intent = Intent(this, PersonalDocuments::class.java)
             startActivity(intent)
         }
+
         val submitBtn: TextView = findViewById(R.id.submitButtonBankDoc)
         submitBtn.setOnClickListener {
-            val intent = Intent(this, PersonalDocuments::class.java)
-            startActivity(intent)
+            // Simulate successful submission
+            val resultIntent = Intent()
+            resultIntent.putExtra("isBankDetailsSubmitted", true) // Send flag to PersonalDocuments
+            setResult(RESULT_OK, resultIntent)
+            finish() // Close this activity
         }
     }
 }

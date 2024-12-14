@@ -14,22 +14,25 @@ import retrofit2.http.Query
 
 interface ApiService {
     @Multipart
-    @POST("api/v1/deliveryPartner/personalDocs/aadharcard/{phoneNumber}")
+    @POST("/api/v1/deliveryPartner/personalDocs/aadharcard/{deliveryPartnerId}")
     fun uploadAadharDetails(
+        @Path("deliveryPartnerId") deliveryPartnerId: String,
         @Part frontImage: MultipartBody.Part,
         @Part backImage: MultipartBody.Part,
     ): Call<ResponseBody>
 
     @Multipart
-    @POST("api/v1/deliveryPartner/personalDocs/pancard/{phoneNumber}")
+    @POST("/api/v1/deliveryPartner/personalDocs/pancard/{deliveryPartnerId}")
     fun uploadPanDetails(
+        @Path("deliveryPartnerId") deliveryPartnerId: String,
         @Part frontImage: MultipartBody.Part,
         @Part backImage: MultipartBody.Part,
     ): Call<ResponseBody>
 
     @Multipart
-    @POST("/api/v1/deliveryPartner/personalDocs/dl/{phoneNumber}")
+    @POST("/api/v1/deliveryPartner/personalDocs/dl/{deliveryPartnerId}")
     fun uploadDLDetails(
+        @Path("deliveryPartnerId") deliveryPartnerId: String,
         @Part frontImage: MultipartBody.Part,
         @Part backImage: MultipartBody.Part,
     ): Call<ResponseBody>
@@ -64,6 +67,7 @@ interface ApiService {
         @Part("languageKnown") languageKnown: RequestBody,
         @Part img: MultipartBody.Part
     ): Call<ResponseBody>
+
     @GET("drivers/{driverId}/details")
     suspend fun getGeneralDetails(
         @Path("driverId") driverId: String
