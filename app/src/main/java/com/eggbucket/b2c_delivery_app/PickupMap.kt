@@ -1,7 +1,7 @@
 package com.eggbucket.b2c_delivery_app
 
-import android.location.Location
 import android.content.Intent
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -25,11 +24,16 @@ class PickupMap : Fragment() {
 
     // Data classes for API response
     data class OutletResponse(
-        val address: Address
+        val address: Address,
+        val name: String,
+        val distance: String,
+        val img: String,
+        val id: String
     )
 
     data class Address(
-        val coordinates: Coordinates
+        val coordinates: Coordinates,
+        val fullAddress: FullAddress
     )
 
     data class Coordinates(
@@ -37,11 +41,24 @@ class PickupMap : Fragment() {
         val long: Double
     )
 
+    data class FullAddress(
+        val area: String,
+        val country: String,
+        val zipCode: String,
+        val flatNo: String,
+        val city: String,
+        val state: String
+    )
+
     // Variables for location and FusedLocationProviderClient
     private var userLatitude: Double? = null
     private var userLongitude: Double? = null
     private var outletLatitude: Double? = null
     private var outletLongitude: Double? = null
+
+    private lateinit var outletName: String
+    private lateinit var outletAddress: FullAddress
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreateView(
@@ -49,81 +66,84 @@ class PickupMap : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_pickup_map, container, false)
-        val reached_btn: Button=view.findViewById(R.id.reached_outlet_button)
-        // Initialize FusedLocationProviderClient
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
+        val reachedBtn: Button = view.findViewById(R.id.reached_outlet_button)
+        val addressTextView: TextView = view.findViewById(R.id.address_text)
         val viewOrderDetailsButton: Button = view.findViewById(R.id.view_order_details)
         val googleMapsBtn: ImageButton = view.findViewById(R.id.google_maps_btn)
+        val nameTextView:TextView=view.findViewById(R.id.name)
 
-        // Navigate to Order Details
-        viewOrderDetailsButton.setOnClickListener {
-            val navController: NavController = NavHostFragment.findNavController(this)
-            navController.navigate(R.id.action_pickupMap_to_orderDetails)
-        }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         // Fetch the user's current location
         fetchCurrentLocation()
 
         // Fetch outlet location from API
-        fetchOutletLocation("7337786130") // Replace with the actual phone number
-        val dist=calculateDistance(userLatitude,userLongitude,outletLatitude,outletLongitude)
-        if (dist == null) {
-            reached_btn.text = "GO TO OUTLET"
-            reached_btn.setOnClickListener {
-                if (userLatitude != null && userLongitude != null && outletLatitude != null && outletLongitude != null) {
-                    val gmmIntentUri = Uri.parse("google.navigation:q=$outletLatitude,$outletLongitude")
-                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                    mapIntent.setPackage("com.google.android.apps.maps")
-                    startActivity(mapIntent)
-                } else {
-                    Toast.makeText(requireContext(), "Location not available", Toast.LENGTH_SHORT).show()
-                }
-            }
-        } else if (dist < 15) {
-            reached_btn.text = "OUTLET REACHED"
-            reached_btn.setOnClickListener{
-                findNavController().navigate(R.id.action_pickupMap_to_orderDetails)
-            }
-        } else {
-            reached_btn.text = "GO TO OUTLET"
-            reached_btn.setOnClickListener {
-                if (userLatitude != null && userLongitude != null && outletLatitude != null && outletLongitude != null) {
-                    val gmmIntentUri = Uri.parse("google.navigation:q=$outletLatitude,$outletLongitude")
-                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                    mapIntent.setPackage("com.google.android.apps.maps")
-                    startActivity(mapIntent)
-                } else {
-                    Toast.makeText(requireContext(), "Location not available", Toast.LENGTH_SHORT).show()
-                }
-            }
-
+        fetchOutletLocation("7337786130") { fetchedAddress ->
+            // Update the UI when data is fetched
+            val addressText = "${fetchedAddress.flatNo}, ${fetchedAddress.area}, " +
+                    "${fetchedAddress.city} - ${fetchedAddress.zipCode}, ${fetchedAddress.state}, ${fetchedAddress.country}"
+            addressTextView.text = addressText
+            nameTextView.text=outletName
         }
 
+        // Button to navigate to order details
+        viewOrderDetailsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_pickupMap_to_orderDetails)
+        }
 
-        // Launch Google Maps
+        // Button to open Google Maps navigation
         googleMapsBtn.setOnClickListener {
-            val gmmIntentUri = Uri.parse("google.navigation:q=$outletLatitude,$outletLongitude")
-            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-            mapIntent.setPackage("com.google.android.apps.maps")
-            startActivity(mapIntent)
+            if (outletLatitude != null && outletLongitude != null) {
+                val gmmIntentUri = Uri.parse("google.navigation:q=$outletLatitude,$outletLongitude")
+                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                mapIntent.setPackage("com.google.android.apps.maps")
+                startActivity(mapIntent)
+            } else {
+                Toast.makeText(requireContext(), "Location not available", Toast.LENGTH_SHORT).show()
+            }
+        }
+        val distance = calculateDistance(userLatitude, userLongitude, outletLatitude, outletLongitude)
+        if (distance != null && distance < 15) {
+            reachedBtn.text="REACHED OUTLET"
+        }
+        else{
+            reachedBtn.text="GO TO OUTLET"
+        }
+        // Reached button logic
+        reachedBtn.setOnClickListener {
+            if (distance != null && distance < 15) {
+                Toast.makeText(requireContext(), "You have reached the outlet", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_pickupMap_to_orderDetails)
+            } else {
+                if (outletLatitude != null && outletLongitude != null) {
+                    val gmmIntentUri = Uri.parse("google.navigation:q=$outletLatitude,$outletLongitude")
+                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                    mapIntent.setPackage("com.google.android.apps.maps")
+                    startActivity(mapIntent)
+                } else {
+                    Toast.makeText(requireContext(), "Location not available", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         return view
     }
 
-    // Function to fetch outlet location from API
-    private fun fetchOutletLocation(phoneNumber: String) {
+    private fun fetchOutletLocation(phoneNumber: String, onFetchComplete: (FullAddress) -> Unit) {
         val apiService = RetrofitClient.apiService
         apiService.getOutletId(phoneNumber).enqueue(object : Callback<OutletResponse> {
             override fun onResponse(call: Call<OutletResponse>, response: Response<OutletResponse>) {
                 if (response.isSuccessful) {
                     response.body()?.let { outletResponse ->
-                        // Extract latitude and longitude from the response
                         outletLatitude = outletResponse.address.coordinates.lat
                         outletLongitude = outletResponse.address.coordinates.long
+                        outletAddress = outletResponse.address.fullAddress
+                        outletName = outletResponse.name
 
-                        // Notify the user
+                        // Notify fetch complete
+                        onFetchComplete(outletAddress)
+
                         Toast.makeText(
                             requireContext(),
                             "Outlet location fetched: $outletLatitude, $outletLongitude",
@@ -139,31 +159,22 @@ class PickupMap : Fragment() {
                 Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
-
     }
 
-    // Function to fetch user's current location
     private fun fetchCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             ) != android.content.pm.PackageManager.PERMISSION_GRANTED
         ) {
-            // Request location permission
-            requestPermissions(
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                1001
-            )
+            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1001)
             return
         }
 
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
-                // Extract the latitude and longitude
                 userLatitude = location.latitude
                 userLongitude = location.longitude
-
-                // Notify the user
                 Toast.makeText(
                     requireContext(),
                     "User location: Lat: $userLatitude, Long: $userLongitude",
@@ -179,11 +190,10 @@ class PickupMap : Fragment() {
 
     private fun calculateDistance(lat1: Double?, lon1: Double?, lat2: Double?, lon2: Double?): Double? {
         if (lat1 == null || lon1 == null || lat2 == null || lon2 == null) {
-            return null // Return null if any value is missing
+            return null
         }
         val results = FloatArray(1)
         Location.distanceBetween(lat1, lon1, lat2, lon2, results)
-        //returns distance in meters
-        return results[0].toDouble()
+        return results[0].toDouble() // Distance in meters
     }
 }
