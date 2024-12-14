@@ -1,5 +1,6 @@
 package com.eggbucket.b2c_delivery_app
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -23,7 +24,11 @@ class SubmittedApplication  : AppCompatActivity(){
         }
         val DocStatusBtn: Button = findViewById(R.id.document_status)
         DocStatusBtn.setOnClickListener {
-            val intent = Intent(this, DocumentStatus::class.java)
+            val sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("status", "submitted-all")
+            editor.apply()
+            val intent = Intent(this, Login::class.java)
             startActivity(intent)
         }
 

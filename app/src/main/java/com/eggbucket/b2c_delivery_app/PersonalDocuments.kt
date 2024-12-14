@@ -48,7 +48,9 @@ class PersonalDocuments : AppCompatActivity() {
         val submitButton: TextView= findViewById(R.id.submitButtonDocs)
         submitButton.setOnClickListener {
             val intent = Intent(this, SubmittedApplication::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
+            finish()
         }
 
     }

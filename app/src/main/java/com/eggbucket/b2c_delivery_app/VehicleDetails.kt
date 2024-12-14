@@ -95,6 +95,7 @@ class VehicleDetails : AppCompatActivity() {
                         if (response.isSuccessful) {
                             val uploadResponse = response.body()
                             Toast.makeText(this@VehicleDetails, uploadResponse?.message ?: "Upload successful", Toast.LENGTH_SHORT).show()
+                            finish()
                         } else {
                             Toast.makeText(this@VehicleDetails, "Upload failed: ${response.message()}", Toast.LENGTH_SHORT).show()
                         }
