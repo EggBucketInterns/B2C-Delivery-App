@@ -3,14 +3,10 @@ package com.eggbucket.b2c_delivery_app
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.OpenableColumns
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.eggbucket.b2c_delivery_app.R
-import com.eggbucket.b2c_delivery_app.ResponseBody
-import com.eggbucket.b2c_delivery_app.RetrofitClient
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -19,6 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
+import android.util.Log
 
 class VehicleDetails : AppCompatActivity() {
 
@@ -95,7 +92,13 @@ class VehicleDetails : AppCompatActivity() {
                         if (response.isSuccessful) {
                             val uploadResponse = response.body()
                             Toast.makeText(this@VehicleDetails, uploadResponse?.message ?: "Upload successful", Toast.LENGTH_SHORT).show()
-                            finish()
+
+                            // Send result back to PersonalDocuments activity to update the status
+                            val resultIntent = Intent().apply {
+                                putExtra("isVehicleDetailsSubmitted", true)
+                            }
+                            setResult(RESULT_OK, resultIntent)
+                            finish() // Close the activity
                         } else {
                             Toast.makeText(this@VehicleDetails, "Upload failed: ${response.message()}", Toast.LENGTH_SHORT).show()
                         }

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 
 import android.widget.Button
@@ -20,6 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.io.FileOutputStream
 
 class PanCard : AppCompatActivity() {
 
@@ -49,7 +51,7 @@ class PanCard : AppCompatActivity() {
 
         // Handle back navigation
         panBackButton.setOnClickListener {
-            onBackPressed()
+            finish()
         }
 
         // Handle upload button click
@@ -66,7 +68,7 @@ class PanCard : AppCompatActivity() {
             if (frontImageUri == null || backImageUri == null) {
                 Toast.makeText(this, "Please upload both front and back images.", Toast.LENGTH_SHORT).show()
             } else {
-                submitPANDetails()
+                submitPANDetails("12345")
             }
         }
     }
@@ -99,45 +101,81 @@ class PanCard : AppCompatActivity() {
         }
     }
 
-    private fun submitPANDetails() {
-        if (frontImageUri == null || backImageUri == null) {
-            Toast.makeText(this, "Please select both front and back images.", Toast.LENGTH_SHORT).show()
-            return
-        }
+    private fun submitPANDetails(deliveryPartnerId: String) {
+        try {
+            // Ensure both images are selected
+            if (frontImageUri == null || backImageUri == null) {
+                Toast.makeText(this, "Please select both front and back images.", Toast.LENGTH_SHORT).show()
+                return
+            }
 
-        val frontImageFile = uriToFile(frontImageUri!!)
-        val backImageFile = uriToFile(backImageUri!!)
+            // Convert URIs to files
+            val frontImageFile = uriToFile(frontImageUri!!)
+            val backImageFile = uriToFile(backImageUri!!)
 
-        val frontRequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), frontImageFile)
-        val backRequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), backImageFile)
+            // Create request bodies and multipart parts
+            val frontRequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), frontImageFile)
+            val backRequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), backImageFile)
 
-        val frontImagePart = MultipartBody.Part.createFormData("frontImage", frontImageFile.name, frontRequestBody)
-        val backImagePart = MultipartBody.Part.createFormData("backImage", backImageFile.name, backRequestBody)
+            val frontImagePart = MultipartBody.Part.createFormData("front", frontImageFile.name, frontRequestBody)
+            val backImagePart = MultipartBody.Part.createFormData("back", backImageFile.name, backRequestBody)
 
-        val api = RetrofitClient.retrofit.create(ApiService::class.java)
-        api.uploadPanDetails(frontImagePart, backImagePart).enqueue(object :
-            Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        Toast.makeText(this@PanCard, responseBody.message, Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this@PanCard, "Unexpected response format.", Toast.LENGTH_SHORT).show()
+            // Get the Retrofit service
+            val apiService = RetrofitClient.apiService
+
+            // Call the API to upload PAN details
+            apiService.uploadPanDetails(deliveryPartnerId, frontImagePart, backImagePart)
+                .enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        if (response.isSuccessful) {
+                            val responseBody = response.body()
+                            if (responseBody != null) {
+                                Toast.makeText(
+                                    this@PanCard,
+                                    responseBody.message ?: "PAN uploaded successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                Toast.makeText(this@PanCard, "Unexpected response format.", Toast.LENGTH_SHORT).show()
+                            }
+                            finish()
+                        } else {
+                            val errorBody = response.errorBody()?.string()
+                            Log.e("PanCardDetails", "Upload failed: ${response.code()}, Message: $errorBody")
+                            Toast.makeText(
+                                this@PanCard,
+                                "Failed to upload PAN: ${response.message()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
-                } else {
-                    Toast.makeText(this@PanCard, "Submission failed: ${response.message()}", Toast.LENGTH_SHORT).show()
-                }
-            }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Toast.makeText(this@PanCard, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Log.e("PanCardDetails", "Error uploading PAN document", t)
+                        Toast.makeText(
+                            this@PanCard,
+                            "Error: ${t.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
+        } catch (e: Exception) {
+            Log.e("PanCardDetails", "Error while processing PAN details", e)
+            Toast.makeText(
+                this,
+                "Error processing PAN details: ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun uriToFile(uri: Uri): File {
-        val filePath = uri.path ?: throw IllegalArgumentException("Invalid URI")
-        return File(filePath)
+        val tempFile = File.createTempFile("temp_image", ".jpg", cacheDir)
+        contentResolver.openInputStream(uri)?.use { inputStream ->
+            FileOutputStream(tempFile).use { outputStream ->
+                inputStream.copyTo(outputStream)
+            }
+        }
+        return tempFile
     }
 }
