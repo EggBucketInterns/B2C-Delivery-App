@@ -10,14 +10,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/person"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:context=".PersonalInformation">
 
         <TextView
             android:id="@+id/personalInfoTitle"
             android:layout_width="wrap_content"
-            android:layout_height="33dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/poppins_semibold"
@@ -51,7 +51,7 @@
 
         <EditText
             android:id="@+id/firstNameInput"
-            android:layout_width="362dp"
+            android:layout_width="365dp"
             android:layout_height="48dp"
             android:layout_below="@id/firstName"
             android:layout_margin="1dp"
