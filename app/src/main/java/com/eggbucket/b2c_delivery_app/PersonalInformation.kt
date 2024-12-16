@@ -1,22 +1,21 @@
 package com.eggbucket.b2c_delivery_app
 
-import android.annotation.SuppressLint
+import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
 
@@ -24,45 +23,94 @@ class PersonalInformation : AppCompatActivity() {
 
     private var profileImageUri: Uri? = null
     private val PICK_IMAGE_REQUEST_CODE = 1001
+    private val CAMERA_REQUEST_CODE = 1010
+    private val CAMERA_PERMISSION_CODE = 2001
+    private lateinit var tempFile: File
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_information)
 
-        if (savedInstanceState != null) {
-            profileImageUri = savedInstanceState.getParcelable("profileImageUri")
-        }
-
-        val scrollView = findViewById<View>(R.id.scrollPersonal)
-        ViewCompat.setOnApplyWindowInsetsListener(scrollView) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
         val uploadImageButton: Button = findViewById(R.id.Upploadbutton)
         val submitButton: Button = findViewById(R.id.submit_vehicle_button)
 
-        uploadImageButton.setOnClickListener { pickImage() }
-        submitButton.setOnClickListener { submitPersonalDetails() }
+        uploadImageButton.setOnClickListener {
+            showImageSourceDialog()
+        }
+        submitButton.setOnClickListener {
+            submitPersonalDetails()
+        }
+    }
+
+    private fun showImageSourceDialog() {
+        val options = arrayOf("Take Photo", "Choose from Gallery")
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Select Image Source")
+        builder.setItems(options) { _, which ->
+            when (which) {
+                0 -> checkCameraPermission() // Camera
+                1 -> pickImage() // Gallery
+            }
+        }
+        builder.show()
+    }
+
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            openCamera()
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
+        }
+    }
+
+    private fun openCamera() {
+        try {
+            tempFile = File.createTempFile("camera_image", ".jpg", cacheDir)
+            val imageUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
+
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+                putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+            }
+            startActivityForResult(intent, CAMERA_REQUEST_CODE)
+        } catch (e: Exception) {
+            Log.e("PersonalInformation", "Error opening camera", e)
+            Toast.makeText(this, "Failed to open camera: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun pickImage() {
-        val intent =
-            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
-                type = "image/*"
-            }
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
+            type = "image/*"
+        }
         startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            profileImageUri = data.data
-            Toast.makeText(this, "Image selected successfully.", Toast.LENGTH_SHORT).show()
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                PICK_IMAGE_REQUEST_CODE -> {
+                    profileImageUri = data?.data
+                    Toast.makeText(this, "Image selected successfully.", Toast.LENGTH_SHORT).show()
+                }
+                CAMERA_REQUEST_CODE -> {
+                    profileImageUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
+                    Toast.makeText(this, "Photo taken successfully.", Toast.LENGTH_SHORT).show()
+                }
+            }
         } else {
-            Toast.makeText(this, "No image selected.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "No image selected or photo taken.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openCamera()
+            } else {
+                Toast.makeText(this, "Camera permission is required to take a photo", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -71,6 +119,7 @@ class PersonalInformation : AppCompatActivity() {
         finish()
     }
 }
+
 /*
 val firstName = findViewById<EditText>(R.id.firstNameInput).text.toString().trim()
 val lastName = findViewById<EditText>(R.id.lastNameInput).text.toString().trim()
