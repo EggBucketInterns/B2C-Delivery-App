@@ -145,7 +145,7 @@
             android:drawablePadding="0dp"
             android:ems="10"
             android:hint="dd-mm-yyyy"
-            android:inputType="date"
+            android:inputType="none"
             android:padding="10dp"
             android:textColor="@color/black"
             android:textColorHint="@color/dark_gray"

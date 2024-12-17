@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -40,21 +41,21 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         OngoingOrdersModel order = ordersList.get(position);
+
+        // Display order details
         holder.orderNumber.setText("Order No. " + order.getOrderNumber());
         holder.orderStatus.setText(order.getStatus());
         holder.orderValue.setText("Order Value: ₹ " + order.getOrderValue());
 
+        // Handle item click to save data
         holder.itemView.setOnClickListener(v -> {
-            // Save order data to SharedPreferences
-            saveOrderDataToSharedPreferences(order);
+            saveOrderDataToSharedPreferences(order);  // Save data to SharedPreferences
+            String savedOrderData = getOrderDataFromSharedPreferences();  // Retrieve saved data
 
-            // Get the saved order data from SharedPreferences
-            String savedOrderData = getOrderDataFromSharedPreferences();
-
-            // Show a Toast message with the saved order data
+            // Display a toast message with saved data
             Toast.makeText(context, "Saved Information: " + savedOrderData, Toast.LENGTH_LONG).show();
 
-            // Optional: Log the saved order data for debugging purposes
+            // Log saved data for debugging
             Log.d("SharedPreferencesData", savedOrderData);
         });
     }
@@ -75,30 +76,37 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
         }
     }
 
-    // Save selected order data in SharedPreferences
+    /**
+     * Save selected order data in SharedPreferences
+     */
     private void saveOrderDataToSharedPreferences(OngoingOrdersModel order) {
         try {
-            JSONObject orderData = new JSONObject();
-            orderData.put("orderNumber", order.getOrderNumber());
-            orderData.put("status", order.getStatus());
-            orderData.put("orderValue", order.getOrderValue());
-            orderData.put("outletName", order.getOutletName());
-            orderData.put("outletAddress", order.getOutletAddress());
-            orderData.put("outletPhone", order.getOutletPhone());
-            orderData.put("deliveryAddress", order.getDeliveryAddress());
-            orderData.put("products", order.getProducts());
+            // Convert order details to JSONObject
+            JSONObject data = new JSONObject();
+            data.put("orderNumber", order.getOrderNumber());
+            data.put("status", order.getStatus());
+            data.put("orderValue", order.getOrderValue());
+            data.put("outletInfo", order.getOutletInfo());  // Store the outlet info as JSON
+            data.put("deliveryAddress", order.getDeliveryAddress());  // Store the delivery address as JSON
+            data.put("products", order.getProducts());
+            data.put("customerId", order.getCustomerId());
 
+            // Save the updated data back to SharedPreferences
             SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(DATA_KEY, orderData.toString());
+            editor.putString(DATA_KEY, data.toString());
             editor.apply();
 
-        } catch (Exception e) {
+            Log.d("SharedPreferencesData", "Data saved: " + data.toString());
+        } catch (JSONException e) {
             e.printStackTrace();
+            Log.e("SaveOrderDataError", "Failed to save order data: " + e.getMessage());
         }
     }
 
-    // Get saved order data from SharedPreferences
+    /**
+     * Get saved order data from SharedPreferences
+     */
     private String getOrderDataFromSharedPreferences() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(DATA_KEY, "No Data Found");

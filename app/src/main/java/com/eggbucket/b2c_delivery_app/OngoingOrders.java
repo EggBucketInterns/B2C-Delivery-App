@@ -130,34 +130,16 @@ public class OngoingOrders extends Fragment {
                             String orderId = "#" + (1101 + i); // Generate order ID dynamically
                             String status = "Pickup Pending"; // Set a default status for now
                             String amount = order.getString("amount"); // Get the amount dynamically
-
-
                             JSONObject outletInfo = order.getJSONObject("outletInfo");
-                            String outletName = outletInfo.getString("name");
-                            JSONObject address = outletInfo.getJSONObject("address");
-                            String outletAddress = address.getString("fullAddress");
-                            String outletPhone = outletInfo.getString("phone");
-
                             JSONObject deliveryAddress = order.getJSONObject("deliveryAddress");
-                            String deliveryAddressStr = deliveryAddress.getString("fullAddress");
-
-                            JSONObject products = order.getJSONObject("products");  // Fetch products as JSONObject
-
-                            // Create a list of product details
-                            List<String> productNames = new ArrayList<>();
-                            Iterator<String> keys = products.keys();
-                            while (keys.hasNext()) {
-                                String key = keys.next();  // Product code
-                                int quantity = products.optInt(key, 0);  // Quantity of that product
-                                productNames.add(key + ": " + quantity);  // Add product with quantity
-                            }
-
-                            // Add order to the list
+                            String customerId = order.getString("customerId");
+                            JSONObject products = order.getJSONObject("products");
                             OngoingOrdersModel ongoingOrder = new OngoingOrdersModel(
-                                    orderId, status, amount, outletName, outletAddress, outletPhone,
-                                    deliveryAddressStr, productNames.toString()  // Convert the list to string
+                                    orderId, status, amount, outletInfo,
+                                    deliveryAddress, products, customerId
                             );
                             orders.add(ongoingOrder);
+
                         }
 
                         // Update UI on the main thread

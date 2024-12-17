@@ -1,28 +1,27 @@
 package com.eggbucket.b2c_delivery_app;
 
+import org.json.JSONObject;
+
 public class OngoingOrdersModel {
 
     private String orderNumber;
     private String status;
     private String orderValue;
-    private String outletAddress;
-    private String outletName;
-    private String outletPhone;
-    private String deliveryAddress;
-    private String products;
+    private JSONObject outletInfo;  // Store outlet information as JSON
+    private JSONObject deliveryAddress;  // Store delivery address as JSON
+    private JSONObject products;
+    private String customerId;
 
-    // Updated constructor to initialize all fields
+    // Updated constructor to initialize all fields, using JSONObject for addresses
     public OngoingOrdersModel(String orderNumber, String status, String orderValue,
-                              String outletAddress, String outletName, String outletPhone,
-                              String deliveryAddress, String products) {
+                              JSONObject outletInfo, JSONObject deliveryAddress, JSONObject products, String customerID) {
         this.orderNumber = orderNumber;
         this.status = status;
         this.orderValue = orderValue;
-        this.outletAddress = outletAddress;
-        this.outletName = outletName;
-        this.outletPhone = outletPhone;
+        this.outletInfo = outletInfo;
         this.deliveryAddress = deliveryAddress;
         this.products = products;
+        this.customerId = customerID;
     }
 
     // Getter methods for each field
@@ -38,23 +37,19 @@ public class OngoingOrdersModel {
         return orderValue;
     }
 
-    public String getOutletAddress() {
-        return outletAddress;
+    public JSONObject getOutletInfo() {
+        return outletInfo;
     }
 
-    public String getOutletName() {
-        return outletName;
-    }
-
-    public String getOutletPhone() {
-        return outletPhone;
-    }
-
-    public String getDeliveryAddress() {
+    public JSONObject getDeliveryAddress() {
         return deliveryAddress;
     }
 
-    public String getProducts() {
+    public JSONObject getProducts() {
         return products;
+    }
+
+    public String getCustomerId() {
+        return customerId;
     }
 }
