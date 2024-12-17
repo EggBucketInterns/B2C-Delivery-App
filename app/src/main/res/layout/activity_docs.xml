@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/docs"
@@ -8,6 +9,7 @@
     android:background="@drawable/details"
     tools:context=".Docs">
 
+    <!-- Back Arrow -->
     <ImageView
         android:id="@+id/backArrowDocs"
         android:layout_width="24dp"
@@ -19,6 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Main Title -->
     <TextView
         android:id="@+id/personaldocsMainTitle"
         android:layout_width="wrap_content"
@@ -32,24 +35,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Subtitle -->
     <TextView
         android:id="@+id/personalDocumentText"
-        android:layout_width="368dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="72dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
         android:fontFamily="@font/radio_canada"
         android:text="Upload focused photos of below documents for faster verification"
+        android:textColor="#F8F0F0"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.372"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/personaldocsMainTitle" />
+        app:layout_constraintTop_toBottomOf="@id/personaldocsMainTitle" />
 
+    <!-- Aadhar Card -->
     <LinearLayout
         android:id="@+id/linearAadharCard"
-        android:layout_width="378dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/button_background"
         android:clickable="true"
         android:elevation="4dp"
@@ -57,8 +62,10 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="10dp"
-        app:layout_constraintStart_toStartOf="@+id/personalDocumentText"
-        app:layout_constraintTop_toBottomOf="@+id/personalDocumentText">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personalDocumentText">
+
         <TextView
             android:id="@+id/buttonTextAadharDocument"
             android:layout_width="0dp"
@@ -71,15 +78,17 @@
 
         <ImageView
             android:id="@+id/buttonIconAadharDocument"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Arrow Icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Default Arrow Icon"
             android:src="@drawable/img_2" />
+
     </LinearLayout>
 
+    <!-- PAN Card -->
     <LinearLayout
         android:id="@+id/linearPANCard"
-        android:layout_width="378dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/button_background"
@@ -89,8 +98,10 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="10dp"
-        app:layout_constraintStart_toStartOf="@+id/linearAadharCard"
-        app:layout_constraintTop_toBottomOf="@+id/linearAadharCard">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearAadharCard">
+
         <TextView
             android:id="@+id/buttonTextPANCard"
             android:layout_width="0dp"
@@ -103,16 +114,17 @@
 
         <ImageView
             android:id="@+id/buttonIconPANCard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Arrow Icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Default Arrow Icon"
             android:src="@drawable/img_2" />
+
     </LinearLayout>
 
-
+    <!-- Driving License -->
     <LinearLayout
         android:id="@+id/linearDrivingLicense"
-        android:layout_width="378dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/button_background"
@@ -122,8 +134,10 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="10dp"
-        app:layout_constraintStart_toStartOf="@+id/linearPANCard"
-        app:layout_constraintTop_toBottomOf="@+id/linearPANCard">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearPANCard">
+
         <TextView
             android:id="@+id/buttonTextDrivingLicense"
             android:layout_width="0dp"
@@ -136,30 +150,28 @@
 
         <ImageView
             android:id="@+id/buttonIconDrivingLicense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Arrow Icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Default Arrow Icon"
             android:src="@drawable/img_2" />
+
     </LinearLayout>
 
-    <TextView
+    <!-- Submit Button -->
+    <Button
         android:id="@+id/submitButtonPersonalDoc"
-        android:layout_width="366dp"
+        android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_marginTop="216dp"
-        android:background="@drawable/orange_button_background"
-        android:backgroundTint="@null"
+        android:layout_marginTop="120dp"
+        android:backgroundTint="@color/orange"
         android:elevation="4dp"
         android:fontFamily="@font/istok_web_bold"
-        android:padding="12dp"
+        android:gravity="center"
         android:text="Submit"
         android:textColor="#FFFFFF"
-        android:textColorLink="#FF5722"
         android:textSize="22sp"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="@+id/linearDrivingLicense"
-        app:layout_constraintStart_toStartOf="@+id/linearDrivingLicense"
-        app:layout_constraintTop_toBottomOf="@+id/linearDrivingLicense" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearDrivingLicense" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

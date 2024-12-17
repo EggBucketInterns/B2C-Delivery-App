@@ -138,6 +138,10 @@ class PanCard : AppCompatActivity() {
                             } else {
                                 Toast.makeText(this@PanCard, "Unexpected response format.", Toast.LENGTH_SHORT).show()
                             }
+                            val resultIntent = Intent().apply {
+                                putExtra("isPanCardSubmitted", true) // Pass success status
+                            }
+                            setResult(Activity.RESULT_OK, resultIntent)
                             finish()
                         } else {
                             val errorBody = response.errorBody()?.string()

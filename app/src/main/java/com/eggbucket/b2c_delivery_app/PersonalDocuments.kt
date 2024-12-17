@@ -2,11 +2,13 @@ package com.eggbucket.b2c_delivery_app
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class PersonalDocuments : AppCompatActivity() {
-
     private val REQUEST_CODE_VEHICLE_DETAILS = 2001
     private val REQUEST_CODE_DOCS = 2002
     private val REQUEST_CODE_BANK_DETAILS = 2003
@@ -16,6 +18,7 @@ class PersonalDocuments : AppCompatActivity() {
     private lateinit var vehicleButton: LinearLayout
     private lateinit var personalDocsButton: LinearLayout
     private lateinit var bankDetailsButton: LinearLayout
+    private lateinit var submitButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,10 +27,10 @@ class PersonalDocuments : AppCompatActivity() {
         // Initialize groups and buttons
         pendingDocsGroup = findViewById(R.id.pendingDocumentsGroup)
         completedDocsGroup = findViewById(R.id.completedDocumentsGroup)
-
         vehicleButton = findViewById(R.id.linearVehicleDocuments)
         personalDocsButton = findViewById(R.id.linearPersonalDocuments)
         bankDetailsButton = findViewById(R.id.linearBankDocuments)
+        submitButton = findViewById(R.id.submitButtonDocs)
 
         // Handle Vehicle Details button click
         vehicleButton.setOnClickListener {
@@ -46,11 +49,22 @@ class PersonalDocuments : AppCompatActivity() {
             val intent = Intent(this, BankAccountDetails::class.java)
             startActivityForResult(intent, REQUEST_CODE_BANK_DETAILS)
         }
+
+        // Handle Submit button click
+        submitButton.setOnClickListener {
+            if (isSubmissionValid()) {
+                Toast.makeText(this, "All documents submitted successfully!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, SubmittedApplication::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Please complete all document submissions!", Toast.LENGTH_SHORT).show()
+                Log.e("PersonalDocuments", "Submission validation failed: Not all documents are in the completed section.")
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         when (requestCode) {
             REQUEST_CODE_VEHICLE_DETAILS -> {
                 if (resultCode == RESULT_OK) {
@@ -60,7 +74,6 @@ class PersonalDocuments : AppCompatActivity() {
                     }
                 }
             }
-
             REQUEST_CODE_DOCS -> {
                 if (resultCode == RESULT_OK) {
                     val isDocsSubmitted = data?.getBooleanExtra("isDocsSubmitted", false) ?: false
@@ -69,7 +82,6 @@ class PersonalDocuments : AppCompatActivity() {
                     }
                 }
             }
-
             REQUEST_CODE_BANK_DETAILS -> {
                 if (resultCode == RESULT_OK) {
                     val isBankDetailsSubmitted = data?.getBooleanExtra("isBankDetailsSubmitted", false) ?: false
@@ -82,7 +94,6 @@ class PersonalDocuments : AppCompatActivity() {
     }
 
     private fun moveVehicleDetailsToCompleted() {
-        // Remove vehicleButton from pendingDocsGroup and add it to completedDocsGroup
         if (vehicleButton.parent == pendingDocsGroup) {
             pendingDocsGroup.removeView(vehicleButton)
             completedDocsGroup.addView(vehicleButton)
@@ -90,7 +101,6 @@ class PersonalDocuments : AppCompatActivity() {
     }
 
     private fun moveDocsToCompleted() {
-        // Remove personalDocsButton from pendingDocsGroup and add it to completedDocsGroup
         if (personalDocsButton.parent == pendingDocsGroup) {
             pendingDocsGroup.removeView(personalDocsButton)
             completedDocsGroup.addView(personalDocsButton)
@@ -98,10 +108,15 @@ class PersonalDocuments : AppCompatActivity() {
     }
 
     private fun moveBankDetailsToCompleted() {
-        // Remove bankDetailsButton from pendingDocsGroup and add it to completedDocsGroup
         if (bankDetailsButton.parent == pendingDocsGroup) {
             pendingDocsGroup.removeView(bankDetailsButton)
             completedDocsGroup.addView(bankDetailsButton)
         }
+    }
+
+    private fun isSubmissionValid(): Boolean {
+        return vehicleButton.parent == completedDocsGroup &&
+                personalDocsButton.parent == completedDocsGroup &&
+                bankDetailsButton.parent == completedDocsGroup
     }
 }

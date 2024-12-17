@@ -208,13 +208,12 @@
 
     </LinearLayout>
 
-    <TextView
+    <Button
         android:id="@+id/submitButtonDocs"
         android:layout_width="366dp"
         android:layout_height="56dp"
         android:layout_marginTop="80dp"
-        android:background="@drawable/orange_button_background"
-        android:backgroundTint="@null"
+        android:backgroundTint="@color/orange"
         android:elevation="4dp"
         android:fontFamily="@font/istok_web_bold"
         android:gravity="center"

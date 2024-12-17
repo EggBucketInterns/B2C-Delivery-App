@@ -121,6 +121,10 @@ class Aadhar : AppCompatActivity() {
                             } else {
                                 Toast.makeText(this@Aadhar, "Unexpected response format.", Toast.LENGTH_SHORT).show()
                             }
+                            val resultIntent = Intent().apply {
+                                putExtra("isAadharSubmitted", true) // Pass success status
+                            }
+                            setResult(Activity.RESULT_OK, resultIntent)
                             finish()
                         } else {
                             val errorBody = response.errorBody()?.string()
@@ -153,8 +157,6 @@ class Aadhar : AppCompatActivity() {
             ).show()
         }
     }
-
-
 
     private fun uriToFile(uri: Uri): File {
         val tempFile = File.createTempFile("temp_image", ".jpg", cacheDir)

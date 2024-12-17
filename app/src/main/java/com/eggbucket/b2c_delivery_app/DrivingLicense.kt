@@ -129,6 +129,10 @@ class DrivingLicense : AppCompatActivity() {
                                 ).show()}else {
                                     Toast.makeText(this@DrivingLicense, "Unexpected response format.", Toast.LENGTH_SHORT).show()
                                 }
+                            val resultIntent = Intent().apply {
+                                putExtra("isDrivingLicenseSubmitted", true) // Pass success status
+                            }
+                            setResult(Activity.RESULT_OK, resultIntent)
                             finish()
                         } else {
                             val errorBody = response.errorBody()?.string()
