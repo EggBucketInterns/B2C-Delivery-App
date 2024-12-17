@@ -187,12 +187,28 @@ class DrivingLicense : AppCompatActivity() {
                         .enqueue(object : Callback<ResponseBody> {
                             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                                 if (response.isSuccessful) {
-                                    Toast.makeText(this@DrivingLicense, "Driving License uploaded successfully", Toast.LENGTH_SHORT).show()
+                                    val responseBody = response.body()
+                                    if (responseBody != null) {
+                                        Toast.makeText(
+                                            this@DrivingLicense,
+                                            responseBody.message ?: "Driving License uploaded successfully",
+                                            Toast.LENGTH_SHORT
+                                        ).show()}else {
+                                        Toast.makeText(this@DrivingLicense, "Unexpected response format.", Toast.LENGTH_SHORT).show()
+                                    }
+                                    val resultIntent = Intent().apply {
+                                        putExtra("isDrivingLicenseSubmitted", true) // Pass success status
+                                    }
+                                    setResult(Activity.RESULT_OK, resultIntent)
                                     finish()
                                 } else {
                                     val errorBody = response.errorBody()?.string()
-                                    Log.e("DrivingLicense", "Upload failed: ${response.code()}, Message: $errorBody")
-                                    Toast.makeText(this@DrivingLicense, "Failed to upload DL: ${response.message()}", Toast.LENGTH_SHORT).show()
+                                    Log.e("DrivingLicenseDetails", "Upload failed: ${response.code()}, Message: $errorBody")
+                                    Toast.makeText(
+                                        this@DrivingLicense,
+                                        "Failed to upload DL: ${response.message()}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
 

@@ -1,6 +1,7 @@
 package com.eggbucket.b2c_delivery_app
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -179,10 +180,31 @@ class Aadhar : AppCompatActivity() {
                         .enqueue(object : Callback<ResponseBody> {
                             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                                 if (response.isSuccessful) {
-                                    Toast.makeText(this@Aadhar, "Aadhar uploaded successfully", Toast.LENGTH_SHORT).show()
+                                    val responseBody = response.body()
+                                    if (responseBody != null) {
+                                        Toast.makeText(
+                                            this@Aadhar,
+                                            responseBody.message ?: "PAN uploaded successfully",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        Toast.makeText(this@Aadhar, "Unexpected response format.", Toast.LENGTH_SHORT).show()
+                                    }
+                                    val resultIntent = Intent().apply {
+                                        putExtra("isAadharSubmitted", true) // Pass success status
+                                    }
+                                    setResult(Activity.RESULT_OK, resultIntent)
                                     finish()
                                 } else {
-                                    Toast.makeText(this@Aadhar, "Failed to upload Aadhar", Toast.LENGTH_SHORT).show()
+                                    val errorBody = response.errorBody()?.string()
+                                    Log.e("AadharDetails", "Upload failed: ${response.code()}, Message: $errorBody")
+
+                                    // Show appropriate message to the user
+                                    Toast.makeText(
+                                        this@Aadhar,
+                                        "Failed to upload Aadhar: ${response.message()}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
 
