@@ -10,10 +10,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -66,7 +64,7 @@ class DrivingLicense : AppCompatActivity() {
             if (frontImageUri == null || backImageUri == null) {
                 Toast.makeText(this, "Please upload both front and back images.", Toast.LENGTH_SHORT).show()
             } else {
-                submitDLDetails("12345") // Replace with actual delivery partner ID
+                submitDLDetails("721") // Replace with actual delivery partner ID
             }
         }
     }

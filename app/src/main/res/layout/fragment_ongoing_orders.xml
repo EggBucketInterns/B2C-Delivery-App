@@ -45,55 +45,36 @@
         android:layout_marginTop="100dp"
         android:paddingVertical="16dp">
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
+        <!-- Loader Section -->
+        <FrameLayout
+            android:id="@+id/loaderContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="10dp">
+            android:visibility="visible">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:id="@+id/dateTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:text="dd/mm/yyyy"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                <ProgressBar
+                    android:id="@+id/loader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true" />
 
-
-            <ImageView
-                android:id="@+id/downwardIcon"
-                android:layout_width="18dp"
-                android:layout_height="15dp"
-                android:layout_marginStart="8dp"
-                android:contentDescription="Downward icon"
-                android:src="@drawable/arrow_down" />
-        </LinearLayout>
-
-
-
-        <TextView
-            android:id="@+id/dateText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="10dp"
-            android:text="25th September, 2025"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:background="#A9A9A9"/>
-
+                <TextView
+                    android:id="@+id/loaderText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Fetching Ongoing Orders..."
+                    android:textSize="16sp"
+                    android:textColor="@android:color/darker_gray" />
+            </LinearLayout>
+        </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ordersRecyclerView"

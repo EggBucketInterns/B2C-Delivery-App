@@ -40,31 +40,10 @@ interface ApiService {
     @GET("api/v1/deliveryPartner/profile/{phone}")
     fun getUserByPhone(@Path("phone") phone: String): Call<User>
 
-    @GET("api/v1/deliveryPartner/getoutletId/{phoneNumber}")
-    fun getOutletId(
-        @Path("phoneNumber") phoneNumber: String
-    ): Call<PickupMap.OutletResponse>
-
     @Multipart
     @POST("/api/v1/deliveryPartner/vehicleDetails/{deliveryPartnerId}")
     fun uploadVehicleDocument(
         @Path("deliveryPartnerId") deliveryPartnerId: String,
-        @Part img: MultipartBody.Part
-    ): Call<ResponseBody>
-
-    @Multipart
-    @POST("/api/v1/deliveryPartner/personalInformation")
-    fun submitPersonalDetails(
-        @Part("firstName") firstName: RequestBody,
-        @Part("lastName") lastName: RequestBody,
-        @Part("fatherName") fatherName: RequestBody,
-        @Part("dob") dob: RequestBody,
-        @Part("phone") phone: RequestBody,
-        @Part("secondaryNumber") secondaryNumber: RequestBody,
-        @Part("bloodGroup") bloodGroup: RequestBody,
-        @Part("city") city: RequestBody,
-        @Part("address") address: RequestBody,
-        @Part("languageKnown") languageKnown: RequestBody,
         @Part img: MultipartBody.Part
     ): Call<ResponseBody>
 

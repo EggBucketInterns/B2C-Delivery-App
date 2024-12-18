@@ -43,7 +43,7 @@
         android:textSize="20sp"
         android:textColor="#FFFFFF"
         android:paddingTop="16dp"
-        android:text="Document Status"
+        android:text="Finish"
         android:paddingHorizontal="8dp"
         android:paddingBottom="12dp"
         android:backgroundTint="@color/orange"

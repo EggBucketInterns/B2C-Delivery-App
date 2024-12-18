@@ -1,6 +1,7 @@
 package com.eggbucket.b2c_delivery_app
 
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -11,8 +12,9 @@ val okHttpClient = OkHttpClient.Builder()
     .writeTimeout(30, TimeUnit.SECONDS)
     .build()
 
+
 object RetrofitClient {
-    private const val BASE_URL = "https://b2c-backend-1.onrender.com/"
+    private const val BASE_URL = "https://b2c-backend-1.onrender.com"
 
     val retrofit: Retrofit by lazy {
         Retrofit.Builder()
@@ -26,3 +28,4 @@ object RetrofitClient {
         retrofit.create(ApiService::class.java)
     }
 }
+

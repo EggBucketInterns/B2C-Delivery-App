@@ -3,6 +3,7 @@ package com.eggbucket.b2c_delivery_app
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -10,6 +11,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
+import java.util.Calendar
 
 class PersonalInformation : AppCompatActivity() {
 
@@ -33,12 +36,36 @@ class PersonalInformation : AppCompatActivity() {
 
         val uploadImageButton: Button = findViewById(R.id.Upploadbutton)
         val submitButton: Button = findViewById(R.id.submit_vehicle_button)
-
+        val dateOfBirthInput: EditText = findViewById(R.id.dateOfBirthInput)
         uploadImageButton.setOnClickListener {
             showImageSourceDialog()
         }
         submitButton.setOnClickListener {
             submitPersonalDetails()
+        }
+        dateOfBirthInput.setOnClickListener {
+            // Get the current date
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            // Show the DatePickerDialog
+            val datePickerDialog = DatePickerDialog(
+                this,
+                { _, selectedYear, selectedMonth, selectedDay ->
+                    // Format the selected date as dd-mm-yyyy
+                    val date = String.format("%02d-%02d-%d", selectedDay, selectedMonth + 1, selectedYear)
+                    // Set the formatted date in the EditText
+                    dateOfBirthInput.setText(date)
+                },
+                year,
+                month,
+                day
+            )
+
+            // Show the dialog
+            datePickerDialog.show()
         }
     }
 
