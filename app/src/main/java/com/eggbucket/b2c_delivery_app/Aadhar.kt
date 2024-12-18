@@ -151,7 +151,7 @@ class Aadhar : AppCompatActivity() {
         }
     }
 
-    private fun uriToFile(uri: Uri): File {
+    /*private fun uriToFile(uri: Uri): File {
         val tempFile = File.createTempFile("temp_image", ".jpg", cacheDir)
         contentResolver.openInputStream(uri)?.use { inputStream ->
             FileOutputStream(tempFile).use { outputStream ->
@@ -159,7 +159,37 @@ class Aadhar : AppCompatActivity() {
             }
         }
         return tempFile
+    }*/
+
+    private fun uriToFile(uri: Uri): File {
+        val tempFile = File.createTempFile("compressed_image", ".jpg", cacheDir)
+
+        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+        val compressedBitmap = compressBitmap(bitmap, 400, 400) // Set dimensions
+
+        FileOutputStream(tempFile).use { outputStream ->
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 30, outputStream) // Adjust quality
+        }
+
+        return tempFile
     }
+
+    private fun compressBitmap(bitmap: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+        val aspectRatio = bitmap.width.toFloat() / bitmap.height
+        val width: Int
+        val height: Int
+
+        if (bitmap.width > bitmap.height) {
+            width = maxWidth
+            height = (maxWidth / aspectRatio).toInt()
+        } else {
+            height = maxHeight
+            width = (maxHeight * aspectRatio).toInt()
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, width, height, true)
+    }
+
 
     private fun submitAadharDetails(deliveryPartnerId: String) {
         try {
