@@ -2,16 +2,12 @@ package com.eggbucket.b2c_delivery_app
 
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
-import retrofit2.http.PATCH
 import retrofit2.http.Part
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface ApiService {
     @Multipart
@@ -48,10 +44,12 @@ interface ApiService {
         @Part img: MultipartBody.Part
     ): Call<ResponseBody>
 
-    @GET("drivers/{driverId}/details")
+    @GET("/api/v1/deliveryPartner/profile/{phone}")
     suspend fun getGeneralDetails(
-        @Path("driverId") driverId: String
+        @Path("phone") phone: String
     ): ApiResponse
+
+
     @GET("api/v1/customer/user/{phoneno}")
     fun getCustomername(@Path("phoneno") phoneNo: String): Call<JsonObject>
 }

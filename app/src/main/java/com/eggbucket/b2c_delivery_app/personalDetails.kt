@@ -90,12 +90,12 @@ class personalDetails : Fragment() {
 
 
     private fun fetchFromApiAndStore() {
-        val driverId = "888" // Replace with the actual driver ID
+        val phone =  "888" // Replace with the actual driver ID
 
         lifecycleScope.launch {
             try {
                 // Call the API using suspend function
-                val apiResponse = RetrofitClient.apiService.getGeneralDetails(driverId)
+                val apiResponse = RetrofitClient.apiService.getGeneralDetails(phone)
 
                 // Extract general details
                 val generalDetails = apiResponse.generalDetails
