@@ -36,10 +36,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             findNavController().navigate(R.id.action_dashboardFragment_to_orderSummary)
         }
 
-        val trial_btn = view.findViewById<Button>(R.id.trialBtn)
-        trial_btn.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboardFragment_to_pickupMap)
-        }
+
 
         // Fetch the order data and update the UI simultaneously
         fetchOrdersCount()

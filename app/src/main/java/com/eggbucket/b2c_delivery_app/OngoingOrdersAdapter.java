@@ -1,5 +1,7 @@
 package com.eggbucket.b2c_delivery_app;
 
+import static androidx.navigation.Navigation.findNavController;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -10,6 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONException;
@@ -43,7 +48,7 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
         OngoingOrdersModel order = ordersList.get(position);
 
         // Display order details
-        holder.orderNumber.setText("Order No. " + order.getOrderNumber());
+        holder.orderNumber.setText(order.getOrderNumber());
         holder.orderStatus.setText(order.getStatus());
         holder.orderValue.setText("Order Value: ₹ " + order.getOrderValue());
 
@@ -52,11 +57,16 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
             saveOrderDataToSharedPreferences(order);  // Save data to SharedPreferences
             String savedOrderData = getOrderDataFromSharedPreferences();  // Retrieve saved data
 
+
+
             // Display a toast message with saved data
             Toast.makeText(context, "Saved Information: " + savedOrderData, Toast.LENGTH_LONG).show();
 
             // Log saved data for debugging
             Log.d("SharedPreferencesData", savedOrderData);
+
+            NavController navController = Navigation.findNavController(v);
+            navController.navigate(R.id.action_deliveredOrders_to_pickupMap);
         });
     }
 
@@ -89,7 +99,7 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
             data.put("outletInfo", order.getOutletInfo());  // Store the outlet info as JSON
             data.put("deliveryAddress", order.getDeliveryAddress());  // Store the delivery address as JSON
             data.put("products", order.getProducts());
-            data.put("customerId", order.getCustomerId());
+            data.put("customerInfo", order.getCustomerInfo());
 
             // Save the updated data back to SharedPreferences
             SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);

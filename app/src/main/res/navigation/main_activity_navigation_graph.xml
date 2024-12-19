@@ -61,6 +61,9 @@
         <action
             android:id="@+id/action_deliveredOrders_to_newOrder"
             app:destination="@id/newOrder" />
+        <action
+            android:id="@+id/action_deliveredOrders_to_pickupMap"
+            app:destination="@id/pickupMap" />
     </fragment>
     <fragment
         android:id="@+id/pickupMap"

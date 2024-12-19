@@ -10,18 +10,18 @@ public class OngoingOrdersModel {
     private JSONObject outletInfo;  // Store outlet information as JSON
     private JSONObject deliveryAddress;  // Store delivery address as JSON
     private JSONObject products;
-    private String customerId;
+    private JSONObject customerInfo;
 
     // Updated constructor to initialize all fields, using JSONObject for addresses
     public OngoingOrdersModel(String orderNumber, String status, String orderValue,
-                              JSONObject outletInfo, JSONObject deliveryAddress, JSONObject products, String customerID) {
+                              JSONObject outletInfo, JSONObject deliveryAddress, JSONObject products, JSONObject customerInfo) {
         this.orderNumber = orderNumber;
         this.status = status;
         this.orderValue = orderValue;
         this.outletInfo = outletInfo;
         this.deliveryAddress = deliveryAddress;
         this.products = products;
-        this.customerId = customerID;
+        this.customerInfo = customerInfo;
     }
 
     // Getter methods for each field
@@ -49,7 +49,7 @@ public class OngoingOrdersModel {
         return products;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public JSONObject getCustomerInfo() {
+        return customerInfo;
     }
 }

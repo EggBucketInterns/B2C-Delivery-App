@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -111,7 +112,7 @@ public class OngoingOrders extends Fragment {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("API Error", "Failed to fetch orders: " + e.getMessage());
-                getActivity().runOnUiThread(() -> {
+                requireActivity().runOnUiThread(() -> {
                     loaderText.setText("Failed to fetch orders. Please try again.");
                 });
             }
@@ -127,16 +128,16 @@ public class OngoingOrders extends Fragment {
                         List<OngoingOrdersModel> orders = new ArrayList<>();
                         for (int i = 0; i < pendingOrders.length(); i++) {
                             JSONObject order = pendingOrders.getJSONObject(i);
-                            String orderId = "#" + (1101 + i); // Generate order ID dynamically
+                            String orderId = order.getString("orderId");
                             String status = "Pickup Pending"; // Set a default status for now
                             String amount = order.getString("amount"); // Get the amount dynamically
                             JSONObject outletInfo = order.getJSONObject("outletInfo");
                             JSONObject deliveryAddress = order.getJSONObject("deliveryAddress");
-                            String customerId = order.getString("customerId");
+                            JSONObject customerInfo= order.getJSONObject("customerInfo");
                             JSONObject products = order.getJSONObject("products");
                             OngoingOrdersModel ongoingOrder = new OngoingOrdersModel(
                                     orderId, status, amount, outletInfo,
-                                    deliveryAddress, products, customerId
+                                    deliveryAddress, products, customerInfo
                             );
                             orders.add(ongoingOrder);
 
