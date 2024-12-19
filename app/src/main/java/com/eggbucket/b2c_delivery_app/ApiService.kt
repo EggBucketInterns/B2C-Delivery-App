@@ -1,5 +1,6 @@
 package com.eggbucket.b2c_delivery_app
 
+import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -51,4 +52,6 @@ interface ApiService {
     suspend fun getGeneralDetails(
         @Path("driverId") driverId: String
     ): ApiResponse
+    @GET("api/v1/customer/user/{phoneno}")
+    fun getCustomername(@Path("phoneno") phoneNo: String): Call<JsonObject>
 }

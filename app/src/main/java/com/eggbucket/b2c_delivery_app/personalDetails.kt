@@ -55,7 +55,7 @@ class personalDetails : Fragment() {
         valueAddress = view.findViewById(R.id.valueAddress)
         valueLanguageKnown = view.findViewById(R.id.valueLanguageKnown)
         imageview = view.findViewById(R.id.profilePhoto)
-        sharedPreferences = requireContext().getSharedPreferences("ProfileDetails", Context.MODE_PRIVATE)
+        sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
 
         loadData()
 

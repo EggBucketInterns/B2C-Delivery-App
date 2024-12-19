@@ -415,6 +415,7 @@
 
                     <!-- Confirm Pickup Button -->
                     <Button
+                        android:id="@+id/conformPickup"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"

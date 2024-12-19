@@ -7,12 +7,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.google.gson.JsonObject
 import org.json.JSONException
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import kotlin.math.log
 
 class OrderDetails : Fragment() {
@@ -74,6 +80,34 @@ class OrderDetails : Fragment() {
             e.printStackTrace()
             Toast.makeText(requireContext(), "Failed to parse order data", Toast.LENGTH_SHORT).show()
         }
+        fetchCustomerName("1111111113")
+        view.findViewById<Button>(R.id.conformPickup).setOnClickListener(){
+            findNavController().navigate(R.id.action_orderDetails_to_deliveryMapFragment2)
+        }
+
+    }
+    fun fetchCustomerName(phoneNo: String) {
+        val call = RetrofitClient.apiService.getCustomername(phoneNo)
+        call.enqueue(object : Callback<JsonObject> {
+            override fun onResponse(
+                call: Call<JsonObject>,
+                response: Response<JsonObject>
+            ) {
+                if (response.isSuccessful) {
+                    val customerName = response.body()?.get("name")?.asString ?: "N/A"
+                    view?.findViewById<TextView>(R.id.coustmerName)?.text = customerName
+                    val sharedPreferences = requireContext().getSharedPreferences("OrderPrefs", Context.MODE_PRIVATE)
+                    sharedPreferences.edit().putString("customerName", customerName).apply()
+
+                } else {
+                    println("Error: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                println("Failed to fetch data: ${t.message}")
+            }
+        })
     }
 
 }
