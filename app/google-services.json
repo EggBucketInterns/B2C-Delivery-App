@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "644465249792",
+    "project_id": "b2c-main",
+    "storage_bucket": "b2c-main.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:644465249792:android:88cb5135852ad6a2d292e5",
+        "android_client_info": {
+          "package_name": "com.eggbucket.b2c_delivery_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXjGVUguGkPjPwVBXAA-3B-6-K7I2K1Kg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:644465249792:android:e663f7469a837426d292e5",
+        "android_client_info": {
+          "package_name": "com.eggbucket.eggbucket_b2c"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXjGVUguGkPjPwVBXAA-3B-6-K7I2K1Kg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
