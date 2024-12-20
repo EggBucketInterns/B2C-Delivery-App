@@ -2,7 +2,6 @@ package com.eggbucket.b2c_delivery_app
 
 import android.Manifest
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -11,8 +10,9 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -38,6 +38,8 @@ class DrivingLicense : AppCompatActivity() {
     private var backImageUri: Uri? = null
     private lateinit var tempFile: File
 
+    private lateinit var loaderContainer: FrameLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_driving_license)
@@ -46,16 +48,13 @@ class DrivingLicense : AppCompatActivity() {
         val backDLUploadButton: Button = findViewById(R.id.back_DL_upload_button)
         val submitDLButton: Button = findViewById(R.id.submit_DL_btn)
         val dlBackButton: Button = findViewById(R.id.DlBackBtn)
+        loaderContainer = findViewById(R.id.progressBar)
 
-
-        dlBackButton.setOnClickListener {
-            finish()
-        }
+        dlBackButton.setOnClickListener { finish() }
 
         frontDLUploadButton.setOnClickListener {
             showImageSourceDialog(PICK_FRONT_IMAGE_REQUEST_CODE, CAMERA_FRONT_REQUEST_CODE)
         }
-
 
         backDLUploadButton.setOnClickListener {
             showImageSourceDialog(PICK_BACK_IMAGE_REQUEST_CODE, CAMERA_BACK_REQUEST_CODE)
@@ -65,6 +64,7 @@ class DrivingLicense : AppCompatActivity() {
             if (frontImageUri == null || backImageUri == null) {
                 Toast.makeText(this, "Please upload both front and back images.", Toast.LENGTH_SHORT).show()
             } else {
+                loaderContainer.visibility = View.VISIBLE
                 submitDLDetails("12345") // Replace with actual delivery partner ID
             }
         }
@@ -143,21 +143,6 @@ class DrivingLicense : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == CAMERA_PERMISSION_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (frontImageUri == null) {
-                    openCamera(CAMERA_FRONT_REQUEST_CODE)
-                } else {
-                    openCamera(CAMERA_BACK_REQUEST_CODE)
-                }
-            } else {
-                Toast.makeText(this, "Camera permission is required to take a photo", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
     private fun uriToFile(uri: Uri): File {
         val tempFile = File.createTempFile("temp_image", ".jpg", cacheDir)
         contentResolver.openInputStream(uri)?.use { inputStream ->
@@ -186,33 +171,22 @@ class DrivingLicense : AppCompatActivity() {
                     apiService.uploadDLDetails(deliveryPartnerId, frontPart, backPart)
                         .enqueue(object : Callback<ResponseBody> {
                             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                loaderContainer.visibility = View.GONE
                                 if (response.isSuccessful) {
-                                    val responseBody = response.body()
-                                    if (responseBody != null) {
-                                        Toast.makeText(
-                                            this@DrivingLicense,
-                                            responseBody.message ?: "Driving License uploaded successfully",
-                                            Toast.LENGTH_SHORT
-                                        ).show()}else {
-                                        Toast.makeText(this@DrivingLicense, "Unexpected response format.", Toast.LENGTH_SHORT).show()
-                                    }
+                                    Toast.makeText(this@DrivingLicense, "Submission successful!", Toast.LENGTH_SHORT).show()
                                     val resultIntent = Intent().apply {
-                                        putExtra("isDrivingLicenseSubmitted", true) // Pass success status
+                                        putExtra("isDrivingLicenseSubmitted", true)
                                     }
                                     setResult(Activity.RESULT_OK, resultIntent)
                                     finish()
                                 } else {
-                                    val errorBody = response.errorBody()?.string()
-                                    Log.e("DrivingLicenseDetails", "Upload failed: ${response.code()}, Message: $errorBody")
-                                    Toast.makeText(
-                                        this@DrivingLicense,
-                                        "Failed to upload DL: ${response.message()}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    Log.e("DrivingLicense", "Upload failed: ${response.code()}, ${response.message()}")
+                                    Toast.makeText(this@DrivingLicense, "Failed to upload DL.", Toast.LENGTH_SHORT).show()
                                 }
                             }
 
                             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                loaderContainer.visibility = View.GONE
                                 Log.e("DrivingLicense", "Error uploading DL", t)
                                 Toast.makeText(this@DrivingLicense, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                             }
@@ -220,8 +194,9 @@ class DrivingLicense : AppCompatActivity() {
                 }
             }
         } catch (e: Exception) {
-            Log.e("DrivingLicense", "Error while processing DL details", e)
-            Toast.makeText(this, "Error processing DL details: ${e.message}", Toast.LENGTH_SHORT).show()
+            loaderContainer.visibility = View.GONE
+            Log.e("DrivingLicense", "Error processing DL details", e)
+            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 }

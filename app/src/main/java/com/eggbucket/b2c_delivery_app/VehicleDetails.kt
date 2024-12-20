@@ -1,13 +1,15 @@
 package com.eggbucket.b2c_delivery_app
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +24,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
-import android.util.Log
 
 class VehicleDetails : AppCompatActivity() {
 
@@ -33,32 +34,33 @@ class VehicleDetails : AppCompatActivity() {
     private var vehicleDocUri: Uri? = null
     private lateinit var tempFile: File
 
+    private lateinit var loaderContainer: FrameLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vehicle_details)
-        //Photo or Camera
+
         val uploadButton: Button = findViewById(R.id.Upploadbutton)
+        val backButton: Button = findViewById(R.id.vehicledetailsBackBtn)
+        val submitButton: Button = findViewById(R.id.submit_vehicle_button)
+        loaderContainer = findViewById(R.id.loaderContainer)
+
+        backButton.setOnClickListener { finish() }
+
         uploadButton.setOnClickListener {
             showImageSourceDialog()
         }
 
-        val backButton: Button = findViewById(R.id.vehicledetailsBackBtn)
-        backButton.setOnClickListener {
-            finish()
-        }
-
-        // Submit button to upload image
-        val submitButton: Button = findViewById(R.id.submit_vehicle_button)
         submitButton.setOnClickListener {
-            vehicleDocUri?.let {
-                uploadVehicleDetails("12345") // Replace with actual delivery partner ID
-            } ?: run {
+            if (vehicleDocUri == null) {
                 Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show()
+            } else {
+                loaderContainer.visibility = android.view.View.VISIBLE // Show progress bar
+                uploadVehicleDetails("12345") // Replace with actual delivery partner ID
             }
         }
     }
 
-    // gallery or camera
     private fun showImageSourceDialog() {
         val options = arrayOf("Take Photo", "Choose from Gallery")
         val builder = AlertDialog.Builder(this)
@@ -71,6 +73,7 @@ class VehicleDetails : AppCompatActivity() {
         }
         builder.show()
     }
+
     private fun checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             openCamera()
@@ -78,6 +81,7 @@ class VehicleDetails : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
         }
     }
+
     private fun openCamera() {
         try {
             tempFile = File.createTempFile("camera_image", ".jpg", cacheDir)
@@ -109,7 +113,7 @@ class VehicleDetails : AppCompatActivity() {
                     vehicleDocUri = data?.data
                 }
                 PICK_CAMERA_REQUEST_CODE -> {
-
+                    vehicleDocUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
                 }
             }
         }
@@ -145,30 +149,31 @@ class VehicleDetails : AppCompatActivity() {
 
                 val apiService = RetrofitClient.apiService
 
-                // Call the API to upload the image
                 apiService.uploadVehicleDocument(deliveryPartnerId, vehicleDocPart).enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        loaderContainer.visibility = android.view.View.GONE // Hide progress bar
                         if (response.isSuccessful) {
                             Toast.makeText(this@VehicleDetails, "Upload successful", Toast.LENGTH_SHORT).show()
-
-                            // Send result back to PersonalDocuments activity to update the status
                             val resultIntent = Intent().apply {
                                 putExtra("isVehicleDetailsSubmitted", true)
                             }
-                            setResult(RESULT_OK, resultIntent)
+                            setResult(Activity.RESULT_OK, resultIntent)
                             finish()
                         } else {
+                            Log.e("VehicleDetails", "Upload failed: ${response.code()}, ${response.message()}")
                             Toast.makeText(this@VehicleDetails, "Upload failed: ${response.message()}", Toast.LENGTH_SHORT).show()
                         }
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        loaderContainer.visibility = android.view.View.GONE // Hide progress bar
                         Log.e("VehicleDetails", "Error uploading vehicle document", t)
                         Toast.makeText(this@VehicleDetails, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                     }
                 })
             }
         } catch (e: Exception) {
+            loaderContainer.visibility = android.view.View.GONE // Hide progress bar
             Log.e("VehicleDetails", "Error while converting URI to file", e)
             Toast.makeText(this, "Error while converting URI to file: ${e.message}", Toast.LENGTH_SHORT).show()
         }

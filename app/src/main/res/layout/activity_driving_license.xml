@@ -1,138 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:id="@+id/linearLayoutDL"
-    android:orientation="vertical">
+    tools:context=".DrivingLicense">
 
-
+    <!-- Main Content -->
     <LinearLayout
-        android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:background="#F89427"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/DlBackBtn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginLeft="20dp"
-            android:contentDescription="do"
-            android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/baseline_arrow_back_black"
-            android:gravity="center_vertical" />
-
-        <TextView
-
-            android:id="@+id/textView"
+        <!-- Header Section -->
+        <LinearLayout
+            android:id="@+id/main"
             android:layout_width="match_parent"
-            android:layout_height="180px"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
             android:background="#F89427"
-            android:fontFamily="@font/archivo_bold"
+            android:orientation="horizontal">
 
-            android:gravity="center"
-            android:text="Driving license Details"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
+            <Button
+                android:id="@+id/DlBackBtn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="20dp"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/baseline_arrow_back_black"
+                android:gravity="center_vertical" />
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#F89427"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Driving license Details"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+        </LinearLayout>
 
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="351dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="30dp"
-        android:fontFamily="@font/archivo_medium"
-        android:text="Upload focused photo of your \nDriving License for faster verification"
-        android:textAlignment="center"
-        android:textColor="#101010"
-        android:textSize="18sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/border"
-        android:padding="16dp">
-
+        <!-- Instruction Section -->
         <TextView
-            android:id="@+id/front_DL_text_view"
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:fontFamily="@font/archivo_medium"
-            android:paddingTop="10dp"
-            android:text="Upload front photo of your Driving\n license with your clear Name \n and Photo"
-            android:textAlignment="center"
-            android:textColor="#101010" />
-
-        <Button
-            android:id="@+id/front_DL_upload_button"
-            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawableLeft="@drawable/camera"
-            android:padding="8dp"
+            android:layout_marginHorizontal="30dp"
+            android:fontFamily="@font/archivo_medium"
+            android:text="Upload focused photo of your \nDriving License for faster verification"
+            android:textAlignment="center"
+            android:textColor="#101010"
+            android:textSize="18sp" />
+
+        <!-- Front Side Upload Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="30dp"
+            android:background="@drawable/border"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/front_DL_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/archivo_medium"
+                android:paddingTop="10dp"
+                android:text="Upload front photo of your Driving\n license with your clear Name \n and Photo"
+                android:textAlignment="center"
+                android:textColor="#101010" />
+
+            <Button
+                android:id="@+id/front_DL_upload_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:drawableLeft="@drawable/camera"
+                android:backgroundTint="@color/orange"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:text="Upload Image" />
+        </LinearLayout>
+
+        <!-- Back Side Upload Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/border"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/back_DL_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/archivo_medium"
+                android:paddingTop="10dp"
+                android:text="Upload photo of your Driving\n license with your clear Name \n and Photo"
+                android:textAlignment="center"
+                android:textColor="#101010" />
+
+            <Button
+                android:id="@+id/back_DL_upload_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:drawableLeft="@drawable/camera"
+                android:backgroundTint="@color/orange"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:text="Upload Image" />
+        </LinearLayout>
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/submit_DL_btn"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:paddingTop="16dp"
+            android:paddingHorizontal="8dp"
+            android:paddingBottom="12dp"
+            android:text="Submit"
             android:backgroundTint="@color/orange"
-            android:text="Upload Image"
-            android:textAlignment="center" />
+            android:layout_gravity="center"/>
+
     </LinearLayout>
 
-    <LinearLayout
+    <!-- Progress Bar Overlay -->
+    <FrameLayout
+        android:id="@+id/progressBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/border"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#80000000">
 
-        <TextView
-            android:id="@+id/back_DL_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:fontFamily="@font/archivo_medium"
-            android:paddingTop="10dp"
-            android:text="Upload photo of your Driving\n license with your clear Name \n and Photo"
-            android:textAlignment="center"
-            android:textColor="#101010" />
-
-        <Button
-            android:id="@+id/back_DL_upload_button"
-            android:layout_width="150dp"
+        <ProgressBar
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawableLeft="@drawable/camera"
-            android:padding="8dp"
-            android:backgroundTint="@color/orange"
-            android:text="Upload Image"
-            android:textAlignment="center" />
-    </LinearLayout>
-
-
-    <Button
-        android:id="@+id/submit_DL_btn"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="90dp"
-        android:textSize="20sp"
-        android:textColor="#FFFFFF"
-        android:paddingTop="16dp"
-        android:paddingHorizontal="8dp"
-        android:paddingBottom="12dp"
-        android:text="Submit"
-        android:backgroundTint="@color/orange"
-        android:layout_gravity="center"/>
-
-</LinearLayout>
+            android:layout_gravity="center" />
+    </FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

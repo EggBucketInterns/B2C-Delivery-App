@@ -47,6 +47,8 @@ class PanCard : AppCompatActivity() {
         val submitPanButton: Button = findViewById(R.id.submit_pan_button)
         val panBackButton: Button = findViewById(R.id.panBackBtn)
 
+        val loaderContainer: View = findViewById(R.id.loaderContainer)
+
         panBackButton.setOnClickListener {
             finish()
         }
@@ -63,7 +65,17 @@ class PanCard : AppCompatActivity() {
             if (frontImageUri == null || backImageUri == null) {
                 Toast.makeText(this, "Please upload both front and back images.", Toast.LENGTH_SHORT).show()
             } else {
-                submitPANDetails("12345") // Replace with actual delivery partner ID
+                loaderContainer.visibility = View.VISIBLE
+                submitPANDetails("12345") { success ->
+                    loaderContainer.visibility = View.GONE
+                    if (success) {
+                        val resultIntent = Intent().apply {
+                            putExtra("isPanCardSubmitted", true)
+                        }
+                        setResult(Activity.RESULT_OK, resultIntent)
+                        finish()
+                    }
+                }
             }
         }
     }
@@ -166,7 +178,7 @@ class PanCard : AppCompatActivity() {
         return tempFile
     }
 
-    private fun submitPANDetails(deliveryPartnerId: String) {
+    private fun submitPANDetails(deliveryPartnerId: String, callback: (Boolean) -> Unit) {
         try {
             frontImageUri?.let { frontUri ->
                 backImageUri?.let { backUri ->
@@ -184,43 +196,19 @@ class PanCard : AppCompatActivity() {
                     apiService.uploadPanDetails(deliveryPartnerId, frontPart, backPart)
                         .enqueue(object : Callback<ResponseBody> {
                             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                                if (response.isSuccessful) {
-                                    val responseBody = response.body()
-                                    if (responseBody != null) {
-                                        Toast.makeText(
-                                            this@PanCard,
-                                            responseBody.message ?: "PAN uploaded successfully",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    } else {
-                                        Toast.makeText(this@PanCard, "Unexpected response format.", Toast.LENGTH_SHORT).show()
-                                    }
-                                    val resultIntent = Intent().apply {
-                                        putExtra("isPanCardSubmitted", true) // Pass success status
-                                    }
-                                    setResult(Activity.RESULT_OK, resultIntent)
-                                    finish()
-                                } else {
-                                    val errorBody = response.errorBody()?.string()
-                                    Log.e("PanCardDetails", "Upload failed: ${response.code()}, Message: $errorBody")
-                                    Toast.makeText(
-                                        this@PanCard,
-                                        "Failed to upload PAN: ${response.message()}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
+                                callback(response.isSuccessful)
                             }
 
                             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                                 Log.e("PanCard", "Error uploading PAN", t)
-                                Toast.makeText(this@PanCard, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                                callback(false)
                             }
                         })
                 }
             }
         } catch (e: Exception) {
             Log.e("PanCard", "Error while processing PAN details", e)
-            Toast.makeText(this, "Error processing PAN details: ${e.message}", Toast.LENGTH_SHORT).show()
+            callback(false)
         }
     }
 }
