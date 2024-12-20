@@ -49,9 +49,6 @@ import okhttp3.OkHttpClient
     @GET("api/v1/deliveryPartner/profile/{phone}")
     fun getUserByPhone(@Path("phone") phone: String): Call<User>
 }*/
-data class User(
-    val generalDetails: GeneralDetails? = null,
-)
 
 
 
@@ -75,69 +72,37 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        // SharedPreferences
+
+        // Initialize SharedPreferences
         sharedPref = requireActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
 
+        // Load user data from SharedPreferences
+        loadUserDataFromPreferences()
 
-
-        val phoneNumber = sharedPref.getString("phone", null)
-
-
-        phoneNumber?.let {
-            fetchUserData(it)
-        }
-
+        // Setup click listeners
         setupClickListeners()
         return binding.root
     }
 
-    private fun fetchUserData(phone: String) {
-        // API call using Retrofit
-        Log.d("ProfileFragment", "Request URL: https://b2c-backend-1.onrender.com/api/v1/deliveryPartner/profile/$phone")
-        Log.d("ProfileFragment", "Formatted phone number: $phone")
+    private fun loadUserDataFromPreferences() {
+        val firstName = sharedPref.getString("firstName", "N/A")
+        val lastName = sharedPref.getString("lastName", "N/A")
+        val phone = sharedPref.getString("phone", "N/A")
+        val image = sharedPref.getString("img", null)
 
-        RetrofitClient.apiService.getUserByPhone(phone).enqueue(object : Callback<User> {
-            override fun onResponse(call: Call<User>, response: Response<User>) {
-                if (response.isSuccessful) {
-                    val user = response.body()
-                    user?.let {
-                        val generalDetails = it.generalDetails
-                        generalDetails?.let { details ->
-                            // Update UI
-                            binding.tvPartnerName.text = "${details.firstName} ${details.lastName}"
-                            binding.tvSubtitle.text = details.phone
+        // Update UI with user data
+        binding.tvPartnerName.text = "$firstName $lastName"
+        binding.tvSubtitle.text = phone
 
-                            // Update SharedPreferences with fetched user data
-                            val editor = sharedPref.edit()
-                            editor.putString("firstName", details.firstName)
-                            editor.putString("lastName", details.lastName)
-                            editor.putString("phone", details.phone)
-                            editor.putString("image", details.image)
-                            editor.apply()
+        Log.d("ProfileFragment", "Details: $firstName" + lastName + phone + image )
 
-                            details.image?.let { imageUrl ->
-                                Glide.with(this@ProfileFragment)
-                                    .load(imageUrl)
-                                    .placeholder(R.drawable.img) // Placeholder image
-                                    .into(binding.profileImage)
-                            }
-                        }
-                    }
-                    Log.d("ProfileFragment", "User Data: ${response.body()}")
-                } else {
-                    // Handle error response
-                    Log.e("ProfileFragment", "API call failed with response code: ${response.code()}")
-                    Log.e("ProfileFragment", "Response message: ${response.message()}")
-                }
-            }
-
-
-            override fun onFailure(call: Call<User>, t: Throwable) {
-                // Handle failure (e.g., no internet connection)
-                Log.e("ProfileFragment", "API call failed", t)
-                Log.e("ProfileFragment", "Failure reason: ${t.localizedMessage}")
-            }
-        })
+        // Load profile image using Glide
+        image?.let { imageUrl ->
+            Glide.with(this)
+                .load(imageUrl)
+                .placeholder(R.drawable.img) // Placeholder image
+                .into(binding.profileImage)
+        }
     }
 
     private fun setupClickListeners() {
@@ -160,7 +125,6 @@ class ProfileFragment : Fragment() {
         binding.llLogout.setOnClickListener {
             logout()
         }
-
 
         binding.llHelpSupport.setOnClickListener {
             // Handle Help and Support button click
@@ -186,6 +150,7 @@ class ProfileFragment : Fragment() {
         _binding = null
     }
 }
+
 
 
 
