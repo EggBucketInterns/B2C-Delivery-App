@@ -64,9 +64,11 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
-    // Glide dependencies
+    implementation("com.jjoe64:graphview:4.2.2") {
+        exclude(group = "com.android.support", module = "support-compat")
+    }
 
-    kapt("com.github.bumptech.glide:compiler:4.15.1")
+        kapt("com.github.bumptech.glide:compiler:4.15.1")
     implementation ("com.github.bumptech.glide:annotations:4.15.1")
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
