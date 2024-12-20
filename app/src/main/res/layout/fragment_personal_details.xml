@@ -103,237 +103,237 @@
                 </LinearLayout>
 
 
-            <!-- Father's Name -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/personalinformation_background_card"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_marginVertical="5dp"
-                android:elevation="4dp">
+                <!-- Father's Name -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/personalinformation_background_card"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:elevation="4dp">
 
-                <TextView
-                    android:id="@+id/labelFatherName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Father's Name:"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/labelFatherName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Father's Name:"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/valueFatherName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="Ramesh Kumar"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/valueFatherName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Ramesh Kumar"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
-            <!-- Date of Birth -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/personalinformation_background_card"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_marginVertical="5dp"
-                android:elevation="4dp">
+                <!-- Date of Birth -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/personalinformation_background_card"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:elevation="4dp">
 
-                <TextView
-                    android:id="@+id/labelDOB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Date of Birth:"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/labelDOB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date of Birth:"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/valueDOB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="1992-03-15"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/valueDOB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="1992-03-15"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
-            <!-- Phone -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/personalinformation_background_card"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_marginVertical="5dp"
-                android:elevation="4dp">
+                <!-- Phone -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/personalinformation_background_card"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:elevation="4dp">
 
-                <TextView
-                    android:id="@+id/labelPhoneNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Phone:"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/labelPhoneNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Phone:"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/valuePhoneNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="9876543210"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/valuePhoneNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="9876543210"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
-            <!-- Secondary Phone -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/personalinformation_background_card"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_marginVertical="5dp"
-                android:elevation="4dp">
+                <!-- Secondary Phone -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/personalinformation_background_card"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:elevation="4dp">
 
-                <TextView
-                    android:id="@+id/labelSecondaryNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Secondary Phone:"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/labelSecondaryNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Secondary Phone:"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/valueSecondaryNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="6666666667"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/valueSecondaryNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="6666666667"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
-            <!-- Blood Group -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/personalinformation_background_card"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_marginVertical="5dp"
-                android:elevation="4dp">
+                <!-- Blood Group -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/personalinformation_background_card"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:elevation="4dp">
 
-                <TextView
-                    android:id="@+id/labelBloodGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Blood Group:"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/labelBloodGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Blood Group:"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/valueBloodGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="O+"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/valueBloodGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="O+"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
-            <!-- City -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/personalinformation_background_card"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_marginVertical="5dp"
-                android:elevation="4dp">
+                <!-- City -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/personalinformation_background_card"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:elevation="4dp">
 
-                <TextView
-                    android:id="@+id/labelCity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="City:"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/labelCity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="City:"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/valueCity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="Mumbai"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/valueCity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Mumbai"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
-            <!-- Address -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/personalinformation_background_card"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_marginVertical="5dp"
-                android:elevation="4dp">
+                <!-- Address -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/personalinformation_background_card"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:elevation="4dp">
 
-                <TextView
-                    android:id="@+id/labelAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Address:"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/labelAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Address:"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/valueAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="12 Carter Road, Bandra"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/valueAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="12 Carter Road, Bandra"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
-            <!-- Languages Known -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/personalinformation_background_card"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_marginVertical="5dp"
-                android:elevation="4dp">
+                <!-- Languages Known -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/personalinformation_background_card"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:elevation="4dp">
 
-                <TextView
-                    android:id="@+id/labelLanguageKnown"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Languages Known:"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/labelLanguageKnown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Languages Known:"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/valueLanguageKnown"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="Hindi, English, Marathi"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/valueLanguageKnown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Hindi, English, Marathi"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
 

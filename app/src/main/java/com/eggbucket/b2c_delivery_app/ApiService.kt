@@ -1,16 +1,14 @@
 package com.eggbucket.b2c_delivery_app
 
+import com.google.gson.JsonObject
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
-import retrofit2.http.POST
 import retrofit2.http.PATCH
+import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface ApiService {
     @Multipart
@@ -40,11 +38,6 @@ interface ApiService {
     @GET("api/v1/deliveryPartner/profile/{phone}")
     fun getUserByPhone(@Path("phone") phone: String): Call<User>
 
-    @GET("api/v1/deliveryPartner/getoutletId/{phoneNumber}")
-    fun getOutletId(
-        @Path("phoneNumber") phoneNumber: String
-    ): Call<PickupMap.OutletResponse>
-
     @Multipart
     @POST("/api/v1/deliveryPartner/vehicleDetails/{deliveryPartnerId}")
     fun uploadVehicleDocument(
@@ -52,24 +45,15 @@ interface ApiService {
         @Part img: MultipartBody.Part
     ): Call<ResponseBody>
 
-    @Multipart
-    @POST("/api/v1/deliveryPartner/personalInformation")
-    fun submitPersonalDetails(
-        @Part("firstName") firstName: RequestBody,
-        @Part("lastName") lastName: RequestBody,
-        @Part("fatherName") fatherName: RequestBody,
-        @Part("dob") dob: RequestBody,
-        @Part("phone") phone: RequestBody,
-        @Part("secondaryNumber") secondaryNumber: RequestBody,
-        @Part("bloodGroup") bloodGroup: RequestBody,
-        @Part("city") city: RequestBody,
-        @Part("address") address: RequestBody,
-        @Part("languageKnown") languageKnown: RequestBody,
-        @Part img: MultipartBody.Part
-    ): Call<ResponseBody>
-
-    @GET("drivers/{driverId}/details")
+    @GET("/api/v1/deliveryPartner/profile/{phone}")
     suspend fun getGeneralDetails(
-        @Path("driverId") driverId: String
+        @Path("phone") phone: String
     ): ApiResponse
+
+
+    @PATCH("/api/v1/deliveryPartner/markorderdelivered/{phone}/{orderId}")
+    fun markOrderDelivered(
+        @Path("phone") phone: String,
+        @Path("orderId") orderId: String
+    ): Call<Void>
 }

@@ -55,7 +55,7 @@ class personalDetails : Fragment() {
         valueAddress = view.findViewById(R.id.valueAddress)
         valueLanguageKnown = view.findViewById(R.id.valueLanguageKnown)
         imageview = view.findViewById(R.id.profilePhoto)
-        sharedPreferences = requireContext().getSharedPreferences("ProfileDetails", Context.MODE_PRIVATE)
+        sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
 
         loadData()
 
@@ -90,12 +90,12 @@ class personalDetails : Fragment() {
 
 
     private fun fetchFromApiAndStore() {
-        val driverId = "888" // Replace with the actual driver ID
+        val phone =  "888" // Replace with the actual driver ID
 
         lifecycleScope.launch {
             try {
                 // Call the API using suspend function
-                val apiResponse = RetrofitClient.apiService.getGeneralDetails(driverId)
+                val apiResponse = RetrofitClient.apiService.getGeneralDetails(phone)
 
                 // Extract general details
                 val generalDetails = apiResponse.generalDetails

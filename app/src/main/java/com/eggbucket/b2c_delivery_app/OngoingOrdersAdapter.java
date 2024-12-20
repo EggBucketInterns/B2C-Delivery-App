@@ -1,21 +1,38 @@
 package com.eggbucket.b2c_delivery_app;
 
+import static androidx.navigation.Navigation.findNavController;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
 public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdapter.OrderViewHolder> {
 
-    private List<OngoingOrdersModel> ordersList;
+    private final List<OngoingOrdersModel> ordersList;
+    private final Context context;
 
-    public OngoingOrdersAdapter(List<OngoingOrdersModel> ordersList) {
+    private static final String PREFS_NAME = "OrderPrefs";
+    private static final String DATA_KEY = "SelectedOrderData";
+
+    public OngoingOrdersAdapter(List<OngoingOrdersModel> ordersList, Context context) {
         this.ordersList = ordersList;
+        this.context = context;
     }
 
     @NonNull
@@ -29,21 +46,28 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         OngoingOrdersModel order = ordersList.get(position);
-        holder.orderNumber.setText("Order No. "+order.getOrderNumber());
-        holder.orderStatus.setText(order.getStatus());
-        holder.orderValue.setText("Order Value: ₹ "+order.getOrderValue());
 
-        // Optionally, you can set colors or styles based on status
-        if (order.getStatus().equalsIgnoreCase("Pickup Successful")) {
-            holder.orderStatus.setTextColor(holder.itemView.getContext().getResources()
-                    .getColor(android.R.color.holo_green_dark));
-        } else if (order.getStatus().equalsIgnoreCase("Pickup Pending")) {
-            holder.orderStatus.setTextColor(holder.itemView.getContext().getResources()
-                    .getColor(android.R.color.holo_red_dark));
-        } else {
-            holder.orderStatus.setTextColor(holder.itemView.getContext().getResources()
-                    .getColor(android.R.color.holo_red_dark));
-        }
+        // Display order details
+        holder.orderNumber.setText(order.getOrderNumber());
+        holder.orderStatus.setText(order.getStatus());
+        holder.orderValue.setText("Order Value: ₹ " + order.getOrderValue());
+
+        // Handle item click to save data
+        holder.itemView.setOnClickListener(v -> {
+            saveOrderDataToSharedPreferences(order);  // Save data to SharedPreferences
+            String savedOrderData = getOrderDataFromSharedPreferences();  // Retrieve saved data
+
+
+
+            // Display a toast message with saved data
+            Toast.makeText(context, "Saved Information: " + savedOrderData, Toast.LENGTH_LONG).show();
+
+            // Log saved data for debugging
+            Log.d("SharedPreferencesData", savedOrderData);
+
+            NavController navController = Navigation.findNavController(v);
+            navController.navigate(R.id.action_deliveredOrders_to_pickupMap);
+        });
     }
 
     @Override
@@ -60,5 +84,41 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
             orderStatus = itemView.findViewById(R.id.orderStatus);
             orderValue = itemView.findViewById(R.id.orderValue);
         }
+    }
+
+    /**
+     * Save selected order data in SharedPreferences
+     */
+    private void saveOrderDataToSharedPreferences(OngoingOrdersModel order) {
+        try {
+            // Convert order details to JSONObject
+            JSONObject data = new JSONObject();
+            data.put("orderNumber", order.getOrderNumber());
+            data.put("status", order.getStatus());
+            data.put("orderValue", order.getOrderValue());
+            data.put("outletInfo", order.getOutletInfo());  // Store the outlet info as JSON
+            data.put("deliveryAddress", order.getDeliveryAddress());  // Store the delivery address as JSON
+            data.put("products", order.getProducts());
+            data.put("customerInfo", order.getCustomerInfo());
+
+            // Save the updated data back to SharedPreferences
+            SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(DATA_KEY, data.toString());
+            editor.apply();
+
+            Log.d("SharedPreferencesData", "Data saved: " + data.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("SaveOrderDataError", "Failed to save order data: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Get saved order data from SharedPreferences
+     */
+    private String getOrderDataFromSharedPreferences() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(DATA_KEY, "No Data Found");
     }
 }

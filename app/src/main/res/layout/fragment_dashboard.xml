@@ -85,15 +85,16 @@
             android:orientation="vertical">
 
             <TextView
+                android:padding="5dp"
                 android:id="@+id/order_count"
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
+                android:gravity="center"
                 android:paddingBottom="5dp"
-                android:text="05"
                 android:textSize="28sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:background="@drawable/dummy_loading"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -210,15 +211,16 @@
             android:orientation="vertical">
 
             <TextView
+                android:padding="5dp"
                 android:id="@+id/completed_orders_count"
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingBottom="5dp"
-                android:text="10"
                 android:textSize="28sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:background="@drawable/dummy_loading"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -258,16 +260,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/trialBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

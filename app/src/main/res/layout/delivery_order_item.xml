@@ -27,7 +27,7 @@
                 android:id="@+id/orderNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Order No. #1109"
+                android:text="#1109"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
                 android:textStyle="normal"

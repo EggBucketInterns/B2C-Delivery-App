@@ -5,5 +5,8 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.B2CDeliveryApp" parent="Base.Theme.B2CDeliveryApp" />
+    <style name="Theme.B2CDeliveryApp" parent="Base.Theme.B2CDeliveryApp" >
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 </resources>

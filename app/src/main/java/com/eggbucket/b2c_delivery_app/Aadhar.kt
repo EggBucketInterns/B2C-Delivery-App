@@ -4,12 +4,11 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
+import android.util.Log
 
 class Aadhar : AppCompatActivity() {
 
@@ -37,8 +37,6 @@ class Aadhar : AppCompatActivity() {
     private var backImageUri: Uri? = null
     private lateinit var tempFile: File
 
-    private lateinit var loaderContainer: FrameLayout
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_aadhar)
@@ -47,7 +45,6 @@ class Aadhar : AppCompatActivity() {
         val backUploadButton: Button = findViewById(R.id.back_aadhar_upload_btn)
         val submitButton: Button = findViewById(R.id.submit_aadhar_btn)
         val backButton: Button = findViewById(R.id.aadharBackButton)
-        loaderContainer = findViewById(R.id.loaderContainer)
 
         backButton.setOnClickListener { finish() }
 
@@ -63,7 +60,6 @@ class Aadhar : AppCompatActivity() {
             if (frontImageUri == null || backImageUri == null) {
                 Toast.makeText(this, "Please upload both front and back images.", Toast.LENGTH_SHORT).show()
             } else {
-                loaderContainer.visibility = android.view.View.VISIBLE // Show progress bar
                 submitAadharDetails("12345") // Replace with actual delivery partner ID
             }
         }
@@ -98,7 +94,11 @@ class Aadhar : AppCompatActivity() {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
                 putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
             }
-            startActivityForResult(intent, requestCode)
+            if (requestCode == CAMERA_FRONT_REQUEST_CODE) {
+                startActivityForResult(intent, CAMERA_FRONT_REQUEST_CODE)
+            } else if (requestCode == CAMERA_BACK_REQUEST_CODE) {
+                startActivityForResult(intent, CAMERA_BACK_REQUEST_CODE)
+            }
         } catch (e: Exception) {
             Log.e("Aadhar", "Error opening camera", e)
             Toast.makeText(this, "Failed to open camera: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -109,7 +109,11 @@ class Aadhar : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_PICK).apply {
             type = "image/*"
         }
-        startActivityForResult(intent, requestCode)
+        if (requestCode == PICK_FRONT_IMAGE_REQUEST_CODE) {
+            startActivityForResult(intent, PICK_FRONT_IMAGE_REQUEST_CODE)
+        } else if (requestCode == PICK_BACK_IMAGE_REQUEST_CODE) {
+            startActivityForResult(intent, PICK_BACK_IMAGE_REQUEST_CODE)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -132,7 +136,22 @@ class Aadhar : AppCompatActivity() {
         }
     }
 
-    private fun uriToFile(uri: Uri): File {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (frontImageUri == null) {
+                    openCamera(CAMERA_FRONT_REQUEST_CODE)
+                } else {
+                    openCamera(CAMERA_BACK_REQUEST_CODE)
+                }
+            } else {
+                Toast.makeText(this, "Camera permission is required to take a photo", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /*private fun uriToFile(uri: Uri): File {
         val tempFile = File.createTempFile("temp_image", ".jpg", cacheDir)
         contentResolver.openInputStream(uri)?.use { inputStream ->
             FileOutputStream(tempFile).use { outputStream ->
@@ -140,7 +159,37 @@ class Aadhar : AppCompatActivity() {
             }
         }
         return tempFile
+    }*/
+
+    private fun uriToFile(uri: Uri): File {
+        val tempFile = File.createTempFile("compressed_image", ".jpg", cacheDir)
+
+        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+        val compressedBitmap = compressBitmap(bitmap, 400, 400) // Set dimensions
+
+        FileOutputStream(tempFile).use { outputStream ->
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 30, outputStream) // Adjust quality
+        }
+
+        return tempFile
     }
+
+    private fun compressBitmap(bitmap: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+        val aspectRatio = bitmap.width.toFloat() / bitmap.height
+        val width: Int
+        val height: Int
+
+        if (bitmap.width > bitmap.height) {
+            width = maxWidth
+            height = (maxWidth / aspectRatio).toInt()
+        } else {
+            height = maxHeight
+            width = (maxHeight * aspectRatio).toInt()
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, width, height, true)
+    }
+
 
     private fun submitAadharDetails(deliveryPartnerId: String) {
         try {
@@ -160,22 +209,36 @@ class Aadhar : AppCompatActivity() {
                     apiService.uploadAadharDetails(deliveryPartnerId, frontPart, backPart)
                         .enqueue(object : Callback<ResponseBody> {
                             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                                loaderContainer.visibility = android.view.View.GONE // Hide progress bar
                                 if (response.isSuccessful) {
-                                    Toast.makeText(this@Aadhar, "Submission successful!", Toast.LENGTH_SHORT).show()
+                                    val responseBody = response.body()
+                                    if (responseBody != null) {
+                                        Toast.makeText(
+                                            this@Aadhar,
+                                            responseBody.message ?: "PAN uploaded successfully",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        Toast.makeText(this@Aadhar, "Unexpected response format.", Toast.LENGTH_SHORT).show()
+                                    }
                                     val resultIntent = Intent().apply {
-                                        putExtra("isAadharSubmitted", true)
+                                        putExtra("isAadharSubmitted", true) // Pass success status
                                     }
                                     setResult(Activity.RESULT_OK, resultIntent)
                                     finish()
                                 } else {
-                                    Log.e("Aadhar", "Upload failed: ${response.code()}, ${response.message()}")
-                                    Toast.makeText(this@Aadhar, "Failed to upload Aadhar.", Toast.LENGTH_SHORT).show()
+                                    val errorBody = response.errorBody()?.string()
+                                    Log.e("AadharDetails", "Upload failed: ${response.code()}, Message: $errorBody")
+
+                                    // Show appropriate message to the user
+                                    Toast.makeText(
+                                        this@Aadhar,
+                                        "Failed to upload Aadhar: ${response.message()}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
 
                             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                                loaderContainer.visibility = android.view.View.GONE // Hide progress bar
                                 Log.e("Aadhar", "Error uploading Aadhar", t)
                                 Toast.makeText(this@Aadhar, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                             }
@@ -183,9 +246,8 @@ class Aadhar : AppCompatActivity() {
                 }
             }
         } catch (e: Exception) {
-            loaderContainer.visibility = android.view.View.GONE // Hide progress bar
-            Log.e("Aadhar", "Error processing Aadhar details", e)
-            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            Log.e("Aadhar", "Error while processing Aadhar details", e)
+            Toast.makeText(this, "Error processing Aadhar details: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 }

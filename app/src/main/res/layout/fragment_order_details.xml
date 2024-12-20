@@ -8,8 +8,9 @@
 
     <!-- TODO: Update blank fragment layout -->
     <FrameLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="126dp"
         android:background="@color/appThemeColor"
         android:paddingVertical="25dp">
 
@@ -20,11 +21,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:contentDescription="Back"
-            app:tint="@color/white"
             android:onClick="onBackPressed"
             android:padding="8dp"
             android:scaleType="center"
-            android:src="@drawable/baseline_arrow_back_black" />
+            android:src="@drawable/baseline_arrow_back_black"
+            app:tint="@color/white" />
 
         <!-- Title -->
         <TextView
@@ -41,52 +42,40 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="125dp"
         android:orientation="vertical"
-        android:paddingVertical="16dp">
+        android:paddingVertical="20dp">
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:background="@color/white"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="10dp">
-
-            <!-- TextView -->
-            <TextView
-                android:id="@+id/dateTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:text="dd/mm/yyyy"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-
-            <!-- Downward icon -->
-            <ImageView
-                android:id="@+id/downwardIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="8dp"
-                android:contentDescription="Downward icon"
-                android:src="@drawable/arrow_down" />
-        </LinearLayout>
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingHorizontal="25dp"
-            android:paddingVertical="10dp"
-            android:text="Pickup Center-1"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="25dp"
+                android:paddingVertical="10dp"
+                android:text="Outlet :"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/outletName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                />
+
+
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -145,10 +134,69 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#D3D3D3"/>
+            android:background="#D3D3D3" />
+
+
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="10dp">
+
+            <!-- Left Icon or Image -->
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="Left Icon"
+                android:src="@drawable/pickup_orange" />
+
+            <!-- Text Layout -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Pickup Address"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/outletAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="address of pickup center"
+                    android:textColor="@color/text_primary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- First Right Icon -->
+            <ImageView
+                android:layout_width="48dp"
+                android:padding="10dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="30dp"
+                android:contentDescription="First Icon"
+                android:src="@drawable/call_orange" />
+
+            <!-- Second Right Icon -->
+<!--            <ImageView-->
+<!--                android:layout_width="20dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:contentDescription="Second Right Icon"-->
+<!--                android:src="@drawable/message_orange" />-->
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="25dp"
             android:paddingVertical="15dp">
@@ -157,58 +205,68 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <!-- Image -->
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/profile"
-                    android:contentDescription="Image" />
+                    android:contentDescription="Image"
+                    android:src="@drawable/profile" />
 
                 <!-- Text -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Name"
-                    android:textStyle="bold"
                     android:layout_marginStart="8dp"
+                    android:text="Name"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
-                    android:textColor="@color/black" />
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/coustmerName"
+                    android:layout_width="209dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="loading name...."
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="48dp"
+                    android:padding="10dp"
+                    android:layout_height="48dp"
                     android:layout_marginStart="30dp"
-                    android:src="@drawable/call_orange"
-                    android:contentDescription="First Icon" />
+                    android:contentDescription="First Icon"
+                    android:src="@drawable/call_orange" />
 
                 <!-- Second Icon -->
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="20dp"
-                    android:src="@drawable/message_orange"
-                    android:contentDescription="Second Icon" />
+<!--                <ImageView-->
+<!--                    android:layout_width="20dp"-->
+<!--                    android:layout_height="20dp"-->
+<!--                    android:layout_marginStart="20dp"-->
+<!--                    android:contentDescription="Second Icon"-->
+<!--                    android:src="@drawable/message_orange" />-->
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingVertical="10dp"
             android:paddingHorizontal="25dp"
-            android:gravity="center_vertical">
+            android:paddingVertical="10dp">
 
             <!-- Left Icon or Image -->
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/pickup_orange"
+                android:layout_marginEnd="8dp"
                 android:contentDescription="Left Icon"
-                android:layout_marginEnd="8dp" />
+                android:src="@drawable/location" />
 
             <!-- Text Layout -->
             <LinearLayout
@@ -220,90 +278,35 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pickup Center-1"
-                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Delivery Address"
                     android:textColor="@color/black"
-                    android:fontFamily="sans-serif-medium" />
+                    android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/deliveryAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="address of pickup center"
-                    android:textSize="14sp"
-                    android:textColor="@color/grey"
-                    android:fontFamily="sans-serif" />
-            </LinearLayout>
-
-            <!-- First Right Icon -->
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/call_orange"
-                android:contentDescription="First Right Icon"
-                android:layout_marginEnd="16dp" />
-
-            <!-- Second Right Icon -->
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/message_orange"
-                android:contentDescription="Second Right Icon" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="10dp"
-            android:paddingHorizontal="25dp"
-            android:gravity="center_vertical">
-
-            <!-- Left Icon or Image -->
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/location"
-                android:contentDescription="Left Icon"
-                android:layout_marginEnd="8dp" />
-
-            <!-- Text Layout -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Delivery"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
-                    android:fontFamily="sans-serif-medium" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
                     android:text="Address of Delievery Place"
-                    android:textSize="14sp"
-                    android:textColor="@color/grey"
-                    android:fontFamily="sans-serif" />
+                    android:textColor="@color/text_primary"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <!-- First Right Icon -->
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/call_orange"
-                android:contentDescription="First Right Icon"
-                android:layout_marginEnd="16dp" />
+<!--            <ImageView-->
+<!--                android:layout_width="20dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:contentDescription="First Right Icon"-->
+<!--                android:src="@drawable/call_orange" />-->
 
             <!-- Second Right Icon -->
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/message_orange"
-                android:contentDescription="Second Right Icon" />
+<!--            <ImageView-->
+<!--                android:layout_width="20dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:contentDescription="Second Right Icon"-->
+<!--                android:src="@drawable/message_orange" />-->
         </LinearLayout>
 
 
@@ -324,8 +327,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:background="@drawable/rounded_background"
+                    android:orientation="vertical"
                     android:padding="25dp">
 
                     <!-- First Row with "Delivery Pickup By" and "Time Left" -->
@@ -349,53 +352,51 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
                                 android:text="Delivery Pickup By"
-                                android:textSize="16sp"
-                                android:textStyle="normal"
                                 android:textColor="@color/appThemeColor"
-                                android:layout_marginBottom="4dp" />
+                                android:textSize="16sp"
+                                android:textStyle="normal" />
 
                             <!-- "Time, Day, Date" -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Time, Day, Date"
-                                android:textSize="14sp"
-                                android:textColor="@color/black" />
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <!-- Second LinearLayout for Box on Right -->
                         <LinearLayout
-                            android:background="@drawable/rounded_background"
-                            android:backgroundTint="@color/white"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
+                            android:background="@drawable/rounded_background"
+                            android:backgroundTint="@color/white"
                             android:gravity="center"
+                            android:orientation="vertical"
                             android:paddingHorizontal="12dp"
-                            android:paddingVertical="6dp"
-                            >
+                            android:paddingVertical="6dp">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content">
 
                                 <ImageView
-                                    android:layout_marginTop="2dp"
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
-                                    android:src="@drawable/time_orange"
+                                    android:layout_marginTop="2dp"
                                     android:contentDescription="Left Icon"
-                                    />
+                                    android:src="@drawable/time_orange" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:gravity="center"
                                     android:text="Time Left"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold"
                                     android:textColor="@color/appThemeColor"
-                                    android:gravity="center" />
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
                             <!-- "Time Left" -->
 
@@ -404,28 +405,27 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:gravity="center"
                                 android:text="Some mins"
-                                android:textSize="12sp"
                                 android:textColor="@color/black"
-                                android:gravity="center" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
 
 
                     <!-- Confirm Pickup Button -->
                     <Button
+                        android:id="@+id/conformPickup"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="15sp"
-                        android:text="Confirm Pickup"
+                        android:layout_gravity="center_horizontal"
                         android:backgroundTint="@color/appThemeColor"
+                        android:text="Confirm Pickup"
                         android:textColor="@color/white"
-                        android:layout_gravity="center_horizontal" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
-
-
 
 
     </LinearLayout>

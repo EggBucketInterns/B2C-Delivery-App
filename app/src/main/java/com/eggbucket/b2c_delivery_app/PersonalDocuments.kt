@@ -56,6 +56,7 @@ class PersonalDocuments : AppCompatActivity() {
                 Toast.makeText(this, "All documents submitted successfully!", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, SubmittedApplication::class.java)
                 startActivity(intent)
+                finish()
             } else {
                 Toast.makeText(this, "Please complete all document submissions!", Toast.LENGTH_SHORT).show()
                 Log.e("PersonalDocuments", "Submission validation failed: Not all documents are in the completed section.")

@@ -1,9 +1,11 @@
 package com.eggbucket.b2c_delivery_app
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView  // Import TextView correctly
 import androidx.activity.enableEdgeToEdge
@@ -50,6 +52,10 @@ class DocumentStatus : AppCompatActivity() {  // Remove the generic part
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
 
             fetchDocumentStatus()  // Fetch the document status when the layout is ready.
+            val submitButton = findViewById<ImageView>(R.id.backIcon)
+            submitButton.setOnClickListener {
+                finish()
+            }
             insets
         }
     }
