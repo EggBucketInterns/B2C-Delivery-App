@@ -90,7 +90,7 @@ class DeliveryMapFragment : Fragment() {
         reachedBtn.setOnClickListener {
             if (isUserNearOutlet()) {
                 Toast.makeText(requireContext(), "You have reached the outlet", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_pickupMap_to_orderDetails)
+                findNavController().navigate(R.id.action_deliveryMapFragment_to_delivery)
             } else {
                 openGoogleMaps()
             }

@@ -90,7 +90,7 @@
         tools:layout="@layout/fragment_order_details" >
         <action
             android:id="@+id/action_orderDetails_to_deliveryMapFragment2"
-            app:destination="@id/deliveryMapFragment2" />
+            app:destination="@id/deliveryMapFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderSummary"
@@ -115,8 +115,21 @@
         android:label="fragment_personal_details"
         tools:layout="@layout/fragment_personal_details" />
     <fragment
-        android:id="@+id/deliveryMapFragment2"
+        android:id="@+id/deliveryMapFragment"
         android:name="com.eggbucket.b2c_delivery_app.DeliveryMapFragment"
         android:label="fragment_delivery_map"
-        tools:layout="@layout/fragment_delivery_map" />
+        tools:layout="@layout/fragment_delivery_map" >
+        <action
+            android:id="@+id/action_deliveryMapFragment_to_delivery"
+            app:destination="@id/delivery" />
+    </fragment>
+    <fragment
+        android:id="@+id/delivery"
+        android:name="com.eggbucket.b2c_delivery_app.Delivery"
+        android:label="fragment_delivery"
+        tools:layout="@layout/fragment_delivery" >
+        <action
+            android:id="@+id/action_delivery_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
 </navigation>

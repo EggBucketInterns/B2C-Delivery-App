@@ -50,52 +50,8 @@ class PickupMap : Fragment() {
         val stringJson = sharedPreferences.getString("SelectedOrderData", null)
 
         if (stringJson != null) {
-//            jsonData = JSONObject(stringJson)
-            jsonData = JSONObject(
-                """
-        {
-            "amount": 6600,
-            "deliveryAddress": {
-                "fullAddress": {
-                    "flatNo": "101",
-                    "area": "Downtown",
-                    "city": "New York",
-                    "state": "New York",
-                    "zipCode": "10001",
-                    "country": "USA"
-                },
-                "coordinates": {
-                    "lat": 40.732,
-                    "long": -74.01
-                }
-            },
-            "products": {
-                "E6": 909,
-                "E12": 9,
-                "E30": 3
-            },
-            "outletInfo": {
-                "name": "new1",
-                "address": {
-                    "fullAddress": {
-                        "flatNo": "101",
-                        "area": "Downtown",
-                        "city": "New York",
-                        "state": "New York",
-                        "zipCode": "10001",
-                        "country": "USA"
-                    },
-                    "coordinates": {
-                        "lat": 12.9494,
-                        "long": 77.5847
-                    }
-                },
-                "phone": "8888888881"
-            },
-            "customerId": "1111111113"
-        }
-        """
-            )
+           jsonData = JSONObject(stringJson)
+
             val editor = sharedPreferences.edit()
             editor.putString("SelectedOrderData", jsonData.toString())
             editor.apply()
