@@ -24,6 +24,7 @@ import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
 import android.util.Log
+import android.widget.FrameLayout
 
 class Aadhar : AppCompatActivity() {
 
@@ -36,6 +37,7 @@ class Aadhar : AppCompatActivity() {
     private var frontImageUri: Uri? = null
     private var backImageUri: Uri? = null
     private lateinit var tempFile: File
+    private lateinit var loaderContainer: FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,7 @@ class Aadhar : AppCompatActivity() {
         val backUploadButton: Button = findViewById(R.id.back_aadhar_upload_btn)
         val submitButton: Button = findViewById(R.id.submit_aadhar_btn)
         val backButton: Button = findViewById(R.id.aadharBackButton)
+        loaderContainer = findViewById(R.id.loaderContainer)
 
         backButton.setOnClickListener { finish() }
 
@@ -60,6 +63,7 @@ class Aadhar : AppCompatActivity() {
             if (frontImageUri == null || backImageUri == null) {
                 Toast.makeText(this, "Please upload both front and back images.", Toast.LENGTH_SHORT).show()
             } else {
+                loaderContainer.visibility = android.view.View.VISIBLE
                 submitAadharDetails("12345") // Replace with actual delivery partner ID
             }
         }
@@ -209,6 +213,7 @@ class Aadhar : AppCompatActivity() {
                     apiService.uploadAadharDetails(deliveryPartnerId, frontPart, backPart)
                         .enqueue(object : Callback<ResponseBody> {
                             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                loaderContainer.visibility = android.view.View.GONE
                                 if (response.isSuccessful) {
                                     val responseBody = response.body()
                                     if (responseBody != null) {
@@ -239,6 +244,7 @@ class Aadhar : AppCompatActivity() {
                             }
 
                             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                loaderContainer.visibility = android.view.View.GONE
                                 Log.e("Aadhar", "Error uploading Aadhar", t)
                                 Toast.makeText(this@Aadhar, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                             }

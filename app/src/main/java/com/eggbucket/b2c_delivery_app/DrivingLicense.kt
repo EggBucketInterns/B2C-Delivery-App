@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -36,6 +37,7 @@ class DrivingLicense : AppCompatActivity() {
     private var frontImageUri: Uri? = null
     private var backImageUri: Uri? = null
     private lateinit var tempFile: File
+    private lateinit var loaderContainer: FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,7 @@ class DrivingLicense : AppCompatActivity() {
         val backDLUploadButton: Button = findViewById(R.id.back_DL_upload_button)
         val submitDLButton: Button = findViewById(R.id.submit_DL_btn)
         val dlBackButton: Button = findViewById(R.id.DlBackBtn)
+        loaderContainer = findViewById(R.id.progressBar)
 
 
         dlBackButton.setOnClickListener {
@@ -64,6 +67,7 @@ class DrivingLicense : AppCompatActivity() {
             if (frontImageUri == null || backImageUri == null) {
                 Toast.makeText(this, "Please upload both front and back images.", Toast.LENGTH_SHORT).show()
             } else {
+                loaderContainer.visibility = android.view.View.VISIBLE
                 submitDLDetails("721") // Replace with actual delivery partner ID
             }
         }
@@ -215,6 +219,7 @@ class DrivingLicense : AppCompatActivity() {
                     apiService.uploadDLDetails(deliveryPartnerId, frontPart, backPart)
                         .enqueue(object : Callback<ResponseBody> {
                             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                loaderContainer.visibility = android.view.View.GONE
                                 if (response.isSuccessful) {
                                     val responseBody = response.body()
                                     if (responseBody != null) {
@@ -242,6 +247,7 @@ class DrivingLicense : AppCompatActivity() {
                             }
 
                             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                loaderContainer.visibility = android.view.View.GONE
                                 Log.e("DrivingLicense", "Error uploading DL", t)
                                 Toast.makeText(this@DrivingLicense, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                             }
