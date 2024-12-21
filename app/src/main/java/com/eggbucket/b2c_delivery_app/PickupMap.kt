@@ -45,7 +45,6 @@ class PickupMap : Fragment() {
 
         val reachedBtn: Button = view.findViewById(R.id.reached_outlet_button)
         val addressTextView: TextView = view.findViewById(R.id.address_text)
-        val googleMapsBtn: ImageButton = view.findViewById(R.id.google_maps_btn)
         val nameTextView: TextView = view.findViewById(R.id.name)
         map=view.findViewById(R.id.map)
         val gps_crosshair: ImageButton = view.findViewById(R.id.gps_crosshair)
@@ -89,11 +88,6 @@ class PickupMap : Fragment() {
         // Fetch user's current location
         fetchCurrentLocation {
             updateDistanceAndButton(reachedBtn)
-        }
-
-        // Open Google Maps navigation
-        googleMapsBtn.setOnClickListener {
-            openGoogleMaps()
         }
         gps_crosshair.setOnClickListener(){
             userLatitude=outletLatitude
