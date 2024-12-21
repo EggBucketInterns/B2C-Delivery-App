@@ -3,12 +3,16 @@ package com.eggbucket.b2c_delivery_app
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.eggbucket.b2c_delivery_app.databinding.FragmentProfileBinding
@@ -73,6 +77,16 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
+        binding.root.setOnApplyWindowInsetsListener { v, insets ->
+            val statusBarHeight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                insets.getInsets(WindowInsets.Type.statusBars()).top
+            } else {
+                insets.systemWindowInsetTop
+            }
+            v.setPadding(0, statusBarHeight, 0, 0)
+            insets
+        }
+
         // Initialize SharedPreferences
         sharedPref = requireActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
 
@@ -81,8 +95,10 @@ class ProfileFragment : Fragment() {
 
         // Setup click listeners
         setupClickListeners()
+
         return binding.root
     }
+
 
     private fun loadUserDataFromPreferences() {
         val firstName = sharedPref.getString("firstName", "N/A")
@@ -97,12 +113,11 @@ class ProfileFragment : Fragment() {
         Log.d("ProfileFragment", "Details: $firstName" + lastName + phone + image )
 
         // Load profile image using Glide
-        image?.let { imageUrl ->
-            Glide.with(this)
-                .load(imageUrl)
-                .placeholder(R.drawable.img) // Placeholder image
-                .into(binding.profileImage)
-        }
+        Glide.with(this)
+            .load(image) // URL or path to the new image
+            .placeholder(R.drawable.ic_person) // Placeholder image
+            .circleCrop() // Ensure circular cropping
+            .into(binding.profileImage) // Target ImageView
     }
 
     private fun setupClickListeners() {
@@ -129,6 +144,10 @@ class ProfileFragment : Fragment() {
         binding.llHelpSupport.setOnClickListener {
             // Handle Help and Support button click
         }
+
+
+
+
     }
 
     private fun logout() {

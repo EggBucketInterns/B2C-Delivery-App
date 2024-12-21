@@ -1,10 +1,14 @@
 package com.eggbucket.b2c_delivery_app
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -12,13 +16,17 @@ import com.android.volley.toolbox.Volley
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
+import kotlinx.coroutines.launch
 
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private lateinit var completedOrdersCountTextView: TextView
     private lateinit var ongoingOrderCount: TextView
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
 
         // Initialize the GraphView
         val graphView: GraphView = view.findViewById(R.id.graph)
@@ -57,6 +65,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         // Fetch the order data and update the UI simultaneously
         fetchOrdersCount()
         fetchOngoingOrdersCount()
+        fetchFromApiAndStore()
     }
 
     private fun fetchOrdersCount() {
@@ -121,5 +130,67 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             dataPoints.add(DataPoint(x, y))
         }
         return dataPoints.toTypedArray()
+    }
+
+
+
+    private fun fetchFromApiAndStore() {
+        val phone =  "888" // Replace with the actual driver ID
+
+        lifecycleScope.launch {
+            try {
+                // Call the API using suspend function
+                val apiResponse = RetrofitClient.apiService.getGeneralDetails(phone)
+
+                // Extract general details
+                val generalDetails = apiResponse.generalDetails
+                Log.d("API_SUCCESS", "General details: $generalDetails")
+
+                // Convert Timestamp to string (example format: YYYY-MM-DD)
+                val dob = generalDetails.dob?.let {
+                    java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+                        .format(java.util.Date(it._seconds * 1000))
+                }.orEmpty()
+
+                // Save to SharedPreferences
+                saveToPreferences(
+                    generalDetails.firstName.orEmpty(),
+                    generalDetails.lastName.orEmpty(),
+                    generalDetails.fatherName.orEmpty(),
+                    dob,
+                    generalDetails.phone.orEmpty(),
+                    generalDetails.secondaryNumber.orEmpty(),
+                    generalDetails.bloodGroup.orEmpty(),
+                    generalDetails.city.orEmpty(),
+                    generalDetails.address.orEmpty(),
+                    generalDetails.languageKnown.joinToString(", ").orEmpty(),
+                    generalDetails.image.orEmpty()
+                )
+            } catch (e: Exception) {
+                Log.e("API_ERROR", "Error occurred: ${e.message}", e)
+            }
+        }
+    }
+
+    private fun saveToPreferences(
+        firstName: String, lastName: String, fatherName: String, dob: String,
+        phone: String, secondaryNumber: String, bloodGroup: String, city: String,
+        address: String, languageKnown: String, img: String
+    ) {
+        sharedPreferences.edit().apply {
+            putBoolean("isDataStored", true)
+            putString("firstName", firstName)
+            putString("lastName", lastName)
+            putString("fatherName", fatherName)
+            putString("dob", dob)
+            putString("phone", phone)
+            putString("secondaryNumber", secondaryNumber)
+            putString("bloodGroup", bloodGroup)
+            putString("city", city)
+            putString("address", address)
+            putString("languageKnown", languageKnown)
+            putString("img", img)
+            apply()
+        }
     }
 }
