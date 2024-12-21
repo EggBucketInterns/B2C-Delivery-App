@@ -38,7 +38,6 @@ class PickupMap : Fragment() {
 
         val reachedBtn: Button = view.findViewById(R.id.reached_outlet_button)
         val addressTextView: TextView = view.findViewById(R.id.address_text)
-        val viewOrderDetailsButton: Button = view.findViewById(R.id.view_order_details)
         val googleMapsBtn: ImageButton = view.findViewById(R.id.google_maps_btn)
         val nameTextView: TextView = view.findViewById(R.id.name)
 
@@ -83,11 +82,6 @@ class PickupMap : Fragment() {
         // Fetch user's current location
         fetchCurrentLocation {
             updateDistanceAndButton(reachedBtn)
-        }
-
-        // Navigate to order details
-        viewOrderDetailsButton.setOnClickListener {
-            findNavController().navigate(R.id.action_pickupMap_to_orderDetails)
         }
 
         // Open Google Maps navigation

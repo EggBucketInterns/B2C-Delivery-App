@@ -29,7 +29,7 @@ class Delivery : Fragment() {
 
         val sharedPreferences = requireContext().getSharedPreferences("OrderPrefs", Context.MODE_PRIVATE)
         val stringJson = sharedPreferences.getString("SelectedOrderData", null)
-        var username =sharedPreferences.getString("customerName", null)
+
 
         if (stringJson.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Order data not found", Toast.LENGTH_SHORT).show()
@@ -41,19 +41,19 @@ class Delivery : Fragment() {
 
             // Retrieve values
             val orderNumber = jsonData.optString("orderNumber", "N/A")
-            val orderValue = jsonData.optString("amount", "N/A")
+            val orderValue = jsonData.optString("orderValue", "N/A")
             // Delivery address
             val deliveryAddressJson = jsonData.optJSONObject("deliveryAddress")?.optJSONObject("fullAddress")
             val deliveryAddress = deliveryAddressJson?.let {
                 "${it.optString("flatNo", "")} ${it.optString("area", "")}, ${it.optString("city", "")}, ${it.optString("state", "")} - ${it.optString("zipCode", "")}, ${it.optString("country", "")}"
             } ?: "Delivery address not available"
-
+            val customerName = jsonData.optJSONObject("customerInfo").optString("name", "N/A")
             // Update UI
 
             view.findViewById<TextView>(R.id.orderNumber).text = "Order No: $orderNumber"
             view.findViewById<TextView>(R.id.orderValue).text = "Order Value: ₹$orderValue"
             view.findViewById<TextView>(R.id.deliveryAddress).text = deliveryAddress
-            view.findViewById<TextView>(R.id.coustmerName).text = username
+            view.findViewById<TextView>(R.id.coustmerName).text = customerName
 
             // Handle back button click
 

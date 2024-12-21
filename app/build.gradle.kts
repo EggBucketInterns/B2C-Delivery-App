@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.media3.common.ktx)
     implementation(libs.firebase.firestore)
     implementation(libs.volley)
+    implementation(libs.firebase.messaging.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -74,6 +75,11 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.3")
+    // Add Firebase BOM for version alignment
+    implementation ("com.google.firebase:firebase-bom:32.2.0")
+
+// Add Firebase Messaging
+    implementation ("com.google.firebase:firebase-messaging")
 
     implementation("com.google.android.gms:play-services-location:21.0.1")
 

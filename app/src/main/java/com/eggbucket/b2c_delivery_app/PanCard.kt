@@ -3,6 +3,7 @@ package com.eggbucket.b2c_delivery_app
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -67,18 +68,26 @@ class PanCard : AppCompatActivity() {
                 Toast.makeText(this, "Please upload both front and back images.", Toast.LENGTH_SHORT).show()
             } else {
                 loaderContainer.visibility = View.VISIBLE
-                submitPANDetails("12345") { success ->
-                    loaderContainer.visibility = View.GONE
-                    if (success) {
-                        val resultIntent = Intent().apply {
-                            putExtra("isPanCardSubmitted", true)
+                val deliveryPartnerId = getSavedPhoneNumber()
+                if (deliveryPartnerId != null) {
+                    submitPANDetails(deliveryPartnerId) { success ->
+                        loaderContainer.visibility = View.GONE
+                        if (success) {
+                            val resultIntent = Intent().apply {
+                                putExtra("isPanCardSubmitted", true)
+                            }
+                            setResult(Activity.RESULT_OK, resultIntent)
+                            finish()
                         }
-                        setResult(Activity.RESULT_OK, resultIntent)
-                        finish()
                     }
                 }
             }
         }
+    }
+
+    private fun getSavedPhoneNumber(): String? {
+        val sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("phoneNumber", null)
     }
 
     private fun showImageSourceDialog(galleryRequestCode: Int, cameraRequestCode: Int) {

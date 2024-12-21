@@ -57,11 +57,6 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
             saveOrderDataToSharedPreferences(order);  // Save data to SharedPreferences
             String savedOrderData = getOrderDataFromSharedPreferences();  // Retrieve saved data
 
-
-
-            // Display a toast message with saved data
-            Toast.makeText(context, "Saved Information: " + savedOrderData, Toast.LENGTH_LONG).show();
-
             // Log saved data for debugging
             Log.d("SharedPreferencesData", savedOrderData);
 
