@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".personalDetails">
 
 
@@ -10,40 +11,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <LinearLayout
-            android:id="@+id/main"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:background="#F89427"
-            android:orientation="horizontal">
+            android:paddingVertical="25dp"
+            android:background="@color/appThemeColor">
 
-            <Button
+
+            <ImageView
                 android:id="@+id/aadharBackButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginLeft="20dp"
-                android:background="@android:color/transparent"
-                android:text="do"
-                android:drawableLeft="@drawable/baseline_arrow_back_black"
-                />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Back"
+                android:padding="8dp"
+                android:scaleType="center"
+                android:src="@drawable/baseline_arrow_back_black"
+                android:layout_gravity="start|center_vertical"
+                app:tint="@color/white" />
+
 
             <TextView
-
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="180px"
-                android:background="#F89427"
-                android:fontFamily="@font/archivo_bold"
-
-                android:gravity="center"
-                android:text="Aadhar Card Details"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="24sp" />
-
-
-        </LinearLayout>
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Personal Details"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:textStyle="normal" />
+        </FrameLayout>
         <ScrollView
 
             android:layout_width="match_parent"

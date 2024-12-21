@@ -2,8 +2,6 @@ package com.eggbucket.b2c_delivery_app
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,13 +10,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-
-import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileOutputStream
 
 
 class personalDetails : Fragment() {
@@ -43,6 +37,16 @@ class personalDetails : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_personal_details, container, false)
 
+        view.setOnApplyWindowInsetsListener { v, insets ->
+            val statusBarHeight = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                insets.getInsets(android.view.WindowInsets.Type.statusBars()).top
+            } else {
+                insets.systemWindowInsetTop
+            }
+            v.setPadding(0, statusBarHeight, 0, 0) // Apply padding to the top
+            insets
+        }
+
         // Initialize Views
         profilePhoto = view.findViewById(R.id.profilePhoto)
         valueName = view.findViewById(R.id.valueName)
@@ -59,6 +63,10 @@ class personalDetails : Fragment() {
 
         loadData()
 
+        view?.findViewById<ImageView>(R.id.aadharBackButton)?.setOnClickListener {
+            NavHostFragment.findNavController(this@personalDetails).popBackStack()
+        }
+
         return view
     }
 
@@ -67,8 +75,6 @@ class personalDetails : Fragment() {
         if (isDataStored) {
             displayFromPreferences()
             displayImageFromLocal(imageview, fileName)
-        } else {
-            fetchFromApiAndStore()
         }
     }
 
@@ -88,104 +94,6 @@ class personalDetails : Fragment() {
 
     }
 
-
-    private fun fetchFromApiAndStore() {
-        val phone =  "888" // Replace with the actual driver ID
-
-        lifecycleScope.launch {
-            try {
-                // Call the API using suspend function
-                val apiResponse = RetrofitClient.apiService.getGeneralDetails(phone)
-
-                // Extract general details
-                val generalDetails = apiResponse.generalDetails
-                Log.d("API_SUCCESS", "General details: $generalDetails")
-
-                // Convert Timestamp to string (example format: YYYY-MM-DD)
-                val dob = generalDetails.dob?.let {
-                    java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
-                        .format(java.util.Date(it._seconds * 1000))
-                }.orEmpty()
-
-                // Save to SharedPreferences
-                saveToPreferences(
-                    generalDetails.firstName.orEmpty(),
-                    generalDetails.lastName.orEmpty(),
-                    generalDetails.fatherName.orEmpty(),
-                    dob,
-                    generalDetails.phone.orEmpty(),
-                    generalDetails.secondaryNumber.orEmpty(),
-                    generalDetails.bloodGroup.orEmpty(),
-                    generalDetails.city.orEmpty(),
-                    generalDetails.address.orEmpty(),
-                    generalDetails.languageKnown.joinToString(", ").orEmpty(),
-                    generalDetails.image.orEmpty()
-                )
-                displayFromPreferences()
-                if(generalDetails.image.isNotEmpty()){
-                    val imageUrl = generalDetails.image
-                    val imageFile = downloadAndStoreImage(imageUrl, fileName)
-                    if (imageFile != null) {
-                        displayImageFromLocal(imageview, fileName)
-
-                    } else {
-                        Log.e("PROFILE_IMAGE", "Failed to store or load image")
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e("API_ERROR", "Error occurred: ${e.message}", e)
-            }
-        }
-    }
-
-    private fun saveToPreferences(
-        firstName: String, lastName: String, fatherName: String, dob: String,
-        phone: String, secondaryNumber: String, bloodGroup: String, city: String,
-        address: String, languageKnown: String, img: String
-    ) {
-        sharedPreferences.edit().apply {
-            putBoolean("isDataStored", true)
-            putString("firstName", firstName)
-            putString("lastName", lastName)
-            putString("fatherName", fatherName)
-            putString("dob", dob)
-            putString("phone", phone)
-            putString("secondaryNumber", secondaryNumber)
-            putString("bloodGroup", bloodGroup)
-            putString("city", city)
-            putString("address", address)
-            putString("languageKnown", languageKnown)
-            putString("img", img)
-            apply()
-        }
-    }
-    private fun downloadAndStoreImage(imageUrl: String, fileName: String): File? {
-        return try {
-            val file = File(context?.filesDir ?: null, fileName) // Store in app-specific files directory
-            Glide.with(this)
-                .asBitmap()
-                .load(imageUrl)
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?
-                    ) {
-                        // Save the bitmap to the file
-                        FileOutputStream(file).use { outputStream ->
-                            resource.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-                        }
-                    }
-
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        // Handle placeholder if necessary
-                    }
-                })
-            file
-        } catch (e: Exception) {
-            Log.e("IMAGE_STORE", "Failed to store image: ${e.message}", e)
-            null
-        }
-    }
     private fun displayImageFromLocal(imageView: ImageView, fileName: String) {
         val file = File(context?.filesDir, fileName) // Get the file from app's internal storage
         if (file.exists()) {
