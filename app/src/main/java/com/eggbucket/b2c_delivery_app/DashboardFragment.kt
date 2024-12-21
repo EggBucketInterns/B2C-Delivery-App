@@ -26,6 +26,16 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.setOnApplyWindowInsetsListener { v, insets ->
+            val statusBarHeight = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                insets.getInsets(android.view.WindowInsets.Type.statusBars()).top
+            } else {
+                insets.systemWindowInsetTop
+            }
+            v.setPadding(0, statusBarHeight, 0, 0) // Apply padding to the top
+            insets
+        }
+
         sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
 
         // Initialize the GraphView

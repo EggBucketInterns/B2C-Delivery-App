@@ -3,26 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Delivery">
 
-    <!-- TODO: Update blank fragment layout -->
     <FrameLayout
-        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="126dp"
+        android:layout_height="wrap_content"
         android:background="@color/appThemeColor"
         android:paddingVertical="25dp">
 
 
+        <ImageView
+            android:id="@+id/backIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:contentDescription="Back"
+            android:onClick="onBackPressed"
+            android:padding="8dp"
+            android:scaleType="center"
+            android:src="@drawable/baseline_arrow_back_black"
+            app:tint="@color/white" />
 
-        <!-- Title -->
+
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Delivery"
+            android:text="Delivery Details"
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:textStyle="normal" />
@@ -32,12 +42,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="125dp"
-        android:orientation="vertical"
-        android:paddingVertical="20dp">
+        android:layout_marginTop="90dp"
+        android:orientation="vertical">
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="10dp"
+                android:paddingLeft="25dp"
+                android:text="Outlet :"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/outletName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -76,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="end"
-                    android:text="Delivery Pending"
+                    android:text="Pickup Pending"
                     android:textColor="@android:color/holo_red_dark"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -88,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:text="Order Value: ₹x"
                 android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -96,16 +132,171 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#D3D3D3" />
+            android:layout_marginTop="2dp"
+            android:background="@color/grey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="30dp">
 
 
+            <!-- Table Row 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="4dp">
 
+                <!-- Left Text: Eggs*6 -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Eggs*6"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+
+                <!-- Right Text: 2 -->
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/eggs_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <!-- Table Row 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="4dp">
+
+                <!-- Left Text: Eggs*12 -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Eggs*12"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+
+                <!-- Right Text: 3 -->
+                <TextView
+                    android:id="@+id/eggs_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <!-- Table Row 3 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="4dp">
+
+                <!-- Left Text: Eggs*30 -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Eggs*30"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+
+                <!-- Right Text: 4 -->
+                <TextView
+                    android:id="@+id/eggs_30"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/grey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="5dp">
+
+            <!-- Left Icon or Image -->
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="Left Icon"
+                android:src="@drawable/pickup_orange" />
+
+            <!-- Text Layout -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Pickup Address: "
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/outletAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="address of pickup center"
+                    android:textColor="@color/text_primary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- First Right Icon -->
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="30dp"
+                android:contentDescription="First Icon"
+                android:padding="10dp"
+                android:src="@drawable/call_orange" />
+
+            <!-- Second Right Icon -->
+            <!--            <ImageView-->
+            <!--                android:layout_width="20dp"-->
+            <!--                android:layout_height="20dp"-->
+            <!--                android:contentDescription="Second Right Icon"-->
+            <!--                android:src="@drawable/message_orange" />-->
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="25dp"
-            android:paddingVertical="15dp">
+            android:paddingVertical="5dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -116,8 +307,8 @@
 
                 <!-- Image -->
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
                     android:contentDescription="Image"
                     android:src="@drawable/profile" />
 
@@ -126,7 +317,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Name"
+                    android:text="Name:"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -142,10 +333,10 @@
 
                 <ImageView
                     android:layout_width="48dp"
-                    android:padding="10dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="30dp"
                     android:contentDescription="First Icon"
+                    android:padding="10dp"
                     android:src="@drawable/call_orange" />
 
                 <!-- Second Icon -->
@@ -164,7 +355,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingHorizontal="25dp"
-            android:paddingVertical="10dp">
+            android:paddingVertical="5dp">
 
             <!-- Left Icon or Image -->
             <ImageView
@@ -185,9 +376,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Delivery Address"
+                    android:text="Delivery Address: "
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/deliveryAddress"
@@ -199,40 +391,112 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- First Right Icon -->
-            <!--            <ImageView-->
-            <!--                android:layout_width="20dp"-->
-            <!--                android:layout_height="20dp"-->
-            <!--                android:layout_marginEnd="16dp"-->
-            <!--                android:contentDescription="First Right Icon"-->
-            <!--                android:src="@drawable/call_orange" />-->
 
-            <!-- Second Right Icon -->
-            <!--            <ImageView-->
-            <!--                android:layout_width="20dp"-->
-            <!--                android:layout_height="20dp"-->
-            <!--                android:contentDescription="Second Right Icon"-->
-            <!--                android:src="@drawable/message_orange" />-->
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:background="@color/grey" />
+
+
+
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
+            android:layout_height="match_parent">
 
             <!-- Main Container at Bottom -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_margin="18dp"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginBottom="20dp"
                 android:orientation="vertical">
+
+                <!-- First Row with "Delivery Pickup By" and "Time Left" -->
+                <!--                    <LinearLayout-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:baselineAligned="false"-->
+                <!--                        android:orientation="horizontal"-->
+                <!--                        android:paddingHorizontal="10dp"-->
+                <!--                        android:paddingBottom="10dp">-->
+
+                <!-- First LinearLayout for Texts on Left -->
+                <!--                        <LinearLayout-->
+                <!--                            android:layout_width="0dp"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:layout_weight="1"-->
+
+                <!--                            android:orientation="vertical">-->
+
+                <!--                            &lt;!&ndash; "Delivery Pickup By" &ndash;&gt;-->
+                <!--                            <TextView-->
+                <!--                                android:layout_width="wrap_content"-->
+                <!--                                android:layout_height="wrap_content"-->
+                <!--                                android:layout_marginBottom="4dp"-->
+                <!--                                android:text="Delivery Pickup By"-->
+                <!--                                android:textColor="@color/appThemeColor"-->
+                <!--                                android:textSize="16sp"-->
+                <!--                                android:textStyle="normal" />-->
+
+                <!--                            &lt;!&ndash; "Time, Day, Date" &ndash;&gt;-->
+                <!--                            <TextView-->
+                <!--                                android:layout_width="wrap_content"-->
+                <!--                                android:layout_height="wrap_content"-->
+                <!--                                android:text="Time, Day, Date"-->
+                <!--                                android:textColor="@color/black"-->
+                <!--                                android:textSize="14sp" />-->
+                <!--                        </LinearLayout>-->
+
+                <!--                        &lt;!&ndash; Second LinearLayout for Box on Right &ndash;&gt;-->
+                <!--                        <LinearLayout-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="match_parent"-->
+                <!--                            android:background="@drawable/rounded_background"-->
+                <!--                            android:backgroundTint="@color/white"-->
+                <!--                            android:gravity="center"-->
+                <!--                            android:orientation="vertical"-->
+                <!--                            android:paddingHorizontal="12dp"-->
+                <!--                            android:paddingVertical="6dp">-->
+
+                <!--                            <LinearLayout-->
+                <!--                                android:layout_width="wrap_content"-->
+                <!--                                android:layout_height="wrap_content">-->
+
+                <!--                                <ImageView-->
+                <!--                                    android:layout_width="15dp"-->
+                <!--                                    android:layout_height="15dp"-->
+                <!--                                    android:layout_marginTop="2dp"-->
+                <!--                                    android:contentDescription="Left Icon"-->
+                <!--                                    android:src="@drawable/time_orange" />-->
+
+                <!--                                <TextView-->
+                <!--                                    android:layout_width="wrap_content"-->
+                <!--                                    android:layout_height="wrap_content"-->
+                <!--                                    android:gravity="center"-->
+                <!--                                    android:text="Time Left"-->
+                <!--                                    android:textColor="@color/appThemeColor"-->
+                <!--                                    android:textSize="12sp"-->
+                <!--                                    android:textStyle="bold" />-->
+                <!--                            </LinearLayout>-->
+                <!-- "Time Left" -->
+
+
+                <!-- "Some mins" -->
+                <!--                            <TextView-->
+                <!--                                android:layout_width="wrap_content"-->
+                <!--                                android:layout_height="wrap_content"-->
+                <!--                                android:gravity="center"-->
+                <!--                                android:text="Some mins"-->
+                <!--                                android:textColor="@color/black"-->
+                <!--                                android:textSize="12sp" />-->
+                <!--                        </LinearLayout>-->
+                <!--                    </LinearLayout>-->
 
                 <!-- Inner Content with Rounded Background -->
                 <LinearLayout
@@ -240,22 +504,19 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_background"
                     android:orientation="vertical"
-                    android:padding="25dp">
-
-                    <!-- First Row with "Delivery Pickup By" and "Time Left" -->
-
-
+                    android:paddingVertical="20dp">
 
                     <!-- Confirm Pickup Button -->
                     <Button
-                        android:id="@+id/conformDelivery"
+                        android:id="@+id/confirmDelivery"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:backgroundTint="@color/appThemeColor"
+                        android:padding="15dp"
                         android:text="Confirm Delivery"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
