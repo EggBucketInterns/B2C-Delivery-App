@@ -2,6 +2,7 @@ package com.eggbucket.b2c_delivery_app
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -57,7 +58,13 @@ class VehicleDetails : AppCompatActivity() {
                 Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show()
             } else {
                 loaderContainer.visibility = android.view.View.VISIBLE // Show progress bar
-                uploadVehicleDetails("12345") // Replace with actual delivery partner ID
+                val deliveryPartnerId = getSavedPhoneNumber()
+                if (deliveryPartnerId != null) {
+                    uploadVehicleDetails(deliveryPartnerId)
+                } else {
+                    loaderContainer.visibility = android.view.View.GONE // Hide progress bar
+                    Toast.makeText(this, "Phone number not found. Please complete personal details first.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -207,5 +214,9 @@ class VehicleDetails : AppCompatActivity() {
             Log.e("VehicleDetails", "Error while converting URI to file", e)
             Toast.makeText(this, "Error while converting URI to file: ${e.message}", Toast.LENGTH_SHORT).show()
         }
+    }
+    private fun getSavedPhoneNumber(): String? {
+        val sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("phoneNumber", null)
     }
 }

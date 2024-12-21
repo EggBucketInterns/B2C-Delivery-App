@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -62,6 +63,7 @@ class PersonalInformation : AppCompatActivity() {
             val bloodGroup = findViewById<EditText>(R.id.bloodGroupInput).text.toString().trim()
             val city = findViewById<EditText>(R.id.cityInput1).text.toString().trim()
             val languageKnown = findViewById<EditText>(R.id.languagesInput).text.toString().trim()
+            savePhoneNumber(phone)
             submitPersonalDetails(firstName,lastName,fatherName,dob,phone,secondaryNumber,bloodGroup,city,languageKnown)
         }
         dateOfBirthInput.setOnClickListener {
@@ -160,6 +162,12 @@ class PersonalInformation : AppCompatActivity() {
                 Toast.makeText(this, "Camera permission is required to take a photo", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+    private fun savePhoneNumber(phone: String) {
+        val sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("phoneNumber", phone)
+        editor.apply()
     }
 
     private fun submitPersonalDetails(firstName:String,
