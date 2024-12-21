@@ -1,5 +1,6 @@
 package com.eggbucket.b2c_delivery_app
 
+import com.google.firebase.firestore.auth.User
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -35,8 +36,7 @@ interface ApiService {
         @Part backImage: MultipartBody.Part,
     ): Call<ResponseBody>
 
-    @GET("api/v1/deliveryPartner/profile/{phone}")
-    fun getUserByPhone(@Path("phone") phone: String): Call<User>
+
 
     @Multipart
     @POST("/api/v1/deliveryPartner/vehicleDetails/{deliveryPartnerId}")

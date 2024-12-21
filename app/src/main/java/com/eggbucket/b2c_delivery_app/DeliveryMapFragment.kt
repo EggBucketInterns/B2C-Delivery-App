@@ -68,8 +68,8 @@ class DeliveryMapFragment : Fragment() {
             // Concatenate address
             val address = "$flatNo, $area, $city, $zipCode"
             addressTextView.text = address
-            var username =sharedPreferences.getString("customerName", null)
-            name.text=username
+            val customerName = jsonData.optJSONObject("customerInfo").optString("name", "N/A")
+            name.text=customerName
 
         } else {
             Toast.makeText(requireContext(), "Order data not found", Toast.LENGTH_SHORT).show()
@@ -134,9 +134,9 @@ class DeliveryMapFragment : Fragment() {
     private fun updateDistanceAndButton(reachedBtn: TextView) {
         val distance = calculateDistance()
         if (distance != null && distance < 15) {
-            reachedBtn.text = "REACHED OUTLET"
+            reachedBtn.text = "REACHED"
         } else {
-            reachedBtn.text = "GO TO OUTLET"
+            reachedBtn.text = "Go To Delivery"
         }
     }
 
