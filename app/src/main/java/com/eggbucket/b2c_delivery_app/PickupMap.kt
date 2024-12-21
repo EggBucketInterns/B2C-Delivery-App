@@ -1,10 +1,12 @@
 package com.eggbucket.b2c_delivery_app
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +20,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import org.json.JSONObject
+import org.osmdroid.config.Configuration
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 
 
 class PickupMap : Fragment() {
@@ -29,6 +35,7 @@ class PickupMap : Fragment() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var jsonData: JSONObject
+    private lateinit var map: MapView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +45,8 @@ class PickupMap : Fragment() {
 
         val reachedBtn: Button = view.findViewById(R.id.reached_outlet_button)
         val addressTextView: TextView = view.findViewById(R.id.address_text)
-        val googleMapsBtn: ImageButton = view.findViewById(R.id.google_maps_btn)
         val nameTextView: TextView = view.findViewById(R.id.name)
-
+        map=view.findViewById(R.id.map)
         val gps_crosshair: ImageButton = view.findViewById(R.id.gps_crosshair)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
@@ -83,11 +89,6 @@ class PickupMap : Fragment() {
         fetchCurrentLocation {
             updateDistanceAndButton(reachedBtn)
         }
-
-        // Open Google Maps navigation
-        googleMapsBtn.setOnClickListener {
-            openGoogleMaps()
-        }
         gps_crosshair.setOnClickListener(){
             userLatitude=outletLatitude
             userLongitude=outletLongitude
@@ -103,6 +104,22 @@ class PickupMap : Fragment() {
                 openGoogleMaps()
             }
         }
+
+        //gps map
+        val sharedPrefs = requireContext().getSharedPreferences("osmdroid", Context.MODE_PRIVATE)
+        Configuration.getInstance().load(requireContext(), sharedPrefs)
+        map.setMultiTouchControls(true)
+        val mapController = map.controller
+        mapController.setZoom(18.0) // Adjust zoom level
+        val startPoint = GeoPoint(outletLatitude!!,outletLongitude!!) // Replace with your fixed latitude & longitude
+        mapController.setCenter(startPoint)
+
+        val marker = Marker(map)
+        marker.position = startPoint // Set the position of the marker
+        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM) // Adjust the marker's anchor point
+        marker.title = "Outlet Location" // Set a title for the marker
+        map.overlays.add(marker)
+
 
         return view
     }
@@ -162,6 +179,15 @@ class PickupMap : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Location not available", Toast.LENGTH_SHORT).show()
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        map.onResume() // Required by OSMDroid
+    }
+
+    override fun onPause() {
+        super.onPause()
+        map.onPause() // Required by OSMDroid
     }
 }
 

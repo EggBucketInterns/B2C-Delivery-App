@@ -9,32 +9,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.gson.JsonObject
-import org.json.JSONException
 import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import org.osmdroid.config.Configuration
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 
 class DeliveryMapFragment : Fragment() {
     private var userLatitude: Double? = null
     private var userLongitude: Double? = null
-    private var outletLatitude: Double? = null
-    private var outletLongitude: Double? = null
+    private var deliveryLatitude: Double? = null
+    private var deliveryLongitude: Double? = null
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var jsonData: JSONObject
+    private lateinit var map: MapView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +41,7 @@ class DeliveryMapFragment : Fragment() {
         val reachedBtn: TextView= view.findViewById(R.id.textView3)
         val addressTextView: TextView = view.findViewById(R.id.address_text)
         val name: TextView = view.findViewById(R.id.name)
-
+        map=view.findViewById(R.id.map)
         val gps_crosshair: ImageButton = view.findViewById(R.id.gps_crosshair)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
@@ -57,8 +53,8 @@ class DeliveryMapFragment : Fragment() {
             jsonData = JSONObject(stringJson)
             val deliveryAddress = jsonData.getJSONObject("deliveryAddress")
             val fullAddress = deliveryAddress.getJSONObject("fullAddress")
-            outletLatitude = deliveryAddress.getJSONObject("coordinates").getDouble("lat")
-            outletLongitude = deliveryAddress.getJSONObject("coordinates").getDouble("long")
+            deliveryLatitude = deliveryAddress.getJSONObject("coordinates").getDouble("lat")
+            deliveryLongitude = deliveryAddress.getJSONObject("coordinates").getDouble("long")
 
             val flatNo = fullAddress.getString("flatNo")
             val area = fullAddress.getString("area")
@@ -81,20 +77,35 @@ class DeliveryMapFragment : Fragment() {
         }
 
         gps_crosshair.setOnClickListener(){
-            userLatitude=outletLatitude
-            userLongitude=outletLongitude
+            userLatitude=deliveryLatitude
+            userLongitude=deliveryLongitude
             updateDistanceAndButton(reachedBtn)
         }
 
 
         reachedBtn.setOnClickListener {
             if (isUserNearOutlet()) {
-                Toast.makeText(requireContext(), "You have reached the outlet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "You have reached the destination", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_deliveryMapFragment_to_delivery)
             } else {
                 openGoogleMaps()
             }
         }
+
+        //gps map
+        val sharedPrefs = requireContext().getSharedPreferences("osmdroid", Context.MODE_PRIVATE)
+        Configuration.getInstance().load(requireContext(), sharedPrefs)
+        map.setMultiTouchControls(true)
+        val mapController = map.controller
+        mapController.setZoom(18.0) // Adjust zoom level
+        val startPoint = GeoPoint(deliveryLatitude!!,deliveryLongitude!!) // Replace with your fixed latitude & longitude
+        mapController.setCenter(startPoint)
+
+        val marker = Marker(map)
+        marker.position = startPoint // Set the position of the marker
+        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM) // Adjust the marker's anchor point
+        marker.title = "Destination" // Set a title for the marker
+        map.overlays.add(marker)
 
         return view
     }
@@ -123,11 +134,11 @@ class DeliveryMapFragment : Fragment() {
     }
 
     private fun calculateDistance(): Double? {
-        if (userLatitude == null || userLongitude == null || outletLatitude == null || outletLongitude == null) {
+        if (userLatitude == null || userLongitude == null || deliveryLatitude == null || deliveryLongitude == null) {
             return null
         }
         val results = FloatArray(1)
-        Location.distanceBetween(userLatitude!!, userLongitude!!, outletLatitude!!, outletLongitude!!, results)
+        Location.distanceBetween(userLatitude!!, userLongitude!!, deliveryLatitude!!, deliveryLongitude!!, results)
         return results[0].toDouble() // Distance in meters
     }
 
@@ -146,8 +157,8 @@ class DeliveryMapFragment : Fragment() {
     }
 
     private fun openGoogleMaps() {
-        if (outletLatitude != null && outletLongitude != null) {
-            val gmmIntentUri = Uri.parse("google.navigation:q=$outletLatitude,$outletLongitude")
+        if (deliveryLatitude != null && deliveryLongitude != null) {
+            val gmmIntentUri = Uri.parse("google.navigation:q=$deliveryLatitude,$deliveryLongitude")
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             mapIntent.setPackage("com.google.android.apps.maps")
             startActivity(mapIntent)
