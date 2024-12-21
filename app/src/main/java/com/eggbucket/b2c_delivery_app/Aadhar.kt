@@ -2,6 +2,7 @@ package com.eggbucket.b2c_delivery_app
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -64,9 +65,21 @@ class Aadhar : AppCompatActivity() {
                 Toast.makeText(this, "Please upload both front and back images.", Toast.LENGTH_SHORT).show()
             } else {
                 loaderContainer.visibility = android.view.View.VISIBLE
-                submitAadharDetails("12345") // Replace with actual delivery partner ID
+                val deliveryPartnerId = getSavedPhoneNumber()
+                if (deliveryPartnerId != null) {
+                    submitAadharDetails(deliveryPartnerId)
+                } else {
+                    loaderContainer.visibility = android.view.View.GONE // Hide progress bar
+                    Toast.makeText(this, "Phone number not found. Please complete personal details first.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
+    }
+
+    private fun getSavedPhoneNumber(): String? {
+        val sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("phoneNumber", null)
+
     }
 
     private fun showImageSourceDialog(galleryRequestCode: Int, cameraRequestCode: Int) {
