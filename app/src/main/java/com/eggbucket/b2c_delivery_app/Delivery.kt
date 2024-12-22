@@ -52,22 +52,33 @@ class Delivery : Fragment() {
             // Retrieve values
             val orderNumber = jsonData.optString("orderNumber", "N/A")
             val orderValue = jsonData.optString("orderValue", "N/A")
+
+            // Outlet info
+            val outletInfo = jsonData.optJSONObject("outletInfo")
+            val outletName = outletInfo?.optString("name", "Unknown Outlet") ?: "Unknown Outlet"
+            val outletAddressJson = outletInfo?.optJSONObject("address")?.optJSONObject("fullAddress")
+            val outletAddress = outletAddressJson?.let {
+                "${it.optString("flatNo", "")} ${it.optString("area", "")}, ${it.optString("city", "")}, ${it.optString("state", "")} - ${it.optString("zipCode", "")}, ${it.optString("country", "")}"
+            } ?: "Address not available"
+
             // Delivery address
             val deliveryAddressJson = jsonData.optJSONObject("deliveryAddress")?.optJSONObject("fullAddress")
             val deliveryAddress = deliveryAddressJson?.let {
                 "${it.optString("flatNo", "")} ${it.optString("area", "")}, ${it.optString("city", "")}, ${it.optString("state", "")} - ${it.optString("zipCode", "")}, ${it.optString("country", "")}"
             } ?: "Delivery address not available"
             val customerName = jsonData.optJSONObject("customerInfo").optString("name", "N/A")
-            val products: JSONObject = jsonData.optJSONObject("products")
 
+            val products: JSONObject = jsonData.optJSONObject("products")
             val e6Quantity = products.optInt("E6", 0)
             val e12Quantity = products.optInt("E12", 0)
             val e30Quantity = products.optInt("E30", 0)
 
+            view.findViewById<TextView>(R.id.outletName).text = outletName
             view.findViewById<TextView>(R.id.orderNumber).text = "Order No: $orderNumber"
             view.findViewById<TextView>(R.id.orderValue).text = "Order Value: ₹$orderValue"
+            view.findViewById<TextView>(R.id.outletAddress).text = outletAddress
             view.findViewById<TextView>(R.id.deliveryAddress).text = deliveryAddress
-            view.findViewById<TextView>(R.id.coustmerName).text = customerName
+            view.findViewById<TextView>(R.id.coustmerName)?.text = customerName
             view.findViewById<TextView>(R.id.eggs_6)?.text = e6Quantity.toString()
             view.findViewById<TextView>(R.id.eggs_12)?.text = e12Quantity.toString()
             view.findViewById<TextView>(R.id.eggs_30)?.text = e30Quantity.toString()

@@ -10,22 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.eggbucket.b2c_delivery_app.databinding.FragmentProfileBinding
-
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import java.util.concurrent.TimeUnit
-import okhttp3.OkHttpClient
 
 
 /*object RetrofitClient {
