@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Features -->
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
-
-    <!-- Permissions -->
+        android:required="false" /> <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -21,11 +23,11 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/logo1"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/logo1"
         android:supportsRtl="true"
         android:theme="@style/Theme.B2CDeliveryApp"
-        tools:targetApi="31"
-        android:requestLegacyExternalStorage="true">
+        tools:targetApi="31">
 
         <!-- FileProvider for handling secure file sharing -->
         <provider
@@ -46,6 +48,15 @@
             </intent-filter>
         </service>
         <activity
+            android:name=".LoadNotification"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".DrivingLicense"
             android:exported="false" />
         <activity
@@ -60,6 +71,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -86,9 +98,7 @@
             android:exported="false" />
         <activity
             android:name=".PersonalInformation"
-            android:exported="false" />
-
-        <!-- Preloaded fonts metadata -->
+            android:exported="false" /> <!-- Preloaded fonts metadata -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -66,6 +66,12 @@ class PersonalInformation : AppCompatActivity() {
             savePhoneNumber(phone)
             submitPersonalDetails(firstName,lastName,fatherName,dob,phone,secondaryNumber,bloodGroup,city,languageKnown)
         }
+//        submitButton.setOnClickListener {
+//            submitPersonalDetails()
+////            startActivity(Intent(this@PersonalInformation, PersonalDocuments::class.java))
+////            finish()
+//        }
+
         dateOfBirthInput.setOnClickListener {
             // Get the current date
             val calendar = Calendar.getInstance()
@@ -77,8 +83,8 @@ class PersonalInformation : AppCompatActivity() {
             val datePickerDialog = DatePickerDialog(
                 this,
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    // Format the selected date as dd-mm-yyyy
-                    val date = String.format("%02d-%02d-%d", selectedDay, selectedMonth + 1, selectedYear)
+                    // Format the selected date as yyyy-MM-dd
+                    val date = String.format("%d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
                     // Set the formatted date in the EditText
                     dateOfBirthInput.setText(date)
                 },
@@ -86,12 +92,10 @@ class PersonalInformation : AppCompatActivity() {
                 month,
                 day
             )
-
             // Show the dialog
             datePickerDialog.show()
         }
     }
-
     private fun showImageSourceDialog() {
         val options = arrayOf("Take Photo", "Choose from Gallery")
         val builder = AlertDialog.Builder(this)
@@ -197,28 +201,42 @@ class PersonalInformation : AppCompatActivity() {
             }
         }
     """.trimIndent()
-        val imageFile = uriToFile(profileImageUri!!) // Assuming this function works properly
-
-
+        //image part
+        val imageFile = uriToFile(profileImageUri!!)
         val imagePart = MultipartBody.Part.createFormData(
             "img", // Field name for the image
             imageFile.name, // File name
             RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageFile) // RequestBody for the image file
         )
-        val requestBody = MultipartBody.Builder()
-            .setType(MultipartBody.FORM)
-            .addFormDataPart("firstName", firstName)
-            .addFormDataPart("lastName", lastName)
-            .addFormDataPart("fatherName", fatherName)
-            .addFormDataPart("dob",dob ) // Example date of birth
-            .addFormDataPart("phone", phone)
-            .addFormDataPart("secondaryNumber", secondaryNumber)
-            .addFormDataPart("bloodGroup", bloodGroup)
-            .addFormDataPart("city", city)
-            .addFormDataPart("address", addressJson) // Send address as a JSON string
-            .addFormDataPart("languageKnown", languageKnown)
-            .addPart(imagePart) // Attach the image part here
-            .build()
+
+//        val requestBody = MultipartBody.Builder()
+//            .setType(MultipartBody.FORM)
+//            .addFormDataPart("firstName", "sud")
+//            .addFormDataPart("lastName", "han")
+//            .addFormDataPart("fatherName", "va")
+//            .addFormDataPart("dob","1999-12-12" ) // Example date of birth
+//            .addFormDataPart("phone", "9113854167")
+//            .addFormDataPart("secondaryNumber", "91111111111")
+//            .addFormDataPart("bloodGroup", "o+")
+//            .addFormDataPart("city", "Bangalore")
+//            .addFormDataPart("address", addressJson.toString()) // Send address as a JSON string
+//            .addFormDataPart("languageKnown", "languageKnown")
+//            .addPart(imagePart) // Attach the image part here
+//            .build()
+    val requestBody = MultipartBody.Builder()
+        .setType(MultipartBody.FORM)
+        .addFormDataPart("firstName", firstName)
+        .addFormDataPart("lastName", lastName)
+        .addFormDataPart("fatherName", fatherName)
+        .addFormDataPart("dob",dob ) // Example date of birth
+        .addFormDataPart("phone", phone)
+        .addFormDataPart("secondaryNumber", secondaryNumber)
+        .addFormDataPart("bloodGroup", bloodGroup)
+        .addFormDataPart("city", city)
+        .addFormDataPart("address", addressJson) // Send address as a JSON string
+        .addFormDataPart("languageKnown", languageKnown)
+        .addPart(imagePart) // Attach the image part here
+        .build()
 
         val okHttpClient = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)  // Set connect timeout
@@ -233,24 +251,31 @@ class PersonalInformation : AppCompatActivity() {
             .build()
         okHttpClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                println("Request failed: ${e.message}")
+                Log.e("DEBUG", "Request failed: ${e.message}", e)
             }
 
             override fun onResponse(call: Call, response: Response) {
-                println("Response code: ${response.code}")
+                Log.d("DEBUG", "Response received")
+
+                // Log the response code and headers
+                Log.d("DEBUG", "Response Code: ${response.code}")
+                Log.d("DEBUG", "Response Headers: ${response.headers}")
+
                 if (response.isSuccessful) {
-                    startActivity(Intent(this@PersonalInformation, PersonalDocuments::class.java))
-                    finish()
-                }
-                else {
-                    println("Request failed: ${response.message}")
-                    Toast.makeText(this@PersonalInformation, response.message, Toast.LENGTH_SHORT).show()
+                    val responseBody = response.body?.string()
+                    Log.d("DEBUG", "Response Body: $responseBody")
+
+                    runOnUiThread {
+                        Log.d("DEBUG", "Navigating to PersonalDocuments")
+                        startActivity(Intent(this@PersonalInformation, PersonalDocuments::class.java))
+                        finish()
+                    }
+                } else {
+                    val errorBody = response.body?.string() ?: "No error body"
+                    Log.e("DEBUG", "API Failure: Code: ${response.code}, Error Body: $errorBody")
                 }
             }
         })
-
-        startActivity(Intent(this, PersonalDocuments::class.java))
-
     }
     private fun uriToFile(uri: Uri): File {
         val tempFile = File.createTempFile("temp_image", ".jpg", cacheDir)
@@ -263,72 +288,3 @@ class PersonalInformation : AppCompatActivity() {
     }
 }
 
-/*
-val firstName = findViewById<EditText>(R.id.firstNameInput).text.toString().trim()
-val lastName = findViewById<EditText>(R.id.lastNameInput).text.toString().trim()
-val fatherName = findViewById<EditText>(R.id.fatherNameInput).text.toString().trim()
-val dob = findViewById<EditText>(R.id.dateOfBirthInput).text.toString().trim()
-val phone = findViewById<EditText>(R.id.primaryPhoneInput).text.toString().trim()
-val secondaryNumber = findViewById<EditText>(R.id.secondaryPhoneInput).text.toString().trim()
-val bloodGroup = findViewById<EditText>(R.id.bloodGroupInput).text.toString().trim()
-val city = findViewById<EditText>(R.id.cityInput).text.toString().trim()
-val address = findViewById<EditText>(R.id.addressInput).text.toString().trim()
-val languageKnown = findViewById<EditText>(R.id.languagesInput).text.toString().trim()
-
-if (profileImageUri == null || firstName.isEmpty() || phone.isEmpty()) {
-    Toast.makeText(this, "Profile image, first name, and phone are required.", Toast.LENGTH_SHORT).show()
-    return
-}
-
-val imageFile = uriToFile(profileImageUri!!)
-val imagePart = MultipartBody.Part.createFormData(
-    "img", imageFile.name, RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
-)
-
-val api = RetrofitClient.apiService
-val call = api.submitPersonalDetails(
-    firstName.toRequestBody(), lastName.toRequestBody(), fatherName.toRequestBody(),
-    dob.toRequestBody(), phone.toRequestBody(), secondaryNumber.toRequestBody(),
-    bloodGroup.toRequestBody(), city.toRequestBody(), address.toRequestBody(),
-    languageKnown.toRequestBody(), imagePart
-)
-
-call.enqueue(
-    onResponse = { response ->
-        if (response.isSuccessful) {
-            Toast.makeText(this, "Submitted successfully.", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this, PersonalDocuments::class.java))
-            finish()
-        } else {
-            Log.e("API Error", "Code: ${response.code()}, Error: ${response.errorBody()?.string()}")
-            Toast.makeText(this, "Submission failed: ${response.message()}", Toast.LENGTH_SHORT).show()
-        }
-    },
-    onFailure = { throwable ->
-        Log.e("API Failure", throwable.message.toString())
-        Toast.makeText(this, "Network error: ${throwable.message}", Toast.LENGTH_LONG).show()
-    }
-)
-
-
-}
-
-private fun uriToFile(uri: Uri): File {
-val tempFile = File.createTempFile("temp_image", ".jpg", cacheDir)
-contentResolver.openInputStream(uri)?.use { inputStream ->
-    FileOutputStream(tempFile).use { outputStream ->
-        inputStream.copyTo(outputStream)
-    }
-}
-return tempFile
-}
-
-private fun String.toRequestBody(): RequestBody =
-RequestBody.create("text/plain".toMediaTypeOrNull(), this)
-
-override fun onSaveInstanceState(outState: Bundle) {
-super.onSaveInstanceState(outState)
-outState.putParcelable("profileImageUri", profileImageUri)
-}
-}
-*/

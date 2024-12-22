@@ -41,21 +41,34 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         // Initialize the GraphView
         val graphView: GraphView = view.findViewById(R.id.graph)
 
-        // Remove grid lines
+
+
+// Remove grid lines
         graphView.gridLabelRenderer.isHorizontalLabelsVisible = true
         graphView.gridLabelRenderer.isVerticalLabelsVisible = true
         graphView.gridLabelRenderer.setGridStyle(com.jjoe64.graphview.GridLabelRenderer.GridStyle.NONE)
 
-        // Customize the X and Y axis labels
+// Customize the X and Y axis labels
         graphView.gridLabelRenderer.horizontalAxisTitleColor = resources.getColor(R.color.orange) // Orange for X-axis
         graphView.gridLabelRenderer.verticalAxisTitleColor = resources.getColor(R.color.orange) // Orange for Y-axis
         graphView.gridLabelRenderer.textSize = 30f // Increase the size of the labels if necessary
 
-        // Create a curvy LineGraphSeries (parabola-like curve)
+// Create a curvy LineGraphSeries (parabola-like curve)
         val series = LineGraphSeries<DataPoint>(generateCurvyDataPoints())
         series.color = resources.getColor(R.color.orange) // Set the graph line color to orange
 
+// Add the series to the graph
         graphView.addSeries(series)
+
+// Set Y-axis bounds
+        val maxY = series.highestValueY // Get the maximum Y value from the series
+        graphView.viewport.isYAxisBoundsManual = true
+        graphView.viewport.setMinY(0.0) // Set minimum Y to 0
+        graphView.viewport.setMaxY(maxY) // Set maximum Y to the highest value in the series
+
+// Optional: Enable scrolling or scaling if needed
+        graphView.viewport.isScalable = true
+        graphView.viewport.isScrollable = true
 
         // Reference the TextView for completed orders count
         completedOrdersCountTextView = view.findViewById(R.id.completed_orders_count)
