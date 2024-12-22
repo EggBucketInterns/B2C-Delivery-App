@@ -26,6 +26,7 @@ import java.io.File
 import java.io.FileOutputStream
 import android.util.Log
 import android.widget.FrameLayout
+import android.widget.ImageView
 
 class Aadhar : AppCompatActivity() {
 
@@ -47,7 +48,7 @@ class Aadhar : AppCompatActivity() {
         val frontUploadButton: Button = findViewById(R.id.front_aadhar_upload_btn)
         val backUploadButton: Button = findViewById(R.id.back_aadhar_upload_btn)
         val submitButton: Button = findViewById(R.id.submit_aadhar_btn)
-        val backButton: Button = findViewById(R.id.aadharBackButton)
+        val backButton: ImageView = findViewById(R.id.aadharBackButton)
         loaderContainer = findViewById(R.id.loaderContainer)
 
         backButton.setOnClickListener { finish() }

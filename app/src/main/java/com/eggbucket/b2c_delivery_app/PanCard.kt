@@ -13,6 +13,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -47,7 +48,7 @@ class PanCard : AppCompatActivity() {
         val frontPanUploadButton: Button = findViewById(R.id.front_pan_upload_button)
         val backPanUploadButton: Button = findViewById(R.id.back_pan_upload_button)
         val submitPanButton: Button = findViewById(R.id.submit_pan_button)
-        val panBackButton: Button = findViewById(R.id.panBackBtn)
+        val panBackButton: ImageView = findViewById(R.id.panBackBtn)
 
         val loaderContainer: View = findViewById(R.id.loaderContainer)
 

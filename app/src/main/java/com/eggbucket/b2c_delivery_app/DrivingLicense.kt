@@ -13,6 +13,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -47,7 +48,7 @@ class DrivingLicense : AppCompatActivity() {
         val frontDLUploadButton: Button = findViewById(R.id.front_DL_upload_button)
         val backDLUploadButton: Button = findViewById(R.id.back_DL_upload_button)
         val submitDLButton: Button = findViewById(R.id.submit_DL_btn)
-        val dlBackButton: Button = findViewById(R.id.DlBackBtn)
+        val dlBackButton: ImageView = findViewById(R.id.DlBackBtn)
         loaderContainer = findViewById(R.id.progressBar)
 
 
