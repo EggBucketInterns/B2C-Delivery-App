@@ -13,6 +13,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -46,6 +47,7 @@ class VehicleDetails : AppCompatActivity() {
         val uploadButton: Button = findViewById(R.id.Upploadbutton)
         val backButton: ImageView = findViewById(R.id.vehicledetailsBackBtn)
         val submitButton: Button = findViewById(R.id.submit_vehicle_button)
+        val imageView: ImageView = findViewById(R.id.imgVehicleDetails)
         loaderContainer = findViewById(R.id.loaderContainer)
 
         backButton.setOnClickListener { finish() }
@@ -116,15 +118,23 @@ class VehicleDetails : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val imageView: ImageView = findViewById(R.id.imgVehicleDetails)
+        val uploadButton: Button = findViewById(R.id.Upploadbutton)
+        val textView: TextView = findViewById(R.id.textView3)
         if (resultCode == RESULT_OK) {
             when (requestCode) {
                 PICK_IMAGE_REQUEST_CODE -> {
                     vehicleDocUri = data?.data
+                    imageView.setImageURI(vehicleDocUri)
                 }
                 PICK_CAMERA_REQUEST_CODE -> {
                     vehicleDocUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
+                    imageView.setImageURI(vehicleDocUri)
                 }
             }
+            textView.visibility = android.view.View.GONE
+            uploadButton.visibility = android.view.View.GONE
+            imageView.visibility = android.view.View.VISIBLE
         }
     }
 
