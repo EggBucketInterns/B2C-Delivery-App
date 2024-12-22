@@ -56,9 +56,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/address_layout"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:padding="5dp"
+        android:layout_width="410dp"
+        android:layout_height="237dp"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -68,29 +68,28 @@
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/address_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            >
+            app:layout_constraintVertical_bias="0.105">
 
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="39dp"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="5dp"
                 android:padding="5dp"
-                android:src="@drawable/baseline_location_pin_24" />
+                android:src="@drawable/outlet_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp"
-                android:text="Outlet:"
-                android:textStyle="bold"
+                android:text="  Outlet:"
                 android:textSize="18dp"
+                android:layout_marginTop="5dp"
                 />
 
             <TextView
@@ -103,14 +102,44 @@
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="50dp"
+            android:padding="8dp"
+            tools:ignore="MissingConstraints">
+
+            <!-- Location Icon -->
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="55dp"
+                android:padding="5dp"
+                android:src="@drawable/location_drop" />
+
+            <!-- Address Text -->
+            <TextView
+                android:id="@+id/address_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="57dp"
+                android:layout_marginEnd="10dp"
+                android:text="Fetching address..."
+                android:textSize="18sp" />
+        </LinearLayout>
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/reached_outlet_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/orange_rounded_background"
             android:gravity="center"
@@ -121,22 +150,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-
-        <TextView
-            android:id="@+id/address_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginEnd="10dp"
-            android:text="Fetching address..."
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/reached_outlet_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.557" />
 
         <!--        <Button-->
 <!--            android:id="@+id/view_order_details"-->
