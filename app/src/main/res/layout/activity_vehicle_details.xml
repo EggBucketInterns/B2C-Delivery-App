@@ -13,36 +13,38 @@
         android:id="@+id/linearlayoutvehicle"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/main"
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            android:background="#F89427"
-            android:orientation="horizontal">
+            android:background="@color/appThemeColor"
+            android:paddingVertical="25dp">
 
-            <Button
+
+            <ImageView
                 android:id="@+id/vehicledetailsBackBtn"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginLeft="20dp"
-                android:text="do"
-                android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/baseline_arrow_back_black"
-                android:gravity="center_vertical" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:contentDescription="Back"
+                android:onClick="onBackPressed"
+                android:padding="8dp"
+                android:scaleType="center"
+                android:src="@drawable/baseline_arrow_back_black"
+                app:tint="@color/white" />
+
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="180px"
-                android:background="#F89427"
-                android:fontFamily="@font/archivo_bold"
-                android:gravity="center"
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="Vehicle Details"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="24sp" />
-        </LinearLayout>
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:textStyle="normal" />
+        </FrameLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,21 +78,28 @@
                 android:text="Upload Image" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/submit_vehicle_button"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="300dp"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"
-            android:paddingTop="16dp"
-            android:text="Submit"
-            android:paddingHorizontal="8dp"
-            android:paddingBottom="12dp"
-            android:backgroundTint="@color/orange"
-            android:layout_gravity="center"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Other views go here -->
+
+            <Button
+                android:id="@+id/submit_vehicle_button"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/orange"
+                android:fontFamily="@font/istok_web_bold"
+                android:gravity="center"
+                android:text="Submit"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
+
     </LinearLayout>
 
     <!-- Progress Bar Overlay -->

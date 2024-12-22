@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -43,7 +44,7 @@ class VehicleDetails : AppCompatActivity() {
         setContentView(R.layout.activity_vehicle_details)
 
         val uploadButton: Button = findViewById(R.id.Upploadbutton)
-        val backButton: Button = findViewById(R.id.vehicledetailsBackBtn)
+        val backButton: ImageView = findViewById(R.id.vehicledetailsBackBtn)
         val submitButton: Button = findViewById(R.id.submit_vehicle_button)
         loaderContainer = findViewById(R.id.loaderContainer)
 
