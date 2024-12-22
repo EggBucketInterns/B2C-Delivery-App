@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollPersonal"
     android:layout_width="match_parent"
+    android:scrollbars="none"
     android:layout_height="match_parent"
+    android:paddingHorizontal="15dp"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,11 +20,12 @@
             android:id="@+id/personalInfoTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/poppins_semibold"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/istok_web"
             android:text="Personal Information"
-            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,8 +33,8 @@
             android:id="@+id/personalInfoText"
             android:layout_width="wrap_content"
             android:layout_height="43dp"
-            android:fontFamily="@font/radio_canada_medium"
-            android:text="Enter the details below so we can get to know and serve you better"
+            android:text="Enter the details below so we can get to know and serve you better."
+            android:fontFamily="@font/istok_web"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/personalInfoTitle"
             app:layout_constraintTop_toBottomOf="@+id/personalInfoTitle" />
@@ -41,8 +44,7 @@
             android:id="@+id/firstName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/istok_web"
             android:text="First Name"
             android:textColor="@color/dark_gray"
@@ -52,12 +54,11 @@
 
         <EditText
             android:id="@+id/firstNameInput"
-            android:layout_width="365dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_below="@id/firstName"
             android:layout_margin="1dp"
-            android:background="@drawable/rounded_edittext_border"
-            android:drawablePadding="0dp"
+            android:background="@drawable/rounded_background_with_border"
             android:hint="Please Enter First Name"
             android:padding="10dp"
             android:textColor="@color/black"
@@ -67,10 +68,12 @@
             app:layout_constraintTop_toBottomOf="@+id/firstName" />
 
         <!-- Last Name Field -->
+
         <TextView
             android:id="@+id/lastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/istok_web"
             android:text="Last Name"
@@ -81,11 +84,11 @@
 
         <EditText
             android:id="@+id/lastNameInput"
-            android:layout_width="362dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_below="@id/lastName"
             android:layout_margin="1dp"
-            android:background="@drawable/rounded_edittext_border"
+            android:background="@drawable/rounded_background_with_border"
             android:drawablePadding="0dp"
             android:hint="Please Enter Last Name"
             android:padding="10dp"
@@ -101,6 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:layout_marginStart="4dp"
             android:fontFamily="@font/istok_web"
             android:text="Father's Name"
             android:textColor="@color/dark_gray"
@@ -110,11 +114,11 @@
 
         <EditText
             android:id="@+id/fatherNameInput"
-            android:layout_width="362dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_below="@id/fatherName"
             android:layout_margin="1dp"
-            android:background="@drawable/rounded_edittext_border"
+            android:background="@drawable/rounded_background_with_border"
             android:drawablePadding="0dp"
             android:hint="Please Enter Father's Name"
             android:padding="10dp"
@@ -126,6 +130,7 @@
 
         <!-- Date of Birth Field -->
         <TextView
+            android:layout_marginStart="4dp"
             android:id="@+id/dateOfBirth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -139,13 +144,13 @@
 
         <EditText
             android:id="@+id/dateOfBirthInput"
-            android:layout_width="362dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_below="@id/dateOfBirth"
             android:layout_margin="1dp"
-            android:background="@drawable/rounded_edittext_border"
+            android:background="@drawable/rounded_background_with_border"
             android:drawablePadding="0dp"
-            android:hint="yyyy-mm-dd"
+            android:hint="dd-mm-yyyy"
             android:inputType="none"
             android:padding="10dp"
             android:textColor="@color/black"
@@ -157,6 +162,7 @@
 
         <!-- Mobile Number Field -->
         <TextView
+            android:layout_marginStart="4dp"
             android:id="@+id/primaryPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -169,13 +175,14 @@
             app:layout_constraintTop_toBottomOf="@+id/dateOfBirthInput" />
 
         <EditText
+
             android:id="@+id/primaryPhoneInput"
-            android:layout_width="362dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_margin="1dp"
-            android:background="@drawable/rounded_edittext_border"
+
+            android:background="@drawable/rounded_background_with_border"
             android:drawablePadding="0dp"
-            android:hint="enter 10 digit phonenumber "
+            android:hint="Enter 10 digit Phone Number "
             android:inputType="phone"
             android:maxEms="10"
             android:minEms="10"
@@ -187,6 +194,7 @@
             app:layout_constraintTop_toBottomOf="@+id/primaryPhone" />
 
         <TextView
+            android:layout_marginStart="4dp"
             android:id="@+id/secondaryPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -200,13 +208,13 @@
 
         <EditText
             android:id="@+id/secondaryPhoneInput"
-            android:layout_width="362dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_below="@id/secondaryPhone"
             android:layout_margin="1dp"
-            android:background="@drawable/rounded_edittext_border"
+            android:background="@drawable/rounded_background_with_border"
             android:drawablePadding="0dp"
-            android:hint="enter 10 digit phonenumber"
+            android:hint="Enter 10 digit Phone Number"
             android:inputType="phone"
             android:maxEms="10"
             android:minEms="10"
@@ -218,6 +226,7 @@
             app:layout_constraintTop_toBottomOf="@+id/secondaryPhone" />
 
         <TextView
+            android:layout_marginStart="4dp"
             android:id="@+id/bloodGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -231,11 +240,10 @@
 
         <EditText
             android:id="@+id/bloodGroupInput"
-            android:layout_width="362dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_below="@id/bloodGroup"
-
-            android:background="@drawable/rounded_edittext_border"
+            android:background="@drawable/rounded_background_with_border"
             android:drawablePadding="0dp"
             android:hint="Enter Blood Group Here"
             android:padding="10dp"
@@ -246,6 +254,7 @@
             app:layout_constraintTop_toBottomOf="@+id/bloodGroup" />
 
         <TextView
+            android:layout_marginStart="4dp"
             android:id="@+id/city1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -259,10 +268,10 @@
 
         <EditText
             android:id="@+id/cityInput1"
-            android:layout_width="362dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_below="@id/languages"
-            android:background="@drawable/rounded_edittext_border"
+            android:background="@drawable/rounded_background_with_border"
             android:drawablePadding="0dp"
             android:hint="e.g. Bangalore"
             android:padding="10dp"
@@ -277,7 +286,7 @@
             android:id="@+id/languages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:layout_marginStart="4dp"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/istok_web"
             android:text="Languages You Know"
@@ -288,10 +297,10 @@
 
         <EditText
             android:id="@+id/languagesInput"
-            android:layout_width="362dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_below="@id/languages"
-            android:background="@drawable/rounded_edittext_border"
+            android:background="@drawable/rounded_background_with_border"
             android:drawablePadding="0dp"
             android:hint="Select one or more"
             android:padding="10dp"
@@ -305,8 +314,8 @@
             android:id="@+id/photoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_marginTop="12dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/istok_web"
             android:text="Your Profile Picture"
             android:textColor="@color/dark_gray"
@@ -316,11 +325,11 @@
 
         <LinearLayout
             android:id="@+id/outerLinearLayoutPersonalInformationMain"
-            android:layout_width="348dp"
+            android:layout_width="match_parent"
             android:layout_height="118dp"
-            android:layout_marginStart="155dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="-60dp"
+
+            android:layout_marginTop="2dp"
+
             android:background="@drawable/border"
             android:orientation="horizontal"
             android:padding="16dp"
