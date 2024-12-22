@@ -60,6 +60,7 @@
 
         <!-- Front Side Upload Section -->
         <LinearLayout
+            android:id="@+id/llFrontAadhar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -87,6 +88,14 @@
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:text="Upload Image" />
+            <ImageView
+                android:id="@+id/imgFrontAadhar"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop" />
         </LinearLayout>
 
         <!-- Back Side Upload Section -->
@@ -119,6 +128,14 @@
                 android:layout_gravity="center"
                 android:backgroundTint="@color/orange"
                 android:text="Upload Image" />
+            <ImageView
+                android:id="@+id/imgBackAadhar"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop" />
         </LinearLayout>
 
         <!-- Submit Button -->

@@ -88,6 +88,14 @@
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:text="Upload Image" />
+            <ImageView
+                android:id="@+id/imgFrontDL"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop" />
         </LinearLayout>
 
         <!-- Back Side Upload Section -->
@@ -120,6 +128,14 @@
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:text="Upload Image" />
+            <ImageView
+                android:id="@+id/imgBackDl"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop" />
         </LinearLayout>
 
         <!-- Submit Button -->

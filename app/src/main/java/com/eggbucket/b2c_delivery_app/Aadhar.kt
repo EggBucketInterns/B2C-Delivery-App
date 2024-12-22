@@ -27,6 +27,7 @@ import java.io.FileOutputStream
 import android.util.Log
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 
 class Aadhar : AppCompatActivity() {
 
@@ -140,18 +141,49 @@ class Aadhar : AppCompatActivity() {
             when (requestCode) {
                 PICK_FRONT_IMAGE_REQUEST_CODE -> {
                     frontImageUri = data?.data
+                    updateFrontImageView(frontImageUri)
                 }
                 CAMERA_FRONT_REQUEST_CODE -> {
                     frontImageUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
+                    updateFrontImageView(frontImageUri)
                 }
                 PICK_BACK_IMAGE_REQUEST_CODE -> {
                     backImageUri = data?.data
+                    updateBackImageView(backImageUri)
+
                 }
                 CAMERA_BACK_REQUEST_CODE -> {
                     backImageUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
+                    updateBackImageView(backImageUri)
                 }
             }
         }
+    }
+
+    private fun updateBackImageView(imageUri: Uri?) {
+        val imgBackAadhar: ImageView = findViewById(R.id.imgBackAadhar)
+        val textView4: TextView = findViewById(R.id.textView4)
+        val backUploadButton: Button = findViewById(R.id.back_aadhar_upload_btn)
+
+        imgBackAadhar.setImageURI(imageUri)
+        imgBackAadhar.visibility = android.view.View.VISIBLE
+
+        textView4.visibility = android.view.View.GONE
+        backUploadButton.visibility = android.view.View.GONE
+
+    }
+
+    private fun updateFrontImageView(imageUri: Uri?) {
+        val imgFrontAadhar: ImageView = findViewById(R.id.imgFrontAadhar)
+        val textView3: TextView = findViewById(R.id.textView3)
+        val frontUploadButton: Button = findViewById(R.id.front_aadhar_upload_btn)
+
+
+        imgFrontAadhar.setImageURI(imageUri)
+        imgFrontAadhar.visibility = android.view.View.VISIBLE
+
+        textView3.visibility = android.view.View.GONE
+        frontUploadButton.visibility = android.view.View.GONE
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
