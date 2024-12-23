@@ -47,6 +47,7 @@
 
 
         <LinearLayout
+            android:id="@+id/llVehicleDetailsImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -55,6 +56,7 @@
             android:layout_marginRight="30dp"
             android:background="@drawable/border"
             android:padding="16dp">
+
 
             <TextView
                 android:id="@+id/textView3"
@@ -76,6 +78,14 @@
                 android:backgroundTint="@color/orange"
                 android:layout_gravity="center"
                 android:text="Upload Image" />
+            <ImageView
+                android:id="@+id/imgVehicleDetails"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop" />
         </LinearLayout>
 
         <RelativeLayout

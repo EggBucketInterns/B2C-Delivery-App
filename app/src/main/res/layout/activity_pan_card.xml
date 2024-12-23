@@ -24,26 +24,35 @@
             android:background="#F89427"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/panBackBtn"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginLeft="20dp"
-                android:background="@android:color/transparent"
-                android:text=""
-                android:drawableLeft="@drawable/baseline_arrow_back_black" />
-
-            <TextView
-                android:id="@+id/textView"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#F89427"
-                android:fontFamily="@font/archivo_bold"
-                android:gravity="center"
-                android:text="PAN Card Details"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="24sp" />
+                android:layout_height="wrap_content"
+                android:paddingVertical="25dp"
+                android:background="@color/appThemeColor">
+
+                <!-- Back Arrow -->
+                <ImageView
+                    android:id="@+id/panBackBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Back"
+                    android:padding="8dp"
+                    android:scaleType="center"
+                    android:src="@drawable/baseline_arrow_back_black"
+                    android:layout_gravity="start|center_vertical"
+                    app:tint="@color/white" />
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Pan Card Details"
+                    android:textColor="@android:color/white"
+                    android:textSize="25sp"
+                    android:textStyle="normal" />
+            </FrameLayout>
         </LinearLayout>
 
         <!-- Instruction Section -->
@@ -87,6 +96,14 @@
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:text="Upload Image" />
+            <ImageView
+                android:id="@+id/imgFrontPan"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop" />
         </LinearLayout>
 
         <!-- Back Side Upload Section -->
@@ -119,22 +136,38 @@
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:text="Upload Image" />
+            <ImageView
+                android:id="@+id/imgBackPan"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop" />
         </LinearLayout>
 
         <!-- Submit Button -->
-        <Button
-            android:id="@+id/submit_pan_button"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"
-            android:paddingTop="16dp"
-            android:paddingHorizontal="8dp"
-            android:paddingBottom="12dp"
-            android:backgroundTint="@color/orange"
-            android:layout_gravity="center"
-            android:text="Submit" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Other views go here -->
+
+            <Button
+                android:id="@+id/submit_pan_button"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/orange"
+                android:fontFamily="@font/istok_web_bold"
+                android:gravity="center"
+                android:text="Submit"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <!-- Fullscreen Progress Bar -->

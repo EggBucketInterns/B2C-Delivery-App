@@ -57,69 +57,93 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/address_layout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="220dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="5dp"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:layout_marginTop="10dp"
-            android:paddingHorizontal="20dp"
-            android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_width="395dp"
+            android:layout_height="120dp"
+            android:orientation="vertical"
+            android:layout_margin="30dp"
+            android:background="@drawable/border"
+            android:elevation="6dp"
+            tools:ignore="MissingConstraints">
 
-            <TextView
+            <!-- Name Layout -->
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
 
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_marginVertical="10dp"
-                android:text="Name:"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="25dp"
+                    android:src="@drawable/person_icon"/>
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="10dp"
-                android:text="Name:"
-                android:textSize="20sp" />
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginVertical="10dp"
+                    android:text="  Name:"
+                    android:textSize="22sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
-        <LinearLayout
-            android:paddingHorizontal="20dp"
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="10dp"
+                    android:textColor="@color/black"
+                    android:text="John Doe"
+                    android:textSize="20sp" />
+            </LinearLayout>
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-            <TextView
-
-                android:layout_width="wrap_content"
+            <!-- Address Layout -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                android:layout_marginVertical="10dp"
-                android:text="Address:"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/address_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="10dp"
-                android:text="Address:"
-                android:textSize="18sp"
-                 />
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="25dp"
+                    android:src="@drawable/location_drop"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginVertical="10dp"
+                    android:text="Address:"
+                    android:textSize="22sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/address_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="10dp"
+                    android:text="123 Main Street"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <TextView

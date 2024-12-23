@@ -13,6 +13,8 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -47,7 +49,7 @@ class PanCard : AppCompatActivity() {
         val frontPanUploadButton: Button = findViewById(R.id.front_pan_upload_button)
         val backPanUploadButton: Button = findViewById(R.id.back_pan_upload_button)
         val submitPanButton: Button = findViewById(R.id.submit_pan_button)
-        val panBackButton: Button = findViewById(R.id.panBackBtn)
+        val panBackButton: ImageView = findViewById(R.id.panBackBtn)
 
         val loaderContainer: View = findViewById(R.id.loaderContainer)
 
@@ -147,20 +149,48 @@ class PanCard : AppCompatActivity() {
             when (requestCode) {
                 PICK_FRONT_IMAGE_REQUEST_CODE -> {
                     frontImageUri = data?.data
-                    Toast.makeText(this, "Front image selected.", Toast.LENGTH_SHORT).show()
+                    updateFrontImageView(frontImageUri)
+
                 }
                 CAMERA_FRONT_REQUEST_CODE -> {
                     frontImageUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
+                    updateFrontImageView(frontImageUri)
                 }
                 PICK_BACK_IMAGE_REQUEST_CODE -> {
                     backImageUri = data?.data
-                    Toast.makeText(this, "Back image selected.", Toast.LENGTH_SHORT).show()
+                    updateBackImageView(backImageUri)
                 }
                 CAMERA_BACK_REQUEST_CODE -> {
                     backImageUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
+                    updateBackImageView(backImageUri)
                 }
             }
         }
+    }
+
+    private fun updateBackImageView(imageUri: Uri?) {
+        val imgBackPan: ImageView = findViewById(R.id.imgBackPan)
+        val tvb: TextView = findViewById(R.id.back_pan_text_view)
+        val backUploadButton: Button = findViewById(R.id.back_pan_upload_button)
+
+        imgBackPan.setImageURI(imageUri)
+        imgBackPan.visibility = android.view.View.VISIBLE
+
+        tvb.visibility = android.view.View.GONE
+        backUploadButton.visibility = android.view.View.GONE
+    }
+
+    private fun updateFrontImageView(imageUri: Uri?) {
+        val imgFrontPan: ImageView = findViewById(R.id.imgFrontPan)
+        val tvf: TextView = findViewById(R.id.frontPanTextView)
+        val frontUploadButton: Button = findViewById(R.id.front_pan_upload_button)
+
+
+        imgFrontPan.setImageURI(imageUri)
+        imgFrontPan.visibility = android.view.View.VISIBLE
+
+        tvf.visibility = android.view.View.GONE
+        frontUploadButton.visibility = android.view.View.GONE
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

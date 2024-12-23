@@ -13,6 +13,8 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -47,7 +49,7 @@ class DrivingLicense : AppCompatActivity() {
         val frontDLUploadButton: Button = findViewById(R.id.front_DL_upload_button)
         val backDLUploadButton: Button = findViewById(R.id.back_DL_upload_button)
         val submitDLButton: Button = findViewById(R.id.submit_DL_btn)
-        val dlBackButton: Button = findViewById(R.id.DlBackBtn)
+        val dlBackButton: ImageView = findViewById(R.id.DlBackBtn)
         loaderContainer = findViewById(R.id.progressBar)
 
 
@@ -142,17 +144,42 @@ class DrivingLicense : AppCompatActivity() {
             when (requestCode) {
                 PICK_FRONT_IMAGE_REQUEST_CODE -> {
                     frontImageUri = data?.data
+                    findViewById<TextView>(R.id.front_DL_text_view).visibility = android.view.View.GONE
+                    findViewById<Button>(R.id.front_DL_upload_button).visibility = android.view.View.GONE
+                    findViewById<ImageView>(R.id.imgFrontDL).apply {
+                        visibility = android.view.View.VISIBLE
+                        setImageURI(frontImageUri)
+                    }
                     Toast.makeText(this, "Front image selected.", Toast.LENGTH_SHORT).show()
                 }
                 CAMERA_FRONT_REQUEST_CODE -> {
                     frontImageUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
+                    findViewById<TextView>(R.id.front_DL_text_view).visibility = android.view.View.GONE
+                    findViewById<Button>(R.id.front_DL_upload_button).visibility = android.view.View.GONE
+                    findViewById<ImageView>(R.id.imgFrontDL).apply {
+                        visibility = android.view.View.VISIBLE
+                        setImageURI(frontImageUri)
+                    }
                 }
                 PICK_BACK_IMAGE_REQUEST_CODE -> {
                     backImageUri = data?.data
+                    findViewById<TextView>(R.id.back_DL_text_view).visibility = android.view.View.GONE
+                    findViewById<Button>(R.id.back_DL_upload_button).visibility = android.view.View.GONE
+                    findViewById<ImageView>(R.id.imgBackDl).apply {
+                        visibility = android.view.View.VISIBLE
+                        setImageURI(backImageUri)
+                    }
                     Toast.makeText(this, "Back image selected.", Toast.LENGTH_SHORT).show()
                 }
                 CAMERA_BACK_REQUEST_CODE -> {
                     backImageUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
+                    backImageUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
+                    findViewById<TextView>(R.id.back_DL_text_view).visibility = android.view.View.GONE
+                    findViewById<Button>(R.id.back_DL_upload_button).visibility = android.view.View.GONE
+                    findViewById<ImageView>(R.id.imgBackDl).apply {
+                        visibility = android.view.View.VISIBLE
+                        setImageURI(backImageUri)
+                    }
                 }
             }
         }
