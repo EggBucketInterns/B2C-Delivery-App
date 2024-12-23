@@ -10,6 +10,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputType
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -51,38 +52,34 @@ class PersonalInformation : AppCompatActivity() {
         val dateOfBirthInput: EditText = findViewById(R.id.dateOfBirthInput)
 
         uploadImageButton.setOnClickListener {
-
             showImageSourceDialog()
         }
         submitButton.setOnClickListener {
-            val firstName = findViewById<EditText>(R.id.firstNameInput).text.toString().trim()
-            val lastName = findViewById<EditText>(R.id.lastNameInput).text.toString().trim()
-            val fatherName = findViewById<EditText>(R.id.fatherNameInput).text.toString().trim()
-            val dob = findViewById<EditText>(R.id.dateOfBirthInput).text.toString().trim()
-            val phone = findViewById<EditText>(R.id.primaryPhoneInput).text.toString().trim()
-            val secondaryNumber = findViewById<EditText>(R.id.secondaryPhoneInput).text.toString().trim()
-            val bloodGroup = findViewById<EditText>(R.id.bloodGroupInput).text.toString().trim()
-            val city = findViewById<EditText>(R.id.cityInput1).text.toString().trim()
-            val languageKnown = findViewById<EditText>(R.id.languagesInput).text.toString().trim()
 
-            if (profileImageUri == null || firstName.isEmpty() || phone.isEmpty()) {
-                Toast.makeText(this, "Profile image, first name, and phone are required.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+            if (validateFields()&&profileImageUri != null && uriToFile(profileImageUri!!).exists()) {
+                val firstName = findViewById<EditText>(R.id.firstNameInput).text.toString().trim()
+                val lastName = findViewById<EditText>(R.id.lastNameInput).text.toString().trim()
+                val fatherName = findViewById<EditText>(R.id.fatherNameInput).text.toString().trim()
+                val dob = findViewById<EditText>(R.id.dateOfBirthInput).text.toString().trim()
+                val phone = findViewById<EditText>(R.id.primaryPhoneInput).text.toString().trim()
+                val secondaryNumber = findViewById<EditText>(R.id.secondaryPhoneInput).text.toString().trim()
+                val bloodGroup = findViewById<EditText>(R.id.bloodGroupInput).text.toString().trim()
+                val city = findViewById<EditText>(R.id.cityInput1).text.toString().trim()
+                val languageKnown = findViewById<EditText>(R.id.languagesInput).text.toString().trim()
+                savePhoneNumber(phone)
+                submitPersonalDetails(firstName,lastName,fatherName,dob,phone,secondaryNumber,bloodGroup,city,languageKnown)
+
+
+            } else {
+                Toast.makeText(this, "Please correct the highlighted errors", Toast.LENGTH_SHORT).show()
             }
 
-            savePhoneNumber(phone)
-            submitPersonalDetails(
-                firstName,
-                lastName,
-                fatherName,
-                dob,
-                phone,
-                secondaryNumber,
-                bloodGroup,
-                city,
-                languageKnown
-            )
         }
+//        submitButton.setOnClickListener {
+//            submitPersonalDetails()
+////            startActivity(Intent(this@PersonalInformation, PersonalDocuments::class.java))
+////            finish()
+//        }
 
         dateOfBirthInput.setOnClickListener {
             // Get the current date
@@ -104,7 +101,6 @@ class PersonalInformation : AppCompatActivity() {
                 month,
                 day
             )
-
             // Show the dialog
             datePickerDialog.show()
         }
@@ -159,12 +155,10 @@ class PersonalInformation : AppCompatActivity() {
             when (requestCode) {
                 PICK_IMAGE_REQUEST_CODE -> {
                     profileImageUri = data?.data
-                    findViewById<ImageView>(R.id.imgVehicleDetails).setImageURI(profileImageUri)
                     Toast.makeText(this, "Image selected successfully.", Toast.LENGTH_SHORT).show()
                 }
                 CAMERA_REQUEST_CODE -> {
                     profileImageUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
-                    findViewById<ImageView>(R.id.imgVehicleDetails).setImageURI(profileImageUri)
                     Toast.makeText(this, "Photo taken successfully.", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -182,6 +176,55 @@ class PersonalInformation : AppCompatActivity() {
                 Toast.makeText(this, "Camera permission is required to take a photo", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+    fun validateFields(): Boolean {
+        var isValid = true
+
+        // List of all fields to validate
+        val fields = listOf(
+            Pair(findViewById<EditText>(R.id.firstNameInput), "First Name"),
+            Pair(findViewById<EditText>(R.id.lastNameInput), "Last Name"),
+            Pair(findViewById<EditText>(R.id.fatherNameInput), "Father Name"),
+            Pair(findViewById<EditText>(R.id.dateOfBirthInput), "Date of Birth"),
+            Pair(findViewById<EditText>(R.id.bloodGroupInput), "Blood Group"),
+            Pair(findViewById<EditText>(R.id.cityInput1), "City"),
+            Pair(findViewById<EditText>(R.id.languagesInput), "Languages Known")
+        )
+
+        // Validate all fields for empty input
+        for ((field, fieldName) in fields) {
+            if (field.text.toString().trim().isEmpty()) {
+                // Mark the field with a red border
+                field.setBackgroundResource(R.drawable.red_border)
+//                field.error = "$fieldName is required"
+                isValid = false
+            } else {
+                // Reset to default background
+                field.setBackgroundResource(R.drawable.default_border)
+            }
+        }
+
+        // Validate phone numbers
+        val primaryPhone = findViewById<EditText>(R.id.primaryPhoneInput)
+        val secondaryPhone = findViewById<EditText>(R.id.secondaryPhoneInput)
+
+        if (primaryPhone.text.toString().trim().length != 10) {
+            primaryPhone.setBackgroundResource(R.drawable.red_border)
+            primaryPhone.error = "Primary Phone must be 10 digits"
+            isValid = false
+        } else {
+            primaryPhone.setBackgroundResource(R.drawable.default_border)
+        }
+
+        if (secondaryPhone.text.toString().trim().isNotEmpty() && secondaryPhone.text.toString().trim().length != 10) {
+            secondaryPhone.setBackgroundResource(R.drawable.red_border)
+            secondaryPhone.error = "Secondary Phone must be 10 digits if provided"
+            isValid = false
+        } else {
+            secondaryPhone.setBackgroundResource(R.drawable.default_border)
+        }
+
+        return isValid
     }
     private fun savePhoneNumber(phone: String) {
         val sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
@@ -224,20 +267,35 @@ class PersonalInformation : AppCompatActivity() {
             imageFile.name, // File name
             RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageFile) // RequestBody for the image file
         )
-        val requestBody = MultipartBody.Builder()
-            .setType(MultipartBody.FORM)
-            .addFormDataPart("firstName", firstName)
-            .addFormDataPart("lastName", lastName)
-            .addFormDataPart("fatherName", fatherName)
-            .addFormDataPart("dob",dob ) // Example date of birth
-            .addFormDataPart("phone", phone)
-            .addFormDataPart("secondaryNumber", secondaryNumber)
-            .addFormDataPart("bloodGroup", bloodGroup)
-            .addFormDataPart("city", city)
-            .addFormDataPart("address", addressJson) // Send address as a JSON string
-            .addFormDataPart("languageKnown", languageKnown)
-            .addPart(imagePart) // Attach the image part here
-            .build()
+
+//        val requestBody = MultipartBody.Builder()
+//            .setType(MultipartBody.FORM)
+//            .addFormDataPart("firstName", "sud")
+//            .addFormDataPart("lastName", "han")
+//            .addFormDataPart("fatherName", "va")
+//            .addFormDataPart("dob","1999-12-12" ) // Example date of birth
+//            .addFormDataPart("phone", "9113854167")
+//            .addFormDataPart("secondaryNumber", "91111111111")
+//            .addFormDataPart("bloodGroup", "o+")
+//            .addFormDataPart("city", "Bangalore")
+//            .addFormDataPart("address", addressJson.toString()) // Send address as a JSON string
+//            .addFormDataPart("languageKnown", "languageKnown")
+//            .addPart(imagePart) // Attach the image part here
+//            .build()
+    val requestBody = MultipartBody.Builder()
+        .setType(MultipartBody.FORM)
+        .addFormDataPart("firstName", firstName)
+        .addFormDataPart("lastName", lastName)
+        .addFormDataPart("fatherName", fatherName)
+        .addFormDataPart("dob",dob ) // Example date of birth
+        .addFormDataPart("phone", phone)
+        .addFormDataPart("secondaryNumber", secondaryNumber)
+        .addFormDataPart("bloodGroup", bloodGroup)
+        .addFormDataPart("city", city)
+        .addFormDataPart("address", addressJson) // Send address as a JSON string
+        .addFormDataPart("languageKnown", languageKnown)
+        .addPart(imagePart) // Attach the image part here
+        .build()
 
         val okHttpClient = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)  // Set connect timeout
@@ -257,27 +315,21 @@ class PersonalInformation : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 Log.d("DEBUG", "Response received")
-
-                // Log the response code and headers
-                Log.d("DEBUG", "Response Code: ${response.code}")
-                Log.d("DEBUG", "Response Headers: ${response.headers}")
-
                 if (response.isSuccessful) {
+                    val responseBody = response.body?.string()
+                    Log.d("DEBUG", "Response Body: $responseBody")
+
                     runOnUiThread {
-                        findViewById<ImageView>(R.id.imgVehicleDetails).setImageURI(profileImageUri)
+                        Log.d("DEBUG", "Navigating to PersonalDocuments")
+                        startActivity(Intent(this@PersonalInformation, PersonalDocuments::class.java))
+                        finish()
                     }
-                    startActivity(Intent(this@PersonalInformation, PersonalDocuments::class.java))
-                    finish()
-                }
-                else {
-                    println("Request failed: ${response.message}")
-                    Toast.makeText(this@PersonalInformation, response.message, Toast.LENGTH_SHORT).show()
+                } else {
+                    val errorBody = response.body?.string() ?: "No error body"
+                    Log.e("DEBUG", "API Failure: Code: ${response.code}, Error Body: $errorBody")
                 }
             }
         })
-
-        startActivity(Intent(this, PersonalDocuments::class.java))
-
     }
     private fun uriToFile(uri: Uri): File {
         val tempFile = File.createTempFile("temp_image", ".jpg", cacheDir)
@@ -290,72 +342,3 @@ class PersonalInformation : AppCompatActivity() {
     }
 }
 
-/*
-val firstName = findViewById<EditText>(R.id.firstNameInput).text.toString().trim()
-val lastName = findViewById<EditText>(R.id.lastNameInput).text.toString().trim()
-val fatherName = findViewById<EditText>(R.id.fatherNameInput).text.toString().trim()
-val dob = findViewById<EditText>(R.id.dateOfBirthInput).text.toString().trim()
-val phone = findViewById<EditText>(R.id.primaryPhoneInput).text.toString().trim()
-val secondaryNumber = findViewById<EditText>(R.id.secondaryPhoneInput).text.toString().trim()
-val bloodGroup = findViewById<EditText>(R.id.bloodGroupInput).text.toString().trim()
-val city = findViewById<EditText>(R.id.cityInput).text.toString().trim()
-val address = findViewById<EditText>(R.id.addressInput).text.toString().trim()
-val languageKnown = findViewById<EditText>(R.id.languagesInput).text.toString().trim()
-
-if (profileImageUri == null || firstName.isEmpty() || phone.isEmpty()) {
-    Toast.makeText(this, "Profile image, first name, and phone are required.", Toast.LENGTH_SHORT).show()
-    return
-}
-
-val imageFile = uriToFile(profileImageUri!!)
-val imagePart = MultipartBody.Part.createFormData(
-    "img", imageFile.name, RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
-)
-
-val api = RetrofitClient.apiService
-val call = api.submitPersonalDetails(
-    firstName.toRequestBody(), lastName.toRequestBody(), fatherName.toRequestBody(),
-    dob.toRequestBody(), phone.toRequestBody(), secondaryNumber.toRequestBody(),
-    bloodGroup.toRequestBody(), city.toRequestBody(), address.toRequestBody(),
-    languageKnown.toRequestBody(), imagePart
-)
-
-call.enqueue(
-    onResponse = { response ->
-        if (response.isSuccessful) {
-            Toast.makeText(this, "Submitted successfully.", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this, PersonalDocuments::class.java))
-            finish()
-        } else {
-            Log.e("API Error", "Code: ${response.code()}, Error: ${response.errorBody()?.string()}")
-            Toast.makeText(this, "Submission failed: ${response.message()}", Toast.LENGTH_SHORT).show()
-        }
-    },
-    onFailure = { throwable ->
-        Log.e("API Failure", throwable.message.toString())
-        Toast.makeText(this, "Network error: ${throwable.message}", Toast.LENGTH_LONG).show()
-    }
-)
-
-
-}
-
-private fun uriToFile(uri: Uri): File {
-val tempFile = File.createTempFile("temp_image", ".jpg", cacheDir)
-contentResolver.openInputStream(uri)?.use { inputStream ->
-    FileOutputStream(tempFile).use { outputStream ->
-        inputStream.copyTo(outputStream)
-    }
-}
-return tempFile
-}
-
-private fun String.toRequestBody(): RequestBody =
-RequestBody.create("text/plain".toMediaTypeOrNull(), this)
-
-override fun onSaveInstanceState(outState: Bundle) {
-super.onSaveInstanceState(outState)
-outState.putParcelable("profileImageUri", profileImageUri)
-}
-}
-*/

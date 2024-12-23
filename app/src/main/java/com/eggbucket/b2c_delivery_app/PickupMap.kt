@@ -6,7 +6,6 @@ import android.content.Intent
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +18,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+
+
 import org.json.JSONObject
 import org.osmdroid.config.Configuration
-import org.osmdroid.util.GeoPoint
+
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 
@@ -111,7 +112,10 @@ class PickupMap : Fragment() {
         map.setMultiTouchControls(true)
         val mapController = map.controller
         mapController.setZoom(18.0) // Adjust zoom level
-        val startPoint = GeoPoint(outletLatitude!!,outletLongitude!!) // Replace with your fixed latitude & longitude
+        val startPoint = org.osmdroid.util.GeoPoint(
+            outletLatitude!!,
+            outletLongitude!!
+        ) // Replace with your fixed latitude & longitude
         mapController.setCenter(startPoint)
 
         val marker = Marker(map)

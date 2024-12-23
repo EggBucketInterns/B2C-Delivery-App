@@ -10,7 +10,6 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,10 +19,10 @@ class Login : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()  // Enable edge-to-edge after super.onCreate()
+        enableEdgeToEdge()
 
         setContentView(R.layout.activity_login)  // Set content view before accessing views
-
+        //shared preference to check the status of app
         val sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
         val status = sharedPreferences.getString("status", "default")
 
@@ -35,7 +34,7 @@ class Login : AppCompatActivity() {
             finish()  // Prevent going back to login page
             return
         }
-
+        //notification permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
                     this,
@@ -52,6 +51,7 @@ class Login : AppCompatActivity() {
         }
 
         val signupbtn: TextView = findViewById(R.id.register_btn)
+
         // Check the status and change the behavior of the signup button
         if (status == "submitted-all") {
             signupbtn.text = "View Document Status"
@@ -74,7 +74,7 @@ class Login : AppCompatActivity() {
                     return@addOnCompleteListener
                 }
 
-                // Get the FCM registration token
+                // Get the FCM(Firebase Messaging Service) registration token
                 val token = task.result
                 Log.d("FCM", "Device Token:${token}")
                 Toast.makeText(this, "token:${token}", Toast.LENGTH_SHORT).show()
@@ -87,5 +87,4 @@ class Login : AppCompatActivity() {
             finish()  // Prevent going back to login page
         }
     }
-
 }
