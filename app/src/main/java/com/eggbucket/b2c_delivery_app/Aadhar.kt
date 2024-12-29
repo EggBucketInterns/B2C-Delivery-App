@@ -81,7 +81,6 @@ class Aadhar : AppCompatActivity() {
     private fun getSavedPhoneNumber(): String? {
         val sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
         return sharedPreferences.getString("phoneNumber", null)
-
     }
 
     private fun showImageSourceDialog(galleryRequestCode: Int, cameraRequestCode: Int) {

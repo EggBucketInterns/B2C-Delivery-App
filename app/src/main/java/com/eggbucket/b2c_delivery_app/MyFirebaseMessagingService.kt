@@ -17,35 +17,35 @@ import com.google.firebase.messaging.RemoteMessage
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        super.onMessageReceived(remoteMessage)
+        override fun onMessageReceived(remoteMessage: RemoteMessage) {
+            super.onMessageReceived(remoteMessage)
 
-        // Log the message
-        Log.d("FCM", "Message received from: ${remoteMessage.from}")
+            // Log the message
+            Log.d("FCM", "Message received from: ${remoteMessage.from}")
 
-        // Check if the message contains data payload
-        remoteMessage.data.isNotEmpty().let {
-            Log.d("FCM", "Message data payload: ${remoteMessage.data}")
+            // Check if the message contains data payload
+            remoteMessage.data.isNotEmpty().let {
+                Log.d("FCM", "Message data payload: ${remoteMessage.data}")
+            }
+
+            // Check if the message contains a notification payload
+            remoteMessage.notification?.let {
+                Log.d("FCM", "Message Notification Body: ${it.body}")
+                showNotification(it.title, it.body)
+            }
         }
 
-        // Check if the message contains a notification payload
-        remoteMessage.notification?.let {
-            Log.d("FCM", "Message Notification Body: ${it.body}")
-            showNotification(it.title, it.body)
+        override fun onNewToken(token: String) {
+            super.onNewToken(token)
+            Log.d("FCM", "New token: $token")
+            // Send token to your server if needed
         }
-    }
 
-    override fun onNewToken(token: String) {
-        super.onNewToken(token)
-        Log.d("FCM", "New token: $token")
-        // Send token to your server if needed
-    }
-
-    private fun showNotification(title: String?, message: String?) {
+    fun showNotification(title: String?, message: String?) {
         val channelId = "urgent_channel"
         val notificationId = System.currentTimeMillis().toInt()
 
-        val intent = Intent(this, LoadNotification::class.java).apply {
+        val intent = Intent(this, MainActivity::class.java).apply {
             putExtra("FRAGMENT_TO_OPEN", "OrderNotification")
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -64,7 +64,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
-            .setSound(soundUri) // Use the custom sound
+            .setSound(soundUri)
             .setContentIntent(pendingIntent)
 
         val notificationManager =
@@ -95,4 +95,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         notificationManager.notify(notificationId, notificationBuilder.build())
     }
-}
+    }
+
+

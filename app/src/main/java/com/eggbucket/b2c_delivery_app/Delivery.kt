@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit
 
 class Delivery : Fragment() {
     private lateinit var usersharedPreferences: SharedPreferences
+    private lateinit var ordersharedPreferences: SharedPreferences
     private lateinit var orderNumber:String
 
 
@@ -52,7 +53,7 @@ class Delivery : Fragment() {
         }
         usersharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
         val riderPhoneNo=usersharedPreferences.getString("phone", "")
-        val ordersharedPreferences = requireContext().getSharedPreferences("OrderPrefs", Context.MODE_PRIVATE)
+        ordersharedPreferences = requireContext().getSharedPreferences("OrderPrefs", Context.MODE_PRIVATE)
         val stringJson = ordersharedPreferences.getString("SelectedOrderData", null)
 
 
@@ -92,7 +93,6 @@ class Delivery : Fragment() {
 
             // Handle back button click
 
-
             view.findViewById<ImageView>(R.id.backIcon).setOnClickListener {
                 activity?.onBackPressed()
             }
@@ -118,20 +118,20 @@ class Delivery : Fragment() {
 
 
 
-            val client = OkHttpClient.Builder()
+        val client = OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)  // Set connect timeout
                 .readTimeout(30, TimeUnit.SECONDS)     // Set read timeout
                 .writeTimeout(30, TimeUnit.SECONDS)    // Set write timeout
                 .build()
-            val url = "https://b2c-backend-1.onrender.com/api/v1/deliveryPartner/markorderdelivered/$riderPhoneNo/$orderNumber"
+        val url = "https://b2c-backend-1.onrender.com/api/v1/deliveryPartner/markorderdelivered/$riderPhoneNo/$orderNumber"
 
             // Create the PATCH request
-            val request = Request.Builder()
-                .url(url)
-                .patch(RequestBody.create(null, ByteArray(0))) // Empty body for PATCH
-                .build()
+        val request = Request.Builder()
+            .url(url)
+            .patch(RequestBody.create(null, ByteArray(0))) // Empty body for PATCH
+            .build()
 
-            // Execute the request asynchronously
+        // Execute the request asynchronously
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 // Handle network or other errors
@@ -147,6 +147,9 @@ class Delivery : Fragment() {
                         requireActivity().runOnUiThread {
                             findNavController().navigate(R.id.action_delivery_to_dashboardFragment)
                             Toast.makeText(requireContext(), "Order marked as delivered successfully.", Toast.LENGTH_SHORT).show()
+                            val editor = ordersharedPreferences.edit()
+                            editor.clear()
+                            editor.apply()
                         }
                     } else {
                         // Handle server errors on the main thread
@@ -158,6 +161,5 @@ class Delivery : Fragment() {
                 }
             }
         })
-        }
-
+    }
 }

@@ -12,9 +12,11 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.InputType
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -42,13 +44,14 @@ class PersonalInformation : AppCompatActivity() {
     private val CAMERA_REQUEST_CODE = 1010
     private val CAMERA_PERMISSION_CODE = 2001
     private lateinit var tempFile: File
+    private lateinit var submitButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_information)
 
         val uploadImageButton: Button = findViewById(R.id.Upploadbutton)
-        val submitButton: Button = findViewById(R.id.submit_vehicle_button)
+        submitButton = findViewById(R.id.submit_personalInfo_button)
         val dateOfBirthInput: EditText = findViewById(R.id.dateOfBirthInput)
 
         uploadImageButton.setOnClickListener {
@@ -242,6 +245,10 @@ class PersonalInformation : AppCompatActivity() {
                                       bloodGroup:String,
                                       city:String,
                                       languageKnown:String) {
+        val progressbar = findViewById<ProgressBar>(R.id.PIprogressBar)
+        progressbar.visibility = View.VISIBLE
+        submitButton.visibility=View.INVISIBLE
+        //address part
         val addressJson = """
         {
             "coordinates": {
@@ -320,13 +327,19 @@ class PersonalInformation : AppCompatActivity() {
                     Log.d("DEBUG", "Response Body: $responseBody")
 
                     runOnUiThread {
+                        progressbar.visibility = View.INVISIBLE
+                        submitButton.visibility=View.VISIBLE
                         Log.d("DEBUG", "Navigating to PersonalDocuments")
                         startActivity(Intent(this@PersonalInformation, PersonalDocuments::class.java))
                         finish()
                     }
                 } else {
-                    val errorBody = response.body?.string() ?: "No error body"
-                    Log.e("DEBUG", "API Failure: Code: ${response.code}, Error Body: $errorBody")
+                    runOnUiThread {
+                        progressbar.visibility = View.INVISIBLE
+                        submitButton.visibility=View.VISIBLE
+                        val errorBody = response.body?.string() ?: "No error body"
+                        Log.e("DEBUG", "API Failure: Code: ${response.code}, Error Body: $errorBody")
+                    }
                 }
             }
         })
