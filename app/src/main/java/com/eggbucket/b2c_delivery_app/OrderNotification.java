@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,8 @@ public class OrderNotification extends Fragment {
 
     private RelativeLayout slidingPill;
     private RelativeLayout pickUpButton;
+
+    private TextView orderId,pickupLocation,dropLocation;
 
     private static final float END_POSITION_THRESHOLD = 0.8f; // 80% of the width as the threshold for the "end position"
 
@@ -28,6 +31,19 @@ public class OrderNotification extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_notification, container, false);
+
+        // Retrieve arguments
+        Bundle args = getArguments();
+        String orderIdText = args != null ? args.getString("ORDER_ID") : "N/A";
+        String pickupText = args != null ? args.getString("PICKUP") : "N/A";
+        String deliveryText = args != null ? args.getString("DELIVERY") : "N/A";
+
+        orderId=view.findViewById(R.id.order_id);
+        pickupLocation=view.findViewById(R.id.pickup_location);
+        dropLocation=view.findViewById(R.id.drop_location);
+        orderId.setText("Order id:"+orderIdText);
+        pickupLocation.setText(pickupText);
+        dropLocation.setText(deliveryText);
 
         pickUpButton = view.findViewById(R.id.pickUpButton);
         slidingPill = view.findViewById(R.id.sliding_pill);
@@ -54,12 +70,12 @@ public class OrderNotification extends Fragment {
                     case MotionEvent.ACTION_MOVE:
                         // Calculate the movement distance
                         deltaX = event.getRawX() - initialX;
-                        float newX = slidingPill.getTranslationX() + deltaX; // Use translationX instead of setX
+                        float newX = slidingPill.getTranslationX() + deltaX;
 
                         // Ensure the pill stays within bounds
                         if (newX >= 0 && newX <= pickUpButton.getWidth() - slidingPill.getWidth()) {
-                            slidingPill.setTranslationX(newX); // Smooth translation update
-                            initialX = event.getRawX(); // Update initial position for the next move
+                            slidingPill.setTranslationX(newX);
+                            initialX = event.getRawX();
                         }
                         break;
 
@@ -67,7 +83,7 @@ public class OrderNotification extends Fragment {
                         // Calculate the end position threshold
                         float endPosition = pickUpButton.getWidth() - slidingPill.getWidth();
                         if (slidingPill.getTranslationX() >= endPosition * END_POSITION_THRESHOLD) {
-                            // Trigger a popup (Toast) or any other action when the pill reaches the end
+                            // Trigger a popup or any other action when the pill reaches the end
                             Toast.makeText(getContext(), "Pill Reached the End! Action Triggered.", Toast.LENGTH_SHORT).show();
 
                             // Navigate to the next screen when the pill reaches the end

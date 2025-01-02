@@ -27,11 +27,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             remoteMessage.data.isNotEmpty().let {
                 Log.d("FCM", "Message data payload: ${remoteMessage.data}")
             }
+            val orderId = remoteMessage.data["Order ID"]
+            val pickup = remoteMessage.data["Pickup"]
+            val delivery = remoteMessage.data["Delivery"]
+
+            // Pass the extracted data to MainActivity
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("FRAGMENT_TO_OPEN", "OrderNotification")
+                putExtra("ORDER_ID", orderId)
+                putExtra("PICKUP", pickup)
+                putExtra("DELIVERY", delivery)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
 
             // Check if the message contains a notification payload
             remoteMessage.notification?.let {
                 Log.d("FCM", "Message Notification Body: ${it.body}")
-                showNotification(it.title, it.body)
+                showNotification(it.title, it.body,intent)
             }
         }
 
@@ -41,14 +53,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             // Send token to your server if needed
         }
 
-    fun showNotification(title: String?, message: String?) {
+    private fun showNotification(title: String?, message: String?,intent: Intent) {
         val channelId = "urgent_channel"
         val notificationId = System.currentTimeMillis().toInt()
-
-        val intent = Intent(this, MainActivity::class.java).apply {
-            putExtra("FRAGMENT_TO_OPEN", "OrderNotification")
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
 
         val pendingIntent = PendingIntent.getActivity(
             this, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT

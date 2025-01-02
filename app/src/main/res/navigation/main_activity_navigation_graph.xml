@@ -84,6 +84,15 @@
             app:destination="@id/pickupMap" />
         <deepLink
             app:uri="myapp://order_notification" />
+        <argument
+            android:name="ORDER_ID"
+            app:argType="string" />
+        <argument
+            android:name="PICKUP"
+            app:argType="string" />
+        <argument
+            android:name="DELIVERY"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/orderDetails"

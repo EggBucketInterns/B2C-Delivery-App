@@ -43,8 +43,18 @@ class MainActivity : AppCompatActivity() {
 
         // Check if the intent contains a specific fragment to navigate to
         val fragmentToOpen = intent.getStringExtra("FRAGMENT_TO_OPEN")
+        val orderId = intent.getStringExtra("ORDER_ID")
+        val pickup = intent.getStringExtra("PICKUP")
+        val delivery = intent.getStringExtra("DELIVERY")
+
+        // Navigate to the appropriate fragment if the intent specifies one
         if (fragmentToOpen == "OrderNotification") {
-            navController.navigate(R.id.action_dashboardFragment_to_newOrder) // Replace with your fragment's ID
+            val bundle = Bundle().apply {
+                putString("ORDER_ID", orderId)
+                putString("PICKUP", pickup)
+                putString("DELIVERY", delivery)
+            }
+            navController.navigate(R.id.action_dashboardFragment_to_newOrder, bundle)
         }
     }
 
