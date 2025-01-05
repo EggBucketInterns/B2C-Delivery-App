@@ -47,7 +47,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             holder.extraProductsText.setVisibility(View.GONE);
         }
 
-        holder.orderDate.setText("Order Placed on " + orderHistoryModel.getDate());
+        holder.orderDate.setText("Order Delivered on " + orderHistoryModel.getDate());
         holder.orderStatus.setText(orderHistoryModel.getStatus());
         holder.orderAmt.setText("₹ " + orderHistoryModel.getAmount());
         holder.orderId.setText("Order ID: " + orderHistoryModel.getId());
