@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/backIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="start|center_vertical"
             android:contentDescription="Back"
             android:onClick="onBackPressed"
@@ -46,34 +46,7 @@
         android:orientation="vertical">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingVertical="10dp"
-                android:paddingLeft="25dp"
-                android:text="Outlet :"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/outletName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingHorizontal="25dp"
-                android:paddingVertical="10dp"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -232,65 +205,7 @@
             android:layout_marginTop="2dp"
             android:background="@color/grey" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="25dp"
-            android:paddingVertical="5dp">
 
-            <!-- Left Icon or Image -->
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="8dp"
-                android:contentDescription="Left Icon"
-                android:src="@drawable/pickup_orange" />
-
-            <!-- Text Layout -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Pickup Address: "
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/outletAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:text="address of pickup center"
-                    android:textColor="@color/text_primary"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <!-- First Right Icon -->
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="30dp"
-                android:contentDescription="First Icon"
-                android:padding="10dp"
-                android:src="@drawable/call_orange" />
-
-            <!-- Second Right Icon -->
-            <!--            <ImageView-->
-            <!--                android:layout_width="20dp"-->
-            <!--                android:layout_height="20dp"-->
-            <!--                android:contentDescription="Second Right Icon"-->
-            <!--                android:src="@drawable/message_orange" />-->
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -332,6 +247,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
+                    android:id="@+id/CallCoust"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="30dp"
