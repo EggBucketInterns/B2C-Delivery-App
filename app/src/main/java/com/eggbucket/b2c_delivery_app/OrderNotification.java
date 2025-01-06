@@ -19,7 +19,7 @@ public class OrderNotification extends Fragment {
     private RelativeLayout slidingPill;
     private RelativeLayout pickUpButton;
 
-    private TextView orderId,pickupLocation,dropLocation;
+    private TextView orderId,pickupLocation,dropLocation,orderValue,quantity6,quantity12,quantity30;
 
     private static final float END_POSITION_THRESHOLD = 0.8f; // 80% of the width as the threshold for the "end position"
 
@@ -37,13 +37,28 @@ public class OrderNotification extends Fragment {
         String orderIdText = args != null ? args.getString("ORDER_ID") : "N/A";
         String pickupText = args != null ? args.getString("PICKUP") : "N/A";
         String deliveryText = args != null ? args.getString("DELIVERY") : "N/A";
+        String orderValueText=args != null? args.getString("ORDER_VALUE") :"N/A";
+        String quantity6Text=args != null? args.getString("E6") :"N/A";
+        String quantity12Text=args != null? args.getString("E12") :"N/A";
+        String quantity30Text=args != null? args.getString("E30") :"N/A";
+
 
         orderId=view.findViewById(R.id.order_id);
         pickupLocation=view.findViewById(R.id.pickup_location);
         dropLocation=view.findViewById(R.id.drop_location);
-        orderId.setText("Order id:"+orderIdText);
+        orderValue=view.findViewById(R.id.order_value);
+        quantity6=view.findViewById(R.id.Egg6Quantity);
+        quantity12=view.findViewById(R.id.Egg12Quantity);
+        quantity30=view.findViewById(R.id.Egg30Quantity);
+
+
+        orderId.setText("Order id: "+orderIdText);
         pickupLocation.setText(pickupText);
         dropLocation.setText(deliveryText);
+        orderValue.setText("Order value: "+orderValueText);
+        quantity6.setText(quantity6Text);
+        quantity12.setText(quantity12Text);
+        quantity30.setText(quantity30Text);
 
         pickUpButton = view.findViewById(R.id.pickUpButton);
         slidingPill = view.findViewById(R.id.sliding_pill);

@@ -27,9 +27,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             remoteMessage.data.isNotEmpty().let {
                 Log.d("FCM", "Message data payload: ${remoteMessage.data}")
             }
-            val orderId = remoteMessage.data["Order ID"]
-            val pickup = remoteMessage.data["Pickup"]
-            val delivery = remoteMessage.data["Delivery"]
+            val orderId = remoteMessage.data["ORDER_ID"]
+            val pickup = remoteMessage.data["PICKUP"]
+            val delivery = remoteMessage.data["DELIVERY"]
+            val orderValue=remoteMessage.data["ORDER_VALUE"]
+            val e6=remoteMessage.data["E6"]
+            val e12=remoteMessage.data["E12"]
+            val e30=remoteMessage.data["E30"]
+
 
             // Pass the extracted data to MainActivity
             val intent = Intent(this, MainActivity::class.java).apply {
@@ -37,6 +42,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 putExtra("ORDER_ID", orderId)
                 putExtra("PICKUP", pickup)
                 putExtra("DELIVERY", delivery)
+                putExtra("ORDER_VALUE",orderValue)
+                putExtra("E6",e6)
+                putExtra("E12",e12)
+                putExtra("E30",e30)
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
 

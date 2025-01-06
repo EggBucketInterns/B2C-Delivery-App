@@ -93,6 +93,19 @@
         <argument
             android:name="DELIVERY"
             app:argType="string" />
+        <argument
+            android:name="ORDER_VALUE"
+            app:argType="string" />
+        <argument
+            android:name="E6"
+            app:argType="string" />
+        <argument
+            android:name="E12"
+            app:argType="string" />
+        <argument
+            android:name="E30"
+            app:argType="string" />
+
     </fragment>
     <fragment
         android:id="@+id/orderDetails"
