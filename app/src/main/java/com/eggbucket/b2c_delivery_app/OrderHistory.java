@@ -116,7 +116,7 @@ public class OrderHistory extends Fragment {
                                     orderDateObject.getLong("_seconds"),
                                     orderDateObject.getInt("_nanoseconds")
                             );
-                            String deliveryStatus = orderObject.getBoolean("deliveredStatus") ? "Delivered" : "Pending";
+                            String deliveryStatus = "Delivered";
                             String price = String.valueOf(orderObject.getInt("price"));
 
                             List<Integer> productImages = new ArrayList<>();
