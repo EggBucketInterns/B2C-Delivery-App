@@ -59,28 +59,9 @@ class personalDetails : Fragment() {
         valueAddress = view.findViewById(R.id.valueAddress)
         valueLanguageKnown = view.findViewById(R.id.valueLanguageKnown)
         imageview = view.findViewById(R.id.profilePhoto)
+
+
         sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
-
-        loadData()
-
-        view?.findViewById<ImageView>(R.id.aadharBackButton)?.setOnClickListener {
-            NavHostFragment.findNavController(this@personalDetails).popBackStack()
-        }
-
-        return view
-    }
-
-    private fun loadData() {
-        val isDataStored = sharedPreferences.getBoolean("isDataStored", false)
-        if (isDataStored) {
-            displayFromPreferences()
-            displayImageFromLocal(imageview, fileName)
-        }
-    }
-
-    private fun displayFromPreferences() {
-        Log.d("ProfileData", "Loading data from preferences")
-
         valueName.text = "${sharedPreferences.getString("firstName", "")} ${sharedPreferences.getString("lastName", "")}"
         valueFatherName.text = sharedPreferences.getString("fatherName", "")
         valueDOB.text = sharedPreferences.getString("dob", "")
@@ -90,21 +71,23 @@ class personalDetails : Fragment() {
         valueCity.text = sharedPreferences.getString("city", "")
         valueAddress.text = sharedPreferences.getString("address", "")
         valueLanguageKnown.text = sharedPreferences.getString("languageKnown", "")
+        val image = sharedPreferences.getString("img", null)
 
+        Glide.with(this)
+            .load(image) // URL or path to the new image
+            .placeholder(R.drawable.ic_person) // Placeholder image
+            .circleCrop() // Ensure circular cropping
+            .into(profilePhoto)
 
-    }
-
-    private fun displayImageFromLocal(imageView: ImageView, fileName: String) {
-        val file = File(context?.filesDir, fileName) // Get the file from app's internal storage
-        if (file.exists()) {
-            Glide.with(this)
-                .load(file) // Load the image file into the ImageView
-                .placeholder(R.drawable.ic_person) // Fallback image
-                .into(imageView)
-        } else {
-            Log.e("IMAGE_DISPLAY", "File does not exist: $fileName")
+        view?.findViewById<ImageView>(R.id.aadharBackButton)?.setOnClickListener {
+            NavHostFragment.findNavController(this@personalDetails).popBackStack()
         }
+
+        return view
     }
+
+
+
 
 
 }

@@ -34,13 +34,13 @@ class Login : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
         val status = sharedPreferences.getString("status", "default")
 
-        if (status == "logedin") {
-            // If the user is already logged in, navigate to MainActivity directly
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()  // Prevent going back to login page
-            return
-        }
+//        if (status == "logedin") {
+//            // If the user is already logged in, navigate to MainActivity directly
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//            finish()  // Prevent going back to login page
+//            return
+//        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
@@ -90,11 +90,11 @@ class Login : AppCompatActivity() {
             jsonBody.put("password", password)
 
             // Send POST request
-            sendPostRequest(jsonBody)
+            sendPostRequest(jsonBody,phone)
         }
     }
 
-    private fun sendPostRequest(jsonBody: JSONObject) {
+    private fun sendPostRequest(jsonBody: JSONObject,phoneno:String) {
         val url = "https://b2c-backend-1.onrender.com/api/v1/deliveryPartner/verifypassword"
         val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
         val requestBody = RequestBody.create(mediaType, jsonBody.toString())
@@ -122,8 +122,10 @@ class Login : AppCompatActivity() {
 
                         // Save the status as "logedin" when the user logs in
                         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-                        sharedPreferences.edit().putString("status", "logedin").apply()
-
+                        val editor=sharedPreferences.edit()
+                        editor.putString("status", "logedin")
+                        editor.putString("phone_no",phoneno)
+                        editor.apply()
                         // Navigate to MainActivity
                         val intent = Intent(this@Login, MainActivity::class.java)
                         startActivity(intent)

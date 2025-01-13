@@ -121,7 +121,7 @@ class ProfileFragment : Fragment() {
 
         // Navigate to Notifications
         binding.llNotifications.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_newOrder)
+            findNavController().navigate(R.id.action_profileFragment_to_notificationFragment)
         }
 
         // Handle Logout

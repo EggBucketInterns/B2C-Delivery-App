@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_profileFragment_to_personalDetails"
             app:destination="@id/personalDetails" />
+        <action
+            android:id="@+id/action_profileFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
     <activity
         android:id="@+id/mainActivity"
@@ -81,7 +84,7 @@
         tools:layout="@layout/fragment_order_notification" >
         <action
             android:id="@+id/action_newOrder_to_pickupMap"
-            app:destination="@id/pickupMap" />
+            app:destination="@id/dashboardFragment" />
         <deepLink
             app:uri="myapp://order_notification" />
         <argument
@@ -156,4 +159,9 @@
             android:id="@+id/action_delivery_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.eggbucket.b2c_delivery_app.NotificationFragment"
+        android:label="fragment_item_list"
+        tools:layout="@layout/fragment_item_list" />
 </navigation>

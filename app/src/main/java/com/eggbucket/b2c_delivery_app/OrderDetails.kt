@@ -1,6 +1,8 @@
 package com.eggbucket.b2c_delivery_app
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -62,6 +64,8 @@ class OrderDetails : Fragment() {
             // Outlet info
             val outletInfo = jsonData.optJSONObject("outletInfo")
             val outletName = outletInfo?.optString("name", "Unknown Outlet") ?: "Unknown Outlet"
+            val outletPhone=outletInfo?.optString("phone", "Unknown Outlet") ?: "Unknown Outlet"
+
             val outletAddressJson = outletInfo?.optJSONObject("address")?.optJSONObject("fullAddress")
             val outletAddress = outletAddressJson?.let {
                 "${it.optString("flatNo", "")} ${it.optString("area", "")}, ${it.optString("city", "")}, ${it.optString("state", "")} - ${it.optString("zipCode", "")}, ${it.optString("country", "")}"
@@ -73,7 +77,7 @@ class OrderDetails : Fragment() {
                 "${it.optString("flatNo", "")} ${it.optString("area", "")}, ${it.optString("city", "")}, ${it.optString("state", "")} - ${it.optString("zipCode", "")}, ${it.optString("country", "")}"
             } ?: "Delivery address not available"
             val customerName = jsonData.optJSONObject("customerInfo").optString("name", "N/A")
-
+            val customerPhoneno=jsonData.optJSONObject("customerInfo").optString("phone", "N/A")
             val products: JSONObject = jsonData.optJSONObject("products")
             Log.d("Order Details", products.toString())
 
@@ -98,6 +102,20 @@ class OrderDetails : Fragment() {
             // Handle back button click
             view.findViewById<ImageView>(R.id.backIcon).setOnClickListener {
                 activity?.onBackPressed()
+            }
+            view.findViewById<ImageView>(R.id.store_phone).setOnClickListener(){
+
+                val intent = Intent(Intent.ACTION_DIAL).apply {
+                    data = Uri.parse("tel:+91${outletPhone}")
+                }
+                startActivity(intent)
+            }
+            view.findViewById<ImageView>(R.id.custcall).setOnClickListener(){
+
+                val intent = Intent(Intent.ACTION_DIAL).apply {
+                    data = Uri.parse("tel:+91${customerPhoneno}")
+                }
+                startActivity(intent)
             }
 //
         } catch (e: JSONException) {

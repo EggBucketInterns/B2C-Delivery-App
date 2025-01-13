@@ -6,6 +6,9 @@ import android.content.Intent
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +41,17 @@ class PickupMap : Fragment() {
     private lateinit var jsonData: JSONObject
     private lateinit var map: MapView
 
+    private val locationUpdateHandler = Handler(Looper.getMainLooper())
+    private val locationUpdateRunnable = object : Runnable {
+        override fun run() {
+            fetchCurrentLocation {
+                updateDistanceAndButton(view?.findViewById(R.id.reached_outlet_button) as Button)
+            }
+            // Schedule the next update after 5 seconds
+            locationUpdateHandler.postDelayed(this, 5000)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,8 +61,8 @@ class PickupMap : Fragment() {
         val reachedBtn: Button = view.findViewById(R.id.reached_outlet_button)
         val addressTextView: TextView = view.findViewById(R.id.address_text)
         val nameTextView: TextView = view.findViewById(R.id.name)
-        map=view.findViewById(R.id.map)
-        val gps_crosshair: ImageButton = view.findViewById(R.id.gps_crosshair)
+        map = view.findViewById(R.id.map)
+        val gpsCrosshair: ImageButton = view.findViewById(R.id.gps_crosshair)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         // Retrieve JSON data from SharedPreferences
@@ -56,14 +70,7 @@ class PickupMap : Fragment() {
         val stringJson = sharedPreferences.getString("SelectedOrderData", null)
 
         if (stringJson != null) {
-           jsonData = JSONObject(stringJson)
-
-            val editor = sharedPreferences.edit()
-            editor.putString("SelectedOrderData", jsonData.toString())
-            editor.apply()
-
-
-
+            jsonData = JSONObject(stringJson)
 
             val deliveryAddress = jsonData.getJSONObject("outletInfo").getJSONObject("address")
             val fullAddress = deliveryAddress.getJSONObject("fullAddress")
@@ -86,16 +93,11 @@ class PickupMap : Fragment() {
             Toast.makeText(requireContext(), "Order data not found", Toast.LENGTH_SHORT).show()
         }
 
-        // Fetch user's current location
-        fetchCurrentLocation {
+        gpsCrosshair.setOnClickListener {
+            userLatitude = outletLatitude
+            userLongitude = outletLongitude
             updateDistanceAndButton(reachedBtn)
         }
-        gps_crosshair.setOnClickListener(){
-            userLatitude=outletLatitude
-            userLongitude=outletLongitude
-            updateDistanceAndButton(reachedBtn)
-        }
-
 
         reachedBtn.setOnClickListener {
             if (isUserNearOutlet()) {
@@ -106,24 +108,20 @@ class PickupMap : Fragment() {
             }
         }
 
-        //gps map
+        // GPS map setup
         val sharedPrefs = requireContext().getSharedPreferences("osmdroid", Context.MODE_PRIVATE)
         Configuration.getInstance().load(requireContext(), sharedPrefs)
         map.setMultiTouchControls(true)
         val mapController = map.controller
-        mapController.setZoom(18.0) // Adjust zoom level
-        val startPoint = org.osmdroid.util.GeoPoint(
-            outletLatitude!!,
-            outletLongitude!!
-        ) // Replace with your fixed latitude & longitude
+        mapController.setZoom(18.0)
+        val startPoint = org.osmdroid.util.GeoPoint(outletLatitude!!, outletLongitude!!)
         mapController.setCenter(startPoint)
 
         val marker = Marker(map)
-        marker.position = startPoint // Set the position of the marker
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM) // Adjust the marker's anchor point
-        marker.title = "Outlet Location" // Set a title for the marker
+        marker.position = startPoint
+        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+        marker.title = "Outlet Location"
         map.overlays.add(marker)
-
 
         return view
     }
@@ -184,16 +182,22 @@ class PickupMap : Fragment() {
             Toast.makeText(requireContext(), "Location not available", Toast.LENGTH_SHORT).show()
         }
     }
+
     override fun onResume() {
         super.onResume()
-        map.onResume() // Required by OSMDroid
+        map.onResume()
+        // Start location updates
+        locationUpdateHandler.post(locationUpdateRunnable)
     }
 
     override fun onPause() {
         super.onPause()
-        map.onPause() // Required by OSMDroid
+        map.onPause()
+        // Stop location updates
+        locationUpdateHandler.removeCallbacks(locationUpdateRunnable)
     }
 }
+
 
 //    private fun fetchOutletLocation(phoneNumber: String, onFetchComplete: (FullAddress) -> Unit) {
 //        val apiService = RetrofitClient.apiService

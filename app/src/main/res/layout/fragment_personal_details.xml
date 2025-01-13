@@ -276,33 +276,38 @@
                 <!-- Address -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/personalinformation_background_card"
                     android:orientation="horizontal"
                     android:padding="10dp"
                     android:layout_marginVertical="5dp"
                     android:elevation="4dp">
 
-                    <TextView
-                        android:id="@+id/labelAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Address:"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/labelAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address:"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/valueAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="12 Carter Road, Bandra"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/valueAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="12 Carter Road, Bandra, Mumbai, Maharashtra, India, Pin 400050"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:ellipsize="none"
+                    android:scrollHorizontally="false"
+                    android:maxLines="5" /> <!-- Limit lines if necessary -->
+            </LinearLayout>
 
-                <!-- Languages Known -->
+
+        <!-- Languages Known -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"

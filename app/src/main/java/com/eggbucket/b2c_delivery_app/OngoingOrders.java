@@ -122,29 +122,29 @@ public class OngoingOrders extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     try {
                         String responseData = response.body().string();
-                        JSONObject jsonResponse = new JSONObject(responseData);
-                        JSONArray pendingOrders = jsonResponse.getJSONArray("pendingOrders");
+                        // Parse the response as a JSONArray
+                        JSONArray ordersArray = new JSONArray(responseData);
 
                         List<OngoingOrdersModel> orders = new ArrayList<>();
-                        for (int i = 0; i < pendingOrders.length(); i++) {
-                            JSONObject order = pendingOrders.getJSONObject(i);
+                        for (int i = 0; i < ordersArray.length(); i++) {
+                            JSONObject order = ordersArray.getJSONObject(i);
                             String orderId = order.getString("orderId");
-                            String status = "Pickup Pending"; // Set a default status for now
-                            String amount = order.getString("amount"); // Get the amount dynamically
+                            String status = "Pickup Pending"; // Default status
+                            String amount = String.valueOf(order.getInt("amount")); // Get amount dynamically
                             JSONObject outletInfo = order.getJSONObject("outletInfo");
                             JSONObject deliveryAddress = order.getJSONObject("deliveryAddress");
-                            JSONObject customerInfo= order.getJSONObject("customerInfo");
+                            JSONObject customerInfo = order.getJSONObject("customerInfo");
                             JSONObject products = order.getJSONObject("products");
+
                             OngoingOrdersModel ongoingOrder = new OngoingOrdersModel(
                                     orderId, status, amount, outletInfo,
                                     deliveryAddress, products, customerInfo
                             );
                             orders.add(ongoingOrder);
-
                         }
 
                         // Update UI on the main thread
-                        getActivity().runOnUiThread(() -> {
+                        requireActivity().runOnUiThread(() -> {
                             hideLoader();
                             ordersAdapter = new OngoingOrdersAdapter(orders, getContext());
                             ordersRecyclerView.setAdapter(ordersAdapter);
@@ -152,17 +152,18 @@ public class OngoingOrders extends Fragment {
 
                     } catch (Exception e) {
                         Log.e("JSON Error", "Error parsing orders: " + e.getMessage());
-                        getActivity().runOnUiThread(() -> {
+                        requireActivity().runOnUiThread(() -> {
                             loaderText.setText("Failed to load orders. Please try again.");
                         });
                     }
                 } else {
                     Log.e("API Error", "Failed to fetch orders: " + response.message());
-                    getActivity().runOnUiThread(() -> {
+                    requireActivity().runOnUiThread(() -> {
                         loaderText.setText("Failed to fetch orders. Please try again.");
                     });
                 }
             }
         });
     }
+
 }

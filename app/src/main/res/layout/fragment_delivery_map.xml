@@ -68,7 +68,6 @@
             android:layout_height="120dp"
             android:orientation="vertical"
             android:layout_margin="30dp"
-            android:background="@drawable/border"
             android:elevation="6dp"
             tools:ignore="MissingConstraints">
 

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,8 @@ class Delivery : Fragment() {
     private lateinit var usersharedPreferences: SharedPreferences
     private lateinit var ordersharedPreferences: SharedPreferences
     private lateinit var orderNumber:String
+    private lateinit var orderValue:String
+    private lateinit var customerPhoneno:String
 
 
     override fun onCreateView(
@@ -67,7 +70,7 @@ class Delivery : Fragment() {
 
             // Retrieve values
             orderNumber = jsonData.optString("orderNumber", "N/A")
-            val orderValue = jsonData.optString("orderValue", "N/A")
+            orderValue = jsonData.optString("orderValue", "0")
 
 
             // Delivery address
@@ -76,7 +79,7 @@ class Delivery : Fragment() {
                 "${it.optString("flatNo", "")} ${it.optString("area", "")}, ${it.optString("city", "")}, ${it.optString("state", "")} - ${it.optString("zipCode", "")}, ${it.optString("country", "")}"
             } ?: "Delivery address not available"
             val customerName = jsonData.optJSONObject("customerInfo").optString("name", "N/A")
-
+            customerPhoneno=jsonData.optJSONObject("customerInfo").optString("phone", "N/A")
             val products: JSONObject = jsonData.optJSONObject("products")
             val e6Quantity = products.optInt("E6", 0)
             val e12Quantity = products.optInt("E12", 0)
@@ -103,7 +106,7 @@ class Delivery : Fragment() {
         view.findViewById<ImageView>(R.id.CallCoust).setOnClickListener(){
 
             val intent = Intent(Intent.ACTION_DIAL).apply {
-                data = Uri.parse("tel:+919113854167")
+                data = Uri.parse("tel:+91${customerPhoneno}")
             }
             startActivity(intent)
         }
@@ -114,18 +117,17 @@ class Delivery : Fragment() {
 
         }
     }
-    private fun markAsDelivered(orderNumber:String,riderPhoneNo:String?){
-
-
-
+    private fun markAsDelivered(orderNumber: String, riderPhoneNo: String?) {
         val client = OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)  // Set connect timeout
-                .readTimeout(30, TimeUnit.SECONDS)     // Set read timeout
-                .writeTimeout(30, TimeUnit.SECONDS)    // Set write timeout
-                .build()
-        val url = "https://b2c-backend-1.onrender.com/api/v1/deliveryPartner/markorderdelivered/$riderPhoneNo/$orderNumber"
+            .connectTimeout(30, TimeUnit.SECONDS)  // Set connect timeout
+            .readTimeout(30, TimeUnit.SECONDS)     // Set read timeout
+            .writeTimeout(30, TimeUnit.SECONDS)    // Set write timeout
+            .build()
 
-            // Create the PATCH request
+        val url = "https://b2c-backend-1.onrender.com/api/v1/deliveryPartner/markorderdelivered/$riderPhoneNo/$orderNumber"
+        Log.d("markAsDelivered", "URL: $url") // Log the URL for debugging
+
+        // Create the PATCH request
         val request = Request.Builder()
             .url(url)
             .patch(RequestBody.create(null, ByteArray(0))) // Empty body for PATCH
@@ -134,32 +136,49 @@ class Delivery : Fragment() {
         // Execute the request asynchronously
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                // Handle network or other errors
+                Log.e("markAsDelivered", "Network request failed: ${e.message}", e) // Log detailed error
                 requireActivity().runOnUiThread {
-                    Toast.makeText(requireContext(), "Failed to mark order as delivered: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Failed to mark order as delivered. Please check your network connection.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
-                    if (it.isSuccessful) {
+                   if (it.isSuccessful) {
                         // Navigate on the main thread
                         requireActivity().runOnUiThread {
                             findNavController().navigate(R.id.action_delivery_to_dashboardFragment)
-                            Toast.makeText(requireContext(), "Order marked as delivered successfully.", Toast.LENGTH_SHORT).show()
-                            val editor = ordersharedPreferences.edit()
-                            editor.clear()
-                            editor.apply()
+                            Toast.makeText(
+                                requireContext(),
+                                "Order delivered successfully.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            // Clear shared preferences
+                            ordersharedPreferences.edit().clear().apply()
+                            var profit=usersharedPreferences.getInt("earnings",0)
+                            profit += (orderValue.toInt()*0.05).toInt()
+                            usersharedPreferences.edit().putInt("earnings",profit).apply()
+                            Log.d("markAsDelivered", "Shared preferences cleared.")
                         }
                     } else {
-                        // Handle server errors on the main thread
-                        findNavController().navigate(R.id.action_delivery_to_dashboardFragment)
+
                         requireActivity().runOnUiThread {
-                            Toast.makeText(requireContext(), "Failed marking delivery: ${response.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Failed to mark order as delivered. Server responded with code ${response.code}.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
+
                     }
                 }
             }
         })
     }
+
 }
