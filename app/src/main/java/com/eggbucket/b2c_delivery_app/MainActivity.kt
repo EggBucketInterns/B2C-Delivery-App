@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         // Start API call
         fetchApiData()
+        setupNavigation()
     }
 
     private fun fetchApiData() {
