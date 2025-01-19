@@ -28,7 +28,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.B2CDeliveryApp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".Passbook"
+            android:exported="false" />
         <!-- FileProvider for handling secure file sharing -->
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -39,8 +41,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <receiver android:name=".NotificationClickReceiver" />
 
+        <receiver android:name=".NotificationClickReceiver" />
 
         <service
             android:name=".MyFirebaseMessagingService"
@@ -49,11 +51,10 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".LoadNotification"
-            android:exported="true" >
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".DrivingLicense"
             android:exported="false" />
@@ -66,8 +67,7 @@
             android:theme="@style/Theme.B2CDeliveryApp" />
         <activity
             android:name=".Login"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".PersonalDocuments"
             android:exported="false" />
@@ -89,19 +89,19 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".PersonalInformation"
             android:exported="false" /> <!-- Preloaded fonts metadata -->
-            <meta-data
-                android:name="preloaded_fonts"
-                android:resource="@array/preloaded_fonts" />
-         </application>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
 
 </manifest>

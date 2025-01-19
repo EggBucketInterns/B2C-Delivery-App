@@ -45,6 +45,13 @@ interface ApiService {
         @Part img: MultipartBody.Part
     ): Call<ResponseBody>
 
+    @Multipart
+    @POST("/api/v1/deliveryPartner/vehicleDetails/{deliveryPartnerId}")
+    fun uploadPassbookDocument(
+        @Path("deliveryPartnerId") deliveryPartnerId: String,
+        @Part img: MultipartBody.Part
+    ): Call<ResponseBody>
+
     @GET("/api/v1/deliveryPartner/profile/{phone}")
     suspend fun getGeneralDetails(
         @Path("phone") phone: String

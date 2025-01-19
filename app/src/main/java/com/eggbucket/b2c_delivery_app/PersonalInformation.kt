@@ -7,6 +7,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -269,6 +270,12 @@ class PersonalInformation : AppCompatActivity() {
     """.trimIndent()
         //image part
         val imageFile = uriToFile(profileImageUri!!)
+        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, profileImageUri)
+        val compressedBitmap = compressBitmap(bitmap, 300, 300)
+        val compressedFile = File(cacheDir, "compressed_image.jpg")
+        FileOutputStream(compressedFile).use {
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, it)
+        }
         val imagePart = MultipartBody.Part.createFormData(
             "img", // Field name for the image
             imageFile.name, // File name
@@ -305,9 +312,9 @@ class PersonalInformation : AppCompatActivity() {
         .build()
 
         val okHttpClient = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)  // Set connect timeout
-            .readTimeout(30, TimeUnit.SECONDS)     // Set read timeout
-            .writeTimeout(30, TimeUnit.SECONDS)    // Set write timeout
+            .connectTimeout(60, TimeUnit.SECONDS)  // Set connect timeout
+            .readTimeout(60, TimeUnit.SECONDS)     // Set read timeout
+            .writeTimeout(60, TimeUnit.SECONDS)    // Set write timeout
             .build()
 
 // Create the request
@@ -344,6 +351,23 @@ class PersonalInformation : AppCompatActivity() {
             }
         })
     }
+
+    private fun compressBitmap(bitmap: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+        val aspectRatio = bitmap.width.toFloat() / bitmap.height
+        val width: Int
+        val height: Int
+
+        if (bitmap.width > bitmap.height) {
+            width = maxWidth
+            height = (maxWidth / aspectRatio).toInt()
+        } else {
+            height = maxHeight
+            width = (maxHeight * aspectRatio).toInt()
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, width, height, true)
+    }
+
     private fun uriToFile(uri: Uri): File {
         val tempFile = File.createTempFile("temp_image", ".jpg", cacheDir)
         contentResolver.openInputStream(uri)?.use { inputStream ->

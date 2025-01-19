@@ -11,10 +11,10 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -27,28 +27,30 @@ class Login : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()  // Enable edge-to-edge after super.onCreate()
-
-        setContentView(R.layout.activity_login)  // Set content view before accessing views
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_login)
 
         val sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
-        val status = sharedPreferences.getString("status", "default")
 
-//        if (status == "logedin") {
-//            // If the user is already logged in, navigate to MainActivity directly
-//            val intent = Intent(this, MainActivity::class.java)
-//            startActivity(intent)
-//            finish()  // Prevent going back to login page
-//            return
-//        }
+        // Retrieve Firebase Device Token
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val deviceToken = task.result ?: ""
+                Log.d("FCM", "Device Token: $deviceToken")
+                sharedPreferences.edit().putString("device_token", deviceToken).apply()
+            } else {
+                Log.e("FCM", "Failed to retrieve device token: ${task.exception?.message}")
+            }
+        }
 
+
+        // Request Notification Permission for Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
                     this,
                     "android.permission.POST_NOTIFICATIONS"
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                // Request the POST_NOTIFICATIONS permission
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf("android.permission.POST_NOTIFICATIONS"),
@@ -58,6 +60,7 @@ class Login : AppCompatActivity() {
         }
 
         val signupbtn: TextView = findViewById(R.id.register_btn)
+        val status = sharedPreferences.getString("status", "default")
         if (status == "submitted-all") {
             signupbtn.text = "View Document Status"
             signupbtn.setOnClickListener {
@@ -78,23 +81,33 @@ class Login : AppCompatActivity() {
         button.setOnClickListener {
             val phone = editTextUserId.text.toString().trim()
             val password = editTextPassword.text.toString().trim()
+            val token = sharedPreferences.getString("device_token", "")
+            if (token.isNullOrEmpty()) {
+                Log.e("Login", "Device token is empty or null")
+                Toast.makeText(this, "Device token is invalid", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             if (phone.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please enter both phone and password", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
+            // Debugging Device Token
+            Log.d("Login", "Device Token Before Request: $token")
+
             // Prepare JSON body
             val jsonBody = JSONObject()
             jsonBody.put("phone", phone)
             jsonBody.put("password", password)
+            jsonBody.put("deviceToken", token)
 
             // Send POST request
-            sendPostRequest(jsonBody,phone)
+            sendPostRequest(jsonBody, phone)
         }
     }
 
-    private fun sendPostRequest(jsonBody: JSONObject,phoneno:String) {
+    private fun sendPostRequest(jsonBody: JSONObject, phoneno: String) {
         val url = "https://b2c-backend-1.onrender.com/api/v1/deliveryPartner/verifypassword"
         val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
         val requestBody = RequestBody.create(mediaType, jsonBody.toString())
@@ -122,14 +135,15 @@ class Login : AppCompatActivity() {
 
                         // Save the status as "logedin" when the user logs in
                         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-                        val editor=sharedPreferences.edit()
-                        editor.putString("status", "logedin")
-                        editor.putString("phone_no",phoneno)
-                        editor.apply()
+                        sharedPreferences.edit()
+                            .putString("status", "logedin")
+                            .putString("phone_no", phoneno)
+                            .apply()
+
                         // Navigate to MainActivity
                         val intent = Intent(this@Login, MainActivity::class.java)
                         startActivity(intent)
-                        finish()  // Prevent going back to login page
+                        finish()
                     } else {
                         Log.e("Login", "Error: HTTP ${response.code}: $responseBody")
                         Toast.makeText(this@Login, "Error: ${response.message}", Toast.LENGTH_LONG).show()
