@@ -26,12 +26,13 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
         val status = sharedPreferences.getString("status", "default")
 
-        if (status != "logedin") {
+        if (status != "logged_in") {
             val intent = Intent(this, Login::class.java)
             startActivity(intent)
             finish()
             return
         }
+
 
         // Inflate layout
         binding = ActivityMainBinding.inflate(layoutInflater)

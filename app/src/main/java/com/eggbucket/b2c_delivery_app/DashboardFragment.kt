@@ -19,6 +19,7 @@ import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.coroutines.launch
 import org.json.JSONException
+import java.util.Calendar
 import kotlin.math.pow
 
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
@@ -31,55 +32,25 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.setOnApplyWindowInsetsListener { v, insets ->
-            val statusBarHeight = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-                insets.getInsets(android.view.WindowInsets.Type.statusBars()).top
-            } else {
-                insets.systemWindowInsetTop
-            }
-            v.setPadding(0, statusBarHeight, 0, 0) // Apply padding to the top
-            insets
-        }
-
         sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
-        val phone = sharedPreferences.getString("phone_no", "null")
-        val earnings=sharedPreferences.getInt("earnings", 0)
-        // Initialize the GraphView
-        val graphView: GraphView = view.findViewById(R.id.graph)
 
+        val phone = sharedPreferences.getString("phone_no", "null") ?: "null"
 
+        // Initialize monthly earnings data
+        initializeMonthlyData()
 
-// Remove grid lines
-        graphView.gridLabelRenderer.isHorizontalLabelsVisible = true
-        graphView.gridLabelRenderer.isVerticalLabelsVisible = true
-        graphView.gridLabelRenderer.setGridStyle(com.jjoe64.graphview.GridLabelRenderer.GridStyle.NONE)
+        // Update today's earnings for demonstration purposes
+        updateEarningsForToday(1000)
 
-// Customize the X and Y axis labels
-        graphView.gridLabelRenderer.horizontalAxisTitleColor = resources.getColor(R.color.orange) // Orange for X-axis
-        graphView.gridLabelRenderer.verticalAxisTitleColor = resources.getColor(R.color.orange) // Orange for Y-axis
-        graphView.gridLabelRenderer.textSize = 30f // Increase the size of the labels if necessary
+        // Plot earnings graph
+        plotEarningsGraph(view)
 
-// Create a curvy LineGraphSeries (parabola-like curve)
-        val series = LineGraphSeries<DataPoint>(generateCurvyDataPoints())
-        series.color = resources.getColor(R.color.orange) // Set the graph line color to orange
+        // Update UI elements
+        val earnings = calculateTotalEarnings()
+        earningsText = view.findViewById(R.id.total_earnings)
+        earningsText.text = "₹$earnings"
 
-// Add the series to the graph
-        graphView.addSeries(series)
-
-// Set Y-axis bounds
-        val maxY = series.highestValueY // Get the maximum Y value from the series
-        graphView.viewport.isYAxisBoundsManual = true
-        graphView.viewport.setMinY(0.0) // Set minimum Y to 0
-        graphView.viewport.setMaxY(maxY) // Set maximum Y to the highest value in the series
-
-// Optional: Enable scrolling or scaling if needed
-        graphView.viewport.isScalable = true
-        graphView.viewport.isScrollable = true
-
-        // Reference the TextView for completed orders count
         amount = view.findViewById(R.id.amount)
-        earningsText=view.findViewById(R.id.total_earnings)
-        earningsText.text="₹${earnings}"
         completedOrdersCountTextView = view.findViewById(R.id.completed_orders_count)
         ongoingOrderCount = view.findViewById(R.id.order_count)
 
@@ -94,12 +65,102 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             findNavController().navigate(R.id.action_dashboardFragment_to_orderSummary)
         }
 
-        // Fetch the order data and update the UI simultaneously
-        fetchOrdersCount(phone!!)
+        // Fetch data from APIs
+        fetchOrdersCount(phone)
         fetchOngoingOrdersCount(phone)
         fetchFromApiAndStore(phone)
         fetchamount(phone)
     }
+
+    /**
+     * Initializes earnings data for the current month.
+     * Resets data if it's a new month.
+     */
+    private fun initializeMonthlyData() {
+        val calendar = Calendar.getInstance()
+        val currentMonth = calendar.get(Calendar.MONTH)
+        val currentYear = calendar.get(Calendar.YEAR)
+        val storedMonth = sharedPreferences.getInt("month", -1)
+        val storedYear = sharedPreferences.getInt("year", -1)
+
+        if (storedMonth != currentMonth || storedYear != currentYear) {
+            val editor = sharedPreferences.edit()
+            editor.clear()
+            editor.putInt("month", currentMonth)
+            editor.putInt("year", currentYear)
+            val daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+            for (day in 1..daysInMonth) {
+                editor.putInt("day_$day", 0)
+            }
+            editor.apply()
+        }
+    }
+
+    /**
+     * Updates earnings for the current day.
+     */
+    private fun updateEarningsForToday(newEarnings: Int) {
+        val calendar = Calendar.getInstance()
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        val currentEarnings = sharedPreferences.getInt("day_$dayOfMonth", 0)
+        sharedPreferences.edit().putInt("day_$dayOfMonth", currentEarnings + newEarnings).apply()
+    }
+
+    /**
+     * Calculates total earnings for the current month.
+     */
+    private fun calculateTotalEarnings(): Int {
+        val calendar = Calendar.getInstance()
+        val daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+        var totalEarnings = 0
+        for (day in 1..daysInMonth) {
+            totalEarnings += sharedPreferences.getInt("day_$day", 0)
+        }
+        return totalEarnings
+    }
+
+    /**
+     * Fetches earnings data and plots the graph.
+     */
+    private fun plotEarningsGraph(view: View) {
+        val graphView: GraphView = view.findViewById(R.id.graph)
+
+        // Generate data points from SharedPreferences
+        val dataPoints = mutableListOf<DataPoint>()
+        val calendar = Calendar.getInstance()
+        val daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+        var maxEarnings = 0.0 // To dynamically adjust the Y-axis
+
+        for (day in 1..daysInMonth) {
+            val earnings = sharedPreferences.getInt("day_$day", 0).toDouble()
+            dataPoints.add(DataPoint(day.toDouble(), earnings))
+            if (earnings > maxEarnings) {
+                maxEarnings = earnings
+            }
+        }
+
+        val series = LineGraphSeries<DataPoint>(dataPoints.toTypedArray())
+        series.color = resources.getColor(R.color.orange)
+        graphView.addSeries(series)
+
+        // Configure graph appearance
+        graphView.viewport.isXAxisBoundsManual = true
+        graphView.viewport.setMinX(1.0)
+        graphView.viewport.setMaxX(daysInMonth.toDouble())
+
+        graphView.viewport.isYAxisBoundsManual = true
+        graphView.viewport.setMinY(0.0)
+        graphView.viewport.setMaxY(maxEarnings + (maxEarnings * 0.1)) // Add 10% padding for better visualization
+
+        graphView.viewport.isScalable = true // Allow zooming
+        graphView.viewport.isScrollable = true // Allow scrolling
+
+        // Set graph height dynamically (optional, programmatically adjust height)
+        val layoutParams = graphView.layoutParams
+        layoutParams.height = 500 // Adjust the height as needed (in pixels)
+        graphView.layoutParams = layoutParams
+    }
+
 
 
     private fun fetchamount(phone:String) {
@@ -205,21 +266,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         Log.d("FetchOrders", "Request added to the queue")
     }
 
-
-
-
-
-    // Method to generate curvy (parabola-like) data points
-    private fun generateCurvyDataPoints(): Array<DataPoint> {
-        val dataPoints = mutableListOf<DataPoint>()
-        for (i in 1..20) {
-            val x = i.toDouble()
-            // Generate a quadratic curve (parabola) with random fluctuation
-            val y = x.pow(2.0) - 50 + Math.random() * 100 // Parabolic curve with some random fluctuation
-            dataPoints.add(DataPoint(x, y))
-        }
-        return dataPoints.toTypedArray()
-    }
 
 
 

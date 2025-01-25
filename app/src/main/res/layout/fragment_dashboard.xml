@@ -106,7 +106,6 @@
 
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -135,13 +134,13 @@
     <LinearLayout
         android:id="@+id/graph_layout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="25dp"
+        android:background="@drawable/rounded_background_white"
         android:orientation="vertical"
         android:padding="5dp"
-        android:background="@drawable/rounded_background_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
@@ -157,24 +156,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Total Revenue"
+                android:text="Total Monthly Earnings"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textColor="@color/black"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/total_revenue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="2dp"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:text="₹2000"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6"
-                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/see_details"
@@ -182,19 +169,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="15dp"
-                android:textSize="16sp"
-                android:textColor="@color/appThemeColor"
                 android:text="@string/see_details"
+                android:textColor="@color/appThemeColor"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graph"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true" />
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp" />
 
 
     </LinearLayout>
