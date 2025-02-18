@@ -8,29 +8,13 @@ data class GeneralDetails(
     val firstName: String,
     val lastName: String,
     val phone: String,
-    val address: Address,
+    val address: String,
     val city: String,
     val secondaryNumber: String,
     val dob: Timestamp,
     val languageKnown: List<String>,
     val updatedAt: Timestamp,
     val image: String
-)
-data class Address(
-    val fullAddress: fullAddress,
-    val coordinates: GeoPoint
-)
-data class fullAddress(
-    val addressLine1: String?,
-    val addressLine2: String?,
-    val area: String?,
-    val city: String?,
-    val country: String?,
-    val state: String?,
-    val flatNo: String?,
-
-    val zip: String?
-
 )
 
 data class TotalOrders(

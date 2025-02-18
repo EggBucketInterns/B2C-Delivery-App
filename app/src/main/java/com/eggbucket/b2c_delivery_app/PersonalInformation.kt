@@ -69,9 +69,10 @@ class PersonalInformation : AppCompatActivity() {
                 val secondaryNumber = findViewById<EditText>(R.id.secondaryPhoneInput).text.toString().trim()
                 val bloodGroup = findViewById<EditText>(R.id.bloodGroupInput).text.toString().trim()
                 val city = findViewById<EditText>(R.id.cityInput1).text.toString().trim()
+                val address = findViewById<EditText>(R.id.addressInput).text.toString().trim()
                 val languageKnown = findViewById<EditText>(R.id.languagesInput).text.toString().trim()
                 savePhoneNumber(phone)
-                submitPersonalDetails(firstName,lastName,fatherName,dob,phone,secondaryNumber,bloodGroup,city,languageKnown)
+                submitPersonalDetails(firstName,lastName,fatherName,dob,phone,secondaryNumber,bloodGroup,city,address,languageKnown)
 
 
             } else {
@@ -192,6 +193,7 @@ class PersonalInformation : AppCompatActivity() {
             Pair(findViewById<EditText>(R.id.dateOfBirthInput), "Date of Birth"),
             Pair(findViewById<EditText>(R.id.bloodGroupInput), "Blood Group"),
             Pair(findViewById<EditText>(R.id.cityInput1), "City"),
+            Pair(findViewById<EditText>(R.id.addressInput), "Address"),
             Pair(findViewById<EditText>(R.id.languagesInput), "Languages Known")
         )
 
@@ -245,29 +247,12 @@ class PersonalInformation : AppCompatActivity() {
                                       secondaryNumber:String,
                                       bloodGroup:String,
                                       city:String,
+                                      address:String,
                                       languageKnown:String) {
         val progressbar = findViewById<ProgressBar>(R.id.PIprogressBar)
         progressbar.visibility = View.VISIBLE
         submitButton.visibility=View.INVISIBLE
-        //address part
-        val addressJson = """
-        {
-            "coordinates": {
-                "lat": 12.9494,
-                "long": 77.5847
-            },
-            "fullAddress": {
-                "addressLine1": "011",
-                "addressLine2": "the",
-                "area": "basavanagudi",
-                "city": "bang",
-                "country": "ind",
-                "flatNo": "101",
-                "state": "kar",
-                "zipCode": "456372"
-            }
-        }
-    """.trimIndent()
+
         //image part
         val imageFile = uriToFile(profileImageUri!!)
         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, profileImageUri)
@@ -296,20 +281,20 @@ class PersonalInformation : AppCompatActivity() {
 //            .addFormDataPart("languageKnown", "languageKnown")
 //            .addPart(imagePart) // Attach the image part here
 //            .build()
-    val requestBody = MultipartBody.Builder()
-        .setType(MultipartBody.FORM)
-        .addFormDataPart("firstName", firstName)
-        .addFormDataPart("lastName", lastName)
-        .addFormDataPart("fatherName", fatherName)
-        .addFormDataPart("dob",dob ) // Example date of birth
-        .addFormDataPart("phone", phone)
-        .addFormDataPart("secondaryNumber", secondaryNumber)
-        .addFormDataPart("bloodGroup", bloodGroup)
-        .addFormDataPart("city", city)
-        .addFormDataPart("address", addressJson) // Send address as a JSON string
-        .addFormDataPart("languageKnown", languageKnown)
-        .addPart(imagePart) // Attach the image part here
-        .build()
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("firstName", firstName)
+            .addFormDataPart("lastName", lastName)
+            .addFormDataPart("fatherName", fatherName)
+            .addFormDataPart("dob",dob ) // Example date of birth
+            .addFormDataPart("phone", phone)
+            .addFormDataPart("secondaryNumber", secondaryNumber)
+            .addFormDataPart("bloodGroup", bloodGroup)
+            .addFormDataPart("city", city)
+            .addFormDataPart("address", address)
+            .addFormDataPart("languageKnown", languageKnown)
+            .addPart(imagePart) // Attach the image part here
+            .build()
 
         val okHttpClient = OkHttpClient.Builder()
             .connectTimeout(60, TimeUnit.SECONDS)  // Set connect timeout
@@ -378,4 +363,3 @@ class PersonalInformation : AppCompatActivity() {
         return tempFile
     }
 }
-

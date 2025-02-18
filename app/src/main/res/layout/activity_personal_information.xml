@@ -281,6 +281,36 @@
             app:layout_constraintStart_toStartOf="@+id/city1"
             app:layout_constraintTop_toBottomOf="@+id/city1" />
 
+        <TextView
+            android:layout_marginStart="4dp"
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/istok_web"
+            android:text="Address"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/cityInput1"
+            app:layout_constraintTop_toBottomOf="@+id/cityInput1" />
+
+        <EditText
+            android:id="@+id/addressInput"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@id/languages"
+            android:background="@drawable/rounded_background_with_border"
+            android:drawablePadding="0dp"
+            android:hint="e.g. Bangalore"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/address"
+            app:layout_constraintTop_toBottomOf="@+id/address" />
+
+
+
 
         <TextView
             android:id="@+id/languages"
@@ -292,8 +322,8 @@
             android:text="Languages You Know"
             android:textColor="@color/dark_gray"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/cityInput1"
-            app:layout_constraintTop_toBottomOf="@+id/cityInput1" />
+            app:layout_constraintStart_toStartOf="@+id/addressInput"
+            app:layout_constraintTop_toBottomOf="@+id/addressInput" />
 
         <EditText
             android:id="@+id/languagesInput"
