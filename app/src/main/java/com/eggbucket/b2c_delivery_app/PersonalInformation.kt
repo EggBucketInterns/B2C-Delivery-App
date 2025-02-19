@@ -157,13 +157,16 @@ class PersonalInformation : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
+            val imageView: ImageView = findViewById(R.id.imgVehicleDetails)
             when (requestCode) {
                 PICK_IMAGE_REQUEST_CODE -> {
                     profileImageUri = data?.data
+                    imageView.setImageURI(profileImageUri) // Set image in ImageView
                     Toast.makeText(this, "Image selected successfully.", Toast.LENGTH_SHORT).show()
                 }
                 CAMERA_REQUEST_CODE -> {
                     profileImageUri = FileProvider.getUriForFile(this, "${packageName}.provider", tempFile)
+                    imageView.setImageURI(profileImageUri) // Set image in ImageView
                     Toast.makeText(this, "Photo taken successfully.", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -171,6 +174,7 @@ class PersonalInformation : AppCompatActivity() {
             Toast.makeText(this, "No image selected or photo taken.", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

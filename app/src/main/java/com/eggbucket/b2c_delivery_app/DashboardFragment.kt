@@ -37,7 +37,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         val phone = sharedPreferences.getString("phone_no", "null") ?: "null"
 
         initializeMonthlyData()
-        updateEarningsForToday(1000)
+        updateEarningsForToday(0)
         plotEarningsGraph(view)
 
         earningsText = view.findViewById(R.id.total_earnings)
@@ -159,8 +159,25 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 sharedPreferences.edit().apply {
                     putString("firstName", details.firstName)
                     putString("lastName", details.lastName)
-                    putString("dob", SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(details.dob._seconds * 1000))
+                    try {
+                        val dobString = details.dob.toString()
+                        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+                        val date = inputFormat.parse(dobString) ?: throw IllegalArgumentException("Invalid date format")
+                        putString("dob", outputFormat.format(date))
+                    } catch (e: Exception) {
+                        Log.e("fetchFromApi", "Date parsing error: ${e.message}", e)
+                        putString("dob", "Unknown")
+                    }
+
                     putString("phone", details.phone)
+                    putString("city", details.city)
+                    putString("secondaryNumber", details.secondaryNumber)
+                    putString("bloodGroup", details.bloodGroup)
+                    putString("fatherName", details.fatherName)
+                    putString("address", details.address)
+                    putString("languageKnown", details.languageKnown.toString())
                     apply()
                 }
             } catch (e: Exception) {
