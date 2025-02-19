@@ -3,7 +3,6 @@ package com.eggbucket.b2c_delivery_app
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
-import java.io.File
-
 
 class personalDetails : Fragment() {
 
@@ -28,13 +25,11 @@ class personalDetails : Fragment() {
     private lateinit var valueCity: TextView
     private lateinit var valueAddress: TextView
     private lateinit var valueLanguageKnown: TextView
-    private lateinit var imageview:ImageView
-    private var fileName = "profile_image.jpg"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = inflater.inflate(R.layout.fragment_personal_details, container, false)
 
         view.setOnApplyWindowInsetsListener { v, insets ->
@@ -43,7 +38,7 @@ class personalDetails : Fragment() {
             } else {
                 insets.systemWindowInsetTop
             }
-            v.setPadding(0, statusBarHeight, 0, 0) // Apply padding to the top
+            v.setPadding(0, statusBarHeight, 0, 0)
             insets
         }
 
@@ -58,36 +53,38 @@ class personalDetails : Fragment() {
         valueCity = view.findViewById(R.id.valueCity)
         valueAddress = view.findViewById(R.id.valueAddress)
         valueLanguageKnown = view.findViewById(R.id.valueLanguageKnown)
-        imageview = view.findViewById(R.id.profilePhoto)
 
-
+        // Get SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+
+        // Fetch and set values
         valueName.text = "${sharedPreferences.getString("firstName", "")} ${sharedPreferences.getString("lastName", "")}"
-        valueFatherName.text = sharedPreferences.getString("fatherName", "")
-        valueDOB.text = sharedPreferences.getString("dob", "")
-        valuePhoneNumber.text = sharedPreferences.getString("phone", "")
-        valueSecondaryNumber.text = sharedPreferences.getString("secondaryNumber", "")
-        valueBloodGroup.text = sharedPreferences.getString("bloodGroup", "")
-        valueCity.text = sharedPreferences.getString("city", "")
-        valueAddress.text = sharedPreferences.getString("address", "")
-        valueLanguageKnown.text = sharedPreferences.getString("languageKnown", "")
-        val image = sharedPreferences.getString("img", null)
+        valueFatherName.text = sharedPreferences.getString("fatherName", "") ?: ""
+        valueDOB.text = sharedPreferences.getString("dob", "") ?: ""
+        valuePhoneNumber.text = sharedPreferences.getString("phone", "") ?: ""
+        valueSecondaryNumber.text = sharedPreferences.getString("secondaryNumber", "") ?: ""
+        valueBloodGroup.text = sharedPreferences.getString("bloodGroup", "") ?: ""
+        valueCity.text = sharedPreferences.getString("city", "") ?: ""
+        valueAddress.text = sharedPreferences.getString("address", "") ?: ""
+        valueLanguageKnown.text = sharedPreferences.getString("languageKnown", "") ?: ""
 
-        Glide.with(this)
-            .load(image) // URL or path to the new image
-            .placeholder(R.drawable.ic_person) // Placeholder image
-            .circleCrop() // Ensure circular cropping
-            .into(profilePhoto)
+        // Load profile image
+        val imageUrl = sharedPreferences.getString("img", null)
+        if (!imageUrl.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(imageUrl)
+                .placeholder(R.drawable.ic_person) // Fallback image
+                .circleCrop()
+                .into(profilePhoto)
+        } else {
+            profilePhoto.setImageResource(R.drawable.ic_person) // Default profile icon
+        }
 
-        view?.findViewById<ImageView>(R.id.aadharBackButton)?.setOnClickListener {
+        // Back button click listener
+        view.findViewById<ImageView>(R.id.aadharBackButton).setOnClickListener {
             NavHostFragment.findNavController(this@personalDetails).popBackStack()
         }
 
         return view
     }
-
-
-
-
-
 }

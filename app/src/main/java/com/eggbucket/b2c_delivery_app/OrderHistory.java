@@ -1,5 +1,7 @@
 package com.eggbucket.b2c_delivery_app;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,20 +33,19 @@ import okhttp3.Response;
 
 public class OrderHistory extends Fragment {
 
-    private static final String API_URL = "https://b2c-backend-1.onrender.com/api/v1/deliveryPartner/fetchOrders/0987654321";
+    private static final String BASE_API_URL = "https://b2c-backend-1.onrender.com/api/v1/deliveryPartner/fetchOrders/";
     private RecyclerView recyclerViewOrders;
     private OrderHistoryAdapter orderHistoryAdapter;
     private List<OrderHistoryModel> orderHistoryModelList;
     private View loaderContainer;
     private ProgressBar loader;
     private TextView loaderText;
+    private SharedPreferences sharedPreferences;
+    private String userPhoneNumber = "";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_history, container, false);
-
-
-
 
         view.setOnApplyWindowInsetsListener((v, insets) -> {
             int statusBarHeight = 0;
@@ -73,21 +73,33 @@ public class OrderHistory extends Fragment {
                 NavHostFragment.findNavController(OrderHistory.this)
                         .navigate(R.id.action_orderSummary_to_dashboardFragment));
 
+        // Get SharedPreferences
+        sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        userPhoneNumber = sharedPreferences.getString("phone", "");
+
+        // Check if phone number exists
+        if (userPhoneNumber == null || userPhoneNumber.isEmpty()) {
+            Log.e("OrderHistory", "User phone number not found in SharedPreferences!");
+            loaderContainer.setVisibility(View.GONE);
+            return view;
+        }
+
         // Show loader initially
         loaderContainer.setVisibility(View.VISIBLE);
         recyclerViewOrders.setVisibility(View.GONE);
 
-        // Fetch orders
-        fetchOrderHistory();
+        // Fetch order history using dynamic phone number
+        fetchOrderHistory(userPhoneNumber);
 
         return view;
     }
 
-    private void fetchOrderHistory() {
+    private void fetchOrderHistory(String phoneNumber) {
         OkHttpClient client = new OkHttpClient();
+        String apiUrl = BASE_API_URL + phoneNumber; // Dynamic URL
 
         Request request = new Request.Builder()
-                .url(API_URL)
+                .url(apiUrl)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -116,7 +128,7 @@ public class OrderHistory extends Fragment {
                                     orderDateObject.getLong("_seconds"),
                                     orderDateObject.getInt("_nanoseconds")
                             );
-                            String deliveryStatus = "Delivered";
+                            String deliveryStatus = orderObject.getString("deliveredStatus");
                             String price = String.valueOf(orderObject.getInt("price"));
 
                             List<Integer> productImages = new ArrayList<>();
