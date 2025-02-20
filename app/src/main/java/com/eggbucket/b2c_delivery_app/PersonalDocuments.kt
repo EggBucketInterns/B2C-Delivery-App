@@ -13,7 +13,7 @@ class PersonalDocuments : AppCompatActivity() {
     private val REQUEST_CODE_VEHICLE_DETAILS = 2001
     private val REQUEST_CODE_DOCS = 2002
     private val REQUEST_CODE_BANK_DETAILS = 2003
-    private val REQUEST_CODE_PASSBOOK = 2004
+
 
     private lateinit var pendingDocsGroup: LinearLayout
     private lateinit var completedDocsGroup: LinearLayout
@@ -33,7 +33,7 @@ class PersonalDocuments : AppCompatActivity() {
         vehicleButton = findViewById(R.id.linearVehicleDocuments)
         personalDocsButton = findViewById(R.id.linearPersonalDocuments)
         bankDetailsButton = findViewById(R.id.linearBankDocuments)
-        passbookButton = findViewById(R.id.linearPassbookDocuments)
+
         submitButton = findViewById(R.id.submitButtonDocs)
 
         // Handle Vehicle Details button click
@@ -53,12 +53,7 @@ class PersonalDocuments : AppCompatActivity() {
             val intent = Intent(this, BankAccountDetails::class.java)
             startActivityForResult(intent, REQUEST_CODE_BANK_DETAILS)
         }
-        // Handle Passbook button click
-        val passbookIcon: ImageView = findViewById(R.id.buttonIconPassbookDocuments)
-        passbookIcon.setOnClickListener {
-            val intent = Intent(this, Passbook::class.java)
-            startActivityForResult(intent, REQUEST_CODE_PASSBOOK)
-        }
+
 
         // Handle Submit button click
         submitButton.setOnClickListener {
@@ -94,14 +89,7 @@ class PersonalDocuments : AppCompatActivity() {
                 }
             }
 
-            REQUEST_CODE_PASSBOOK -> {
-                if (resultCode == RESULT_OK) {
-                    val isPassbookSubmitted = data?.getBooleanExtra("isPassbookSubmitted", false) ?: false
-                    if (isPassbookSubmitted) {
-                        movePassbookToCompleted()
-                    }
-                }
-            }
+
             REQUEST_CODE_BANK_DETAILS -> {
                 if (resultCode == RESULT_OK) {
                     val isBankDetailsSubmitted = data?.getBooleanExtra("isBankDetailsSubmitted", false) ?: false
@@ -133,12 +121,7 @@ class PersonalDocuments : AppCompatActivity() {
             completedDocsGroup.addView(bankDetailsButton)
         }
     }
-    private fun movePassbookToCompleted() {
-        if (passbookButton.parent == pendingDocsGroup) {
-            pendingDocsGroup.removeView(passbookButton)
-            completedDocsGroup.addView(passbookButton)
-        }
-    }
+
 
     private fun isSubmissionValid(): Boolean {
         return vehicleButton.parent == completedDocsGroup &&

@@ -40,6 +40,13 @@
             android:textSize="25sp"
             android:textStyle="normal" />
     </FrameLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/frameLayout4"
+        app:layout_constraintBottom_toBottomOf="parent">
 
     <LinearLayout
         android:id="@+id/inputContainer"
@@ -162,29 +169,69 @@
             android:textColor="@color/black"
             android:textColorHint="@color/dark_gray"
             android:textSize="16sp" />
+        <LinearLayout
+            android:id="@+id/llPassbookDetailsImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/border"
+            android:padding="16dp">
+
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:fontFamily="@font/archivo_medium"
+                android:paddingTop="10dp"
+                android:text="Upload a photo \n of your Passbook"
+                android:textAlignment="center"
+                android:textColor="#101010" />
+
+            <Button
+                android:id="@+id/Upploadbutton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:drawableLeft="@drawable/camera"
+                android:textAlignment="center"
+                android:backgroundTint="@color/orange"
+                android:layout_gravity="center"
+                android:text="Upload Image" />
+            <ImageView
+                android:id="@+id/imgPassbookDetails"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/submitButtonBankDoc"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/orange"
+                android:fontFamily="@font/istok_web_bold"
+                android:gravity="center"
+                android:text="Submit"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
 
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <!-- Other views go here -->
-
-        <Button
-            android:id="@+id/submitButtonBankDoc"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/orange"
-            android:fontFamily="@font/istok_web_bold"
-            android:gravity="center"
-            android:text="Submit"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp" />
-
-    </RelativeLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

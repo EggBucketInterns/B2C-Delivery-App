@@ -46,7 +46,7 @@ interface ApiService {
     ): Call<ResponseBody>
 
     @Multipart
-    @POST("/api/v1/deliveryPartner/vehicleDetails/{deliveryPartnerId}")
+    @POST("/api/v1/deliveryPartner/bankDetails/{deliveryPartnerId}")
     fun uploadPassbookDocument(
         @Path("deliveryPartnerId") deliveryPartnerId: String,
         @Part img: MultipartBody.Part

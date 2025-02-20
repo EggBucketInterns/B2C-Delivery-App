@@ -151,36 +151,7 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/linearPassbookDocuments"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_background_with_border"
-            android:clickable="true"
 
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <TextView
-                android:id="@+id/buttonTextPassbookDocuments"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/istok_web"
-                android:text="Passbook"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:id="@+id/buttonIconPassbookDocuments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="Arrow Icon"
-                android:src="@drawable/img_2" />
-        </LinearLayout>
 
     </LinearLayout>
 

@@ -235,7 +235,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                         "dob",
                         SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(details.dob._seconds * 1000)
                     )
-                    putString("phone", details.phone)
+                    putString("phoneNumber", details.phone)
                     putString("city", details.city)
                     putString("secondaryNumber", details.secondaryNumber)
                     putString("bloodGroup", details.bloodGroup)

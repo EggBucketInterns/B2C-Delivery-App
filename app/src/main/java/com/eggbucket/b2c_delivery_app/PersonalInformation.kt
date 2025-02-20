@@ -271,20 +271,7 @@ class PersonalInformation : AppCompatActivity() {
             RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageFile) // RequestBody for the image file
         )
 
-//        val requestBody = MultipartBody.Builder()
-//            .setType(MultipartBody.FORM)
-//            .addFormDataPart("firstName", "sud")
-//            .addFormDataPart("lastName", "han")
-//            .addFormDataPart("fatherName", "va")
-//            .addFormDataPart("dob","1999-12-12" ) // Example date of birth
-//            .addFormDataPart("phone", "9113854167")
-//            .addFormDataPart("secondaryNumber", "91111111111")
-//            .addFormDataPart("bloodGroup", "o+")
-//            .addFormDataPart("city", "Bangalore")
-//            .addFormDataPart("address", addressJson.toString()) // Send address as a JSON string
-//            .addFormDataPart("languageKnown", "languageKnown")
-//            .addPart(imagePart) // Attach the image part here
-//            .build()
+
         val requestBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart("firstName", firstName)
