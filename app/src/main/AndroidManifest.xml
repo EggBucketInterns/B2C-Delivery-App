@@ -86,6 +86,8 @@
         <activity
             android:name=".DocumentStatus"
             android:exported="false" />
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".ProfileActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
