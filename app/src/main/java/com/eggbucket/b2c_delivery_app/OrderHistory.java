@@ -75,7 +75,7 @@ public class OrderHistory extends Fragment {
 
         // Get SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
-        userPhoneNumber = sharedPreferences.getString("phone", "");
+        userPhoneNumber = sharedPreferences.getString("phone_no", "");
 
         // Check if phone number exists
         if (userPhoneNumber == null || userPhoneNumber.isEmpty()) {

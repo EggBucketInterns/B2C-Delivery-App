@@ -15,7 +15,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -65,7 +64,6 @@ class Login : AppCompatActivity() {
                 Log.e("FCM", "Failed to retrieve device token: ${task.exception?.message}")
             }
         }
-
     }
 
     private fun requestNotificationPermission() {
@@ -109,8 +107,10 @@ class Login : AppCompatActivity() {
 
         // Validate the inputs
         if (token.isNullOrEmpty()) {
-            Log.e("Login", "Token is empty or null")
-            Toast.makeText(this, "Device token is invalid", Toast.LENGTH_SHORT).show()
+            Log.e("Login", "Token is empty or null, re-fetching...")
+            Toast.makeText(this, "Device token not ready, please wait and try again.", Toast.LENGTH_SHORT).show()
+            // Optionally re-trigger token fetch
+            fetchDeviceToken(sharedPreferences)
             return
         }
 
@@ -119,11 +119,10 @@ class Login : AppCompatActivity() {
             return
         }
 
-        // Create the JSON body with the correct field names
         val jsonBody = JSONObject().apply {
             put("phone", phone)
             put("password", password)
-            put("token", token)  // Update this field to "token"
+            put("token", token)
         }
 
         sendPostRequest(jsonBody, phone)
@@ -131,29 +130,16 @@ class Login : AppCompatActivity() {
 
 
     private fun sendPostRequest(jsonBody: JSONObject, phoneNo: String) {
-        // Extract the token from the JSON body using the new field name
-        val token = jsonBody.optString("token", "")
-        if (token.isEmpty()) {
-            Log.e("Login", "Token is empty. Aborting request.")
-            Toast.makeText(this, "Invalid token. Please try again.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        // Update the URL as needed
         val url = "https://b2c-backend-1.onrender.com/api/v1/deliveryPartner/verifypassword"
-
-        // Media type for JSON request body
         val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
         val requestBody = RequestBody.create(mediaType, jsonBody.toString())
 
-        // Build the request
         val request = Request.Builder()
             .url(url)
             .post(requestBody)
-            .addHeader("Content-Type", "application/json")  // Set the correct Content-Type
+            .addHeader("Content-Type", "application/json")
             .build()
 
-        // Execute the request asynchronously
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("Login", "Failed to send request: ${e.message}")
@@ -163,30 +149,44 @@ class Login : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
+                // Read response body once. Be careful to not call response.body?.string() multiple times.
                 val responseBody = response.body?.string()
+
                 runOnUiThread {
                     if (response.isSuccessful) {
-                        Log.d("Login", "Response: $responseBody")
+                        Log.d("Login", "Response successful: $responseBody")
                         Toast.makeText(this@Login, "Login successful!", Toast.LENGTH_LONG).show()
 
                         // Store the login state in SharedPreferences
                         val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
                         sharedPreferences.edit()
                             .putString("status", "logged_in")
-                            .putString("phone_no", phoneNo)
+                            .putString("phone_no", phoneNo) // Save the user's ID (phone number)
                             .apply()
 
                         // Navigate to the main activity after successful login
-                        startActivity(Intent(this@Login, MainActivity::class.java))
+                        val intent = Intent(this@Login, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
                         finish()
                     } else {
+                        // --- IMPROVED ERROR HANDLING ---
+                        // Parse specific error message from backend response body
+                        var errorMessage = "Login failed: ${response.code}" // Fallback message
+                        if (responseBody != null) {
+                            try {
+                                val jsonError = JSONObject(responseBody)
+                                errorMessage = jsonError.optString("message", errorMessage)
+                            } catch (e: Exception) {
+                                Log.w("Login", "Could not parse error JSON body: $responseBody")
+                            }
+                        }
                         Log.e("Login", "Error: HTTP ${response.code}: $responseBody")
-                        Toast.makeText(this@Login, "Error: ${response.message}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@Login, errorMessage, Toast.LENGTH_LONG).show()
+                        // --- END IMPROVEMENT ---
                     }
                 }
             }
         })
     }
-
-
 }
