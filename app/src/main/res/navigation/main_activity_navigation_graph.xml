@@ -28,7 +28,7 @@
         android:id="@+id/menuFragment"
         android:name="com.eggbucket.b2c_delivery_app.Menu"
         android:label="Menu"
-        tools:layout="@layout/nfragment_menu" />
+        tools:layout="@layout/fragment_menu" />
 
     <fragment
         android:id="@+id/profileFragment"
@@ -55,7 +55,7 @@
         android:id="@+id/mainActivity"
         android:name="com.eggbucket.b2c_delivery_app.MainActivity"
         android:label="activity_main"
-        tools:layout="@layout/nactivity_main" />
+        tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/deliveredOrders"
         android:name="com.eggbucket.b2c_delivery_app.OngoingOrders"

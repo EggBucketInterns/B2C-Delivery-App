@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="25dp"
-            android:background="@color/white">
+            android:background="@color/appThemeColor">
 
 
             <ImageView
@@ -27,7 +27,7 @@
                 android:scaleType="center"
                 android:src="@drawable/baseline_arrow_back_black"
                 android:layout_gravity="start|center_vertical"
-                app:tint="@color/black" />
+                app:tint="@color/white" />
 
 
             <TextView
@@ -36,9 +36,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Personal Details"
-                android:textColor="@android:color/black"
-                android:textSize="23sp"
-                android:textStyle="bold" />
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:textStyle="normal" />
         </FrameLayout>
         <ScrollView
 

@@ -43,7 +43,7 @@
         android:layout_marginTop="99dp"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:srcCompat="@drawable/fperson_24" />
+        app:srcCompat="@drawable/baseline_person_24" />
 
     <!-- User ID EditText -->
     <EditText

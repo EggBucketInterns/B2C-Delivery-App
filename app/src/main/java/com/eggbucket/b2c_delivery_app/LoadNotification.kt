@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.*
 
 
 class LoadNotification : AppCompatActivity() {
@@ -12,7 +13,7 @@ class LoadNotification : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         Log.d("FCM", "opened loadnotification")
-        setContentView(R.layout.nactivity_load_notification)
+        setContentView(R.layout.activity_load_notification)
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("FRAGMENT_TO_OPEN", "OrderNotification")
         startActivity(intent)
