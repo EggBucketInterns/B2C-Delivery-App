@@ -35,30 +35,32 @@ class NotificationFragment : Fragment() {
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_item_list, container, false)
 
-        // Initialize SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
 
-        // Load notifications from SharedPreferences
-        val notificationList = loadNotifications()
+        // Get the phone number from SharedPreferences for API calls
+        val phone = sharedPreferences.getString("phone_no", null)
 
-        // Set the adapter
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyNotificationRecyclerViewAdapter(notificationList.toMutableList(),
+                adapter = MyNotificationRecyclerViewAdapter(loadNotifications().toMutableList(),
                     onAccept = { notification ->
-                        acceptOrder("0987654321", notification)
-                        Toast.makeText(context, "Accepted: ${notification.orderId}", Toast.LENGTH_SHORT).show()
-
+                        if (phone != null) {
+                            acceptOrder(phone, notification)
+                        } else {
+                            // Handle case where phone number is missing
+                            Toast.makeText(context, "Error: User ID not found.", Toast.LENGTH_SHORT).show()
+                        }
                     },
                     onDelete = { notification ->
                         deleteNotification(notification)
@@ -84,42 +86,42 @@ class NotificationFragment : Fragment() {
 
 
 
-            // Build the URL dynamically
-            val url = "https://b2c-backend-1.onrender.com/api/v1/deliveryPartner/markorderdelivered/$phone/${data.orderId}"
+        // Build the URL dynamically
+        val url = "https://b2c-backend-1.onrender.com/api/v1/deliveryPartner/acceptOrder/$phone/${data.orderId}"
 
-            // Create OkHttpClient
-            val client = OkHttpClient()
+        // Create OkHttpClient
+        val client = OkHttpClient()
 
-            // Build the request
-            val request = Request.Builder()
-                .url(url)
-                .post(RequestBody.create(null, "")) // Empty body for POST request
-                .build()
+        // Build the request
+        val request = Request.Builder()
+            .url(url)
+            .post(RequestBody.create(null, "")) // Empty body for POST request
+            .build()
 
-            // Make the API call
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    // Handle failure
-                    println("API call failed: ${e.message}")
+        // Make the API call
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                // Handle failure
+                println("API call failed: ${e.message}")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                // Handle success
+                if (response.isSuccessful) {
+                    println("API call successful: ${response.body?.string()}")
+                    deleteNotification(data)
+
+                } else {
+                    Toast.makeText(context, "${response.body.toString()}", Toast.LENGTH_SHORT).show()
+
+                    Log.d("failed accepting order",response.body.toString())
                 }
-
-                override fun onResponse(call: Call, response: Response) {
-                    // Handle success
-                    if (response.isSuccessful) {
-                        println("API call successful: ${response.body?.string()}")
-                        deleteNotification(data)
-
-                    } else {
-                        Toast.makeText(context, "${response.body.toString()}", Toast.LENGTH_SHORT).show()
-
-                        Log.d("failed accepting order",response.body.toString())
-                    }
-                }
-            })
-        }
+            }
+        })
+    }
 
 
-        private fun deleteNotification(notification: NotificationEntity) {
+    private fun deleteNotification(notification: NotificationEntity) {
         val gson = Gson()
         val notificationsJson = sharedPreferences.getString("notifications_list", null)
         val type = object : TypeToken<MutableList<NotificationEntity>>() {}.type
