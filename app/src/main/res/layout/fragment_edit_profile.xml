@@ -38,7 +38,7 @@
 
     <!-- First Name Input -->
     <EditText
-        android:id="@+id/edt_first_name"
+        android:id="@+id/etFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="First Name"
@@ -52,7 +52,7 @@
 
     <!-- Last Name Input -->
     <EditText
-        android:id="@+id/edt_last_name"
+        android:id="@+id/etLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Last Name"
@@ -66,7 +66,7 @@
 
     <!-- Phone Number -->
     <EditText
-        android:id="@+id/edt_phone_number"
+        android:id="@+id/etPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Phone Number"
@@ -80,7 +80,7 @@
 
     <!-- Email -->
     <EditText
-        android:id="@+id/edt_email"
+        android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
@@ -94,7 +94,7 @@
 
     <!-- Driving Licence -->
     <EditText
-        android:id="@+id/edt_driving_licence"
+        android:id="@+id/etDl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Driving Licence Number"
@@ -107,7 +107,7 @@
 
     <!-- Aadhaar Number -->
     <EditText
-        android:id="@+id/edt_aadhaar_number"
+        android:id="@+id/etAadhaar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Aadhaar Number"
@@ -120,7 +120,7 @@
 
     <!-- Submit Button -->
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/sendOtpButton"
+        android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Submit"

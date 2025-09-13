@@ -22,6 +22,7 @@
         <action
             android:id="@+id/action_dashboardFragment_to_newOrder"
             app:destination="@id/newOrder" />
+
     </fragment>
 
     <fragment
@@ -50,6 +51,9 @@
         <action
             android:id="@+id/action_profileFragment_to_notificationFragment"
             app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
     </fragment>
     <activity
         android:id="@+id/mainActivity"
@@ -164,4 +168,13 @@
         android:name="com.eggbucket.b2c_delivery_app.NotificationFragment"
         android:label="fragment_item_list"
         tools:layout="@layout/fragment_item_list" />
+
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.eggbucket.b2c_delivery_app.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile"/>
+
+
 </navigation>
