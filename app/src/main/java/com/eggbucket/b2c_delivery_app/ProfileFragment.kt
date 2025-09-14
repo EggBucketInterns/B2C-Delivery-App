@@ -12,7 +12,7 @@ import com.google.firebase.ktx.Firebase
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private val db = Firebase.firestore
-    private val partnerId = "0987654321"  // test with your document id
+    private val partnerId = "0987654321"  // TODO: Replace with actual dynamic ID
 
     private lateinit var profileImage: ImageView
     private lateinit var tvPartnerName: TextView
@@ -41,6 +41,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         btnEdit.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
         }
+
+        // ✅ Back button setup
+        val backButton = view.findViewById<View>(R.id.profileBackButton)
+        backButton?.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     override fun onResume() {
@@ -57,7 +63,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
                     val firstName = general?.get("firstName") as? String ?: ""
                     val lastName = general?.get("lastName") as? String ?: ""
-                    val phone = doc.id
+                    val phone = general?.get("phone") as? String ?: doc.id
                     val dl = general?.get("dlNumber") as? String ?: ""
                     val aadhaar = general?.get("aadhaarNumber") as? String ?: ""
                     val role = "Delivery Partner"
@@ -79,7 +85,5 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             .addOnFailureListener { e ->
                 Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()
             }
-
-
     }
 }

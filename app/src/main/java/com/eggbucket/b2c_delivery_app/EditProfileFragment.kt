@@ -14,7 +14,7 @@ import com.google.firebase.ktx.Firebase
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     private val db = Firebase.firestore
-    // temporary hardcoded partnerId for testing. Replace with dynamic id (Auth or passed arg) later.
+    // TODO: Replace with dynamic partnerId (from login/auth or bundle args)
     private val partnerId = "0987654321"
 
     private lateinit var etFirstName: EditText
@@ -28,7 +28,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // bind views (must match your fragment_edit_profile.xml IDs)
+        // Bind views
         etFirstName = view.findViewById(R.id.etFirstName)
         etLastName = view.findViewById(R.id.etLastName)
         etPhone = view.findViewById(R.id.etPhone)
@@ -37,8 +37,16 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         etAadhaar = view.findViewById(R.id.etAadhaar)
         btnSave = view.findViewById(R.id.btnSave)
 
+        // ✅ Back button setup
+        val backButton = view.findViewById<View>(R.id.aadharBackButton)
+        backButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        // Load current profile data
         loadProfileData()
 
+        // Save on button click
         btnSave.setOnClickListener {
             saveProfileData()
         }
@@ -53,13 +61,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
                     etFirstName.setText(general?.get("firstName") as? String ?: "")
                     etLastName.setText(general?.get("lastName") as? String ?: "")
-                    // phone may be stored top-level or inside generalDetails — prefer general->phone then doc id
                     etPhone.setText(general?.get("phone") as? String ?: doc.getString("phone") ?: doc.id)
                     etEmail.setText(general?.get("email") as? String ?: doc.getString("email") ?: "")
                     etDl.setText(general?.get("dlNumber") as? String ?: "")
                     etAadhaar.setText(general?.get("aadhaarNumber") as? String ?: "")
-                } else {
-                    // No doc yet — keep fields empty (user can fill and save)
                 }
             }
             .addOnFailureListener { e ->
@@ -68,7 +73,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     }
 
     private fun saveProfileData() {
-        // build the map exactly as ProfileFragment expects (generalDetails)
         val generalMap = hashMapOf(
             "firstName" to etFirstName.text.toString().trim(),
             "lastName" to etLastName.text.toString().trim(),
@@ -82,13 +86,13 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             "generalDetails" to generalMap
         )
 
-        // Use set(..., SetOptions.merge()) so the document is created if missing and merged if exists
         db.collection("Delivery_partner").document(partnerId)
             .set(updateMap, SetOptions.merge())
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show()
-                // return to ProfileFragment (which reloads onResume)
-                findNavController().navigateUp()
+
+                // ✅ Navigate back to ProfileFragment and remove EditProfile from back stack
+                findNavController().popBackStack()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(requireContext(), "Failed to save: ${e.message}", Toast.LENGTH_LONG).show()
