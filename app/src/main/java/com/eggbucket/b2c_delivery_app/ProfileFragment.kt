@@ -1,6 +1,8 @@
 package com.eggbucket.b2c_delivery_app
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.fragment.app.Fragment
@@ -12,7 +14,6 @@ import com.google.firebase.ktx.Firebase
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private val db = Firebase.firestore
-    private val partnerId = "0987654321"  // TODO: Replace with actual dynamic ID
 
     private lateinit var profileImage: ImageView
     private lateinit var tvPartnerName: TextView
@@ -22,6 +23,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private lateinit var tvDlValue: TextView
     private lateinit var tvAadhaarValue: TextView
     private lateinit var btnEdit: Button
+
+    // ✅ Get dynamic partnerId from SharedPreferences
+    private val partnerId: String
+        get() {
+            val sharedPref = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+            return sharedPref.getString("phone_no", "") ?: ""   // <-- same key as in Login.kt
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,6 +43,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         tvPartnerId = view.findViewById(R.id.tvPartnerId)
         btnEdit = view.findViewById(R.id.btnEditProfile)
 
+        // Show ID on top
         tvPartnerId.text = "ID: $partnerId"
 
         // ✅ Navigation to Edit Profile
@@ -42,7 +51,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
         }
 
-        // ✅ Back button setup
+        // ✅ Back button setup (if you have it in XML)
         val backButton = view.findViewById<View>(R.id.profileBackButton)
         backButton?.setOnClickListener {
             findNavController().navigateUp()
@@ -55,6 +64,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun loadProfile() {
+        if (partnerId.isEmpty()) {
+            Toast.makeText(requireContext(), "No Partner ID found", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        Log.d("ProfileFragment", "Using Partner ID: $partnerId")
+
         db.collection("Delivery_partner").document(partnerId)
             .get()
             .addOnSuccessListener { doc ->
