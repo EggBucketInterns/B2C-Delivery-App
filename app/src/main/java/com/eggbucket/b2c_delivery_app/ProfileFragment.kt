@@ -1,163 +1,105 @@
 package com.eggbucket.b2c_delivery_app
 
 import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.WindowInsets
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.eggbucket.b2c_delivery_app.databinding.FragmentProfileBinding
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
+class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
-/*object RetrofitClient {
-    private const val BASE_URL = "https://b2c-backend-1.onrender.com/"
+    private val db = Firebase.firestore
 
-    private val okHttpClient = OkHttpClient.Builder()
-        .connectTimeout(30, TimeUnit.SECONDS) // Set connection timeout
-        .readTimeout(30, TimeUnit.SECONDS)    // Set read timeout
-        .writeTimeout(30, TimeUnit.SECONDS)   // Set write timeout
-        .build()
+    private lateinit var profileImage: ImageView
+    private lateinit var tvPartnerName: TextView
+    private lateinit var tvSubtitle: TextView
+    private lateinit var tvPartnerId: TextView
+    private lateinit var tvPhoneValue: TextView
+    private lateinit var tvDlValue: TextView
+    private lateinit var tvAadhaarValue: TextView
+    private lateinit var btnEdit: Button
 
-    val apiService: ApiService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttpClient)  // Use the custom OkHttpClient
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
+    // ✅ Get dynamic partnerId from SharedPreferences
+    private val partnerId: String
+        get() {
+            val sharedPref = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+            return sharedPref.getString("phone_no", "") ?: ""   // <-- same key as in Login.kt
+        }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        profileImage = view.findViewById(R.id.profileImage)
+        tvPartnerName = view.findViewById(R.id.tvPartnerName)
+        tvSubtitle = view.findViewById(R.id.tvSubtitle)
+        tvPhoneValue = view.findViewById(R.id.tvPhoneValue)
+        tvDlValue = view.findViewById(R.id.tvDlValue)
+        tvAadhaarValue = view.findViewById(R.id.tvAadhaarValue)
+        tvPartnerId = view.findViewById(R.id.tvPartnerId)
+        btnEdit = view.findViewById(R.id.btnEditProfile)
+
+        // Show ID on top
+        tvPartnerId.text = "ID: $partnerId"
+
+        // ✅ Navigation to Edit Profile
+        btnEdit.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+        }
+
+        // ✅ Back button setup (if you have it in XML)
+        val backButton = view.findViewById<View>(R.id.profileBackButton)
+        backButton?.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
-}*/
 
+    override fun onResume() {
+        super.onResume()
+        loadProfile()
+    }
 
-/*interface ApiService {
+    private fun loadProfile() {
+        if (partnerId.isEmpty()) {
+            Toast.makeText(requireContext(), "No Partner ID found", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-    @GET("api/v1/deliveryPartner/profile/{phone}")
-    fun getUserByPhone(@Path("phone") phone: String): Call<User>
-}*/
+        Log.d("ProfileFragment", "Using Partner ID: $partnerId")
 
+        db.collection("Delivery_partner").document(partnerId)
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc != null && doc.exists()) {
+                    val general = doc.get("generalDetails") as? Map<*, *>
 
+                    val firstName = general?.get("firstName") as? String ?: ""
+                    val lastName = general?.get("lastName") as? String ?: ""
+                    val phone = general?.get("phone") as? String ?: doc.id
+                    val dl = general?.get("dlNumber") as? String ?: ""
+                    val aadhaar = general?.get("aadhaarNumber") as? String ?: ""
+                    val role = "Delivery Partner"
+                    val imageUrl = general?.get("image") as? String
 
-data class Dob(
-    val _seconds: Long,
-    val _nanoseconds: Int
-)
+                    tvPartnerName.text = "$firstName $lastName"
+                    tvSubtitle.text = role
+                    tvPhoneValue.text = phone
+                    tvDlValue.text = dl
+                    tvAadhaarValue.text = aadhaar
 
-
-
-
-
-class ProfileFragment : Fragment() {
-
-    private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var sharedPref: SharedPreferences
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-
-        binding.root.setOnApplyWindowInsetsListener { v, insets ->
-            val statusBarHeight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                insets.getInsets(WindowInsets.Type.statusBars()).top
-            } else {
-                insets.systemWindowInsetTop
+                    if (!imageUrl.isNullOrEmpty()) {
+                        Glide.with(requireContext()).load(imageUrl).into(profileImage)
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Profile not found", Toast.LENGTH_SHORT).show()
+                }
             }
-            v.setPadding(0, statusBarHeight, 0, 0)
-            insets
-        }
-
-        // Initialize SharedPreferences
-        sharedPref = requireActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
-
-        // Load user data from SharedPreferences
-        loadUserDataFromPreferences()
-
-        // Setup click listeners
-        setupClickListeners()
-
-        return binding.root
-    }
-
-
-    private fun loadUserDataFromPreferences() {
-        val firstName = sharedPref.getString("firstName", "N/A")
-        val lastName = sharedPref.getString("lastName", "N/A")
-        val phone = sharedPref.getString("phone", "N/A")
-        val image = sharedPref.getString("img", null)
-
-        // Update UI with user data
-        binding.tvPartnerName.text = "$firstName $lastName"
-        binding.tvSubtitle.text = phone
-
-        Log.d("ProfileFragment", "Details: $firstName" + lastName + phone + image )
-
-        // Load profile image using Glide
-        Glide.with(this)
-            .load(image) // URL or path to the new image
-            .placeholder(R.drawable.ic_person) // Placeholder image
-            .circleCrop() // Ensure circular cropping
-            .into(binding.profileImage) // Target ImageView
-    }
-
-    private fun setupClickListeners() {
-        // Navigate to Personal Information
-        binding.llPersonalInfo.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_personalDetails)
-        }
-
-        // Navigate to Order History
-        binding.llOrderHistory.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_orderSummary)
-        }
-
-        // Navigate to Notifications
-        binding.llNotifications.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_notificationFragment)
-        }
-
-        // Handle Logout
-        binding.llLogout.setOnClickListener {
-            logout()
-        }
-
-        binding.llHelpSupport.setOnClickListener {
-            // Handle Help and Support button click
-        }
-
-
-
-
-    }
-
-    private fun logout() {
-        // Clear user details from SharedPreferences
-        val editor = sharedPref.edit()
-        editor.clear()
-        editor.apply()
-
-        // Redirect to Login Activity
-        val intent = Intent(requireActivity(), Login::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
-
-        requireActivity().finish()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+            .addOnFailureListener { e ->
+                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()
+            }
     }
 }
-
-
-
-
