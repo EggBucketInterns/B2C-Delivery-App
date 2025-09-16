@@ -14,11 +14,17 @@
             android:id="@+id/action_dashboardFragment_to_deliveredOrders"
             app:destination="@id/deliveredOrders" />
         <action
+            android:id="@+id/action_dashboardFragment_to_pickupMap"
+            app:destination="@id/pickupMap" />
+
+        <action
             android:id="@+id/action_dashboardFragment_to_orderSummary"
             app:destination="@id/orderSummary" />
         <action
-            android:id="@+id/action_dashboardFragment_to_pickupMap"
-            app:destination="@id/pickupMap" />
+            android:id="@+id/action_dashboardFragment_to_orderDetails"
+            app:destination="@id/orderDetails" />
+
+
         <action
             android:id="@+id/action_dashboardFragment_to_newOrder"
             app:destination="@id/newOrder" />

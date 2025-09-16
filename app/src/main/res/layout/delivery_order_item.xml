@@ -6,7 +6,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp" />
 
     <!-- Order Details -->
     <LinearLayout
@@ -14,35 +14,39 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
+        android:paddingTop="10dp"
         android:paddingBottom="10dp">
 
-        <!-- Order Number and Status in a Horizontal Layout -->
+        <!-- Order Number -->
+        <TextView
+            android:id="@+id/orderNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order No: #1109"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <!-- Status + Pickup Order -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical">
 
-            <!-- Order Number -->
-            <TextView
-                android:id="@+id/orderNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="#1109"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:textStyle="normal"
-                android:layout_weight="1"/> <!-- Added layout_weight to push the status text to the right -->
-
-            <!-- Status -->
+            <!-- Left: Status -->
             <TextView
                 android:id="@+id/orderStatus"
-                android:gravity="end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Pickup Successful"
-                android:textColor="@android:color/holo_green_dark"
-                android:textSize="16sp" />
+                android:text="Status: Pending"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+
+
+            <!-- Right: Pickup Order (clickable text) -->
+
         </LinearLayout>
 
         <!-- Order Value -->
@@ -52,16 +56,28 @@
             android:layout_height="wrap_content"
             android:text="Order Value: ₹ x"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/pickupText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pickup Order"
+            android:textStyle="normal"
+            android:textSize="16sp"
+            android:textColor="@color/appThemeColor"
+            android:padding="5dp"
+            android:layout_gravity="end"
+            android:clickable="true"
+            android:focusable="true" />
 
     </LinearLayout>
-
-
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#D3D3D3"/>
+        android:background="#D3D3D3" />
 
 </LinearLayout>

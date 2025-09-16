@@ -43,27 +43,52 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
         return new OrderViewHolder(view);
     }
 
+//    @Override
+//    public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
+//        OngoingOrdersModel order = ordersList.get(position);
+//
+//        // Display order details
+//        holder.orderNumber.setText(order.getOrderNumber());
+//        holder.orderStatus.setText(order.getStatus());
+//        holder.orderValue.setText("Order Value: ₹ " + order.getOrderValue());
+//
+//        // Handle item click to save data
+//        holder.itemView.setOnClickListener(v -> {
+//            saveOrderDataToSharedPreferences(order);  // Save data to SharedPreferences
+//            String savedOrderData = getOrderDataFromSharedPreferences();  // Retrieve saved data
+//
+//            // Log saved data for debugging
+//            Log.d("SharedPreferencesData", savedOrderData);
+//
+//            NavController navController = Navigation.findNavController(v);
+//            navController.navigate(R.id.action_deliveredOrders_to_pickupMap);
+//        });
+//    }
+
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         OngoingOrdersModel order = ordersList.get(position);
 
-        // Display order details
-        holder.orderNumber.setText(order.getOrderNumber());
-        holder.orderStatus.setText(order.getStatus());
+        // Bind values
+        holder.orderNumber.setText("Order #" + order.getOrderNumber());
+        holder.orderStatus.setText("Status:" +order.getStatus());
         holder.orderValue.setText("Order Value: ₹ " + order.getOrderValue());
 
-        // Handle item click to save data
-        holder.itemView.setOnClickListener(v -> {
-            saveOrderDataToSharedPreferences(order);  // Save data to SharedPreferences
-            String savedOrderData = getOrderDataFromSharedPreferences();  // Retrieve saved data
-
-            // Log saved data for debugging
-            Log.d("SharedPreferencesData", savedOrderData);
-
+        // Click on "Pickup Order" → open Pickup Map
+        holder.pickupText.setOnClickListener(v -> {
+            saveOrderDataToSharedPreferences(order);
             NavController navController = Navigation.findNavController(v);
-            navController.navigate(R.id.action_deliveredOrders_to_pickupMap);
+            navController.navigate(R.id.action_dashboardFragment_to_pickupMap);
+        });
+
+        // Click on whole card → open Order Details
+        holder.itemView.setOnClickListener(v -> {
+            saveOrderDataToSharedPreferences(order);
+            NavController navController = Navigation.findNavController(v);
+            navController.navigate(R.id.action_dashboardFragment_to_orderDetails);
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -71,13 +96,14 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
     }
 
     static class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView orderNumber, orderStatus, orderValue;
+        TextView orderNumber, orderStatus, orderValue, pickupText;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             orderNumber = itemView.findViewById(R.id.orderNumber);
             orderStatus = itemView.findViewById(R.id.orderStatus);
             orderValue = itemView.findViewById(R.id.orderValue);
+            pickupText = itemView.findViewById(R.id.pickupText);
         }
     }
 
