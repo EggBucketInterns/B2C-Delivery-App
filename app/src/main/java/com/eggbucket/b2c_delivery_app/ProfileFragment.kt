@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.eggbucket.b2c_delivery_app.databinding.FragmentProfileBinding
+import com.google.firebase.auth.FirebaseAuth
 
 
 /*object RetrofitClient {
@@ -58,6 +59,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var sharedPref: SharedPreferences
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,6 +80,7 @@ class ProfileFragment : Fragment() {
         // Initialize SharedPreferences
         sharedPref = requireActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
 
+        auth = FirebaseAuth.getInstance()
         // Load user data from SharedPreferences
         loadUserDataFromPreferences()
 
@@ -139,13 +142,16 @@ class ProfileFragment : Fragment() {
     }
 
     private fun logout() {
+        // FIX 1: Sign out from Firebase Authentication first
+        auth.signOut()
+
         // Clear user details from SharedPreferences
         val editor = sharedPref.edit()
         editor.clear()
         editor.apply()
 
-        // Redirect to Login Activity
-        val intent = Intent(requireActivity(), Login::class.java)
+        // FIX 2: Redirect to the correct LoginActivity
+        val intent = Intent(requireActivity(), LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
 

@@ -5,6 +5,15 @@
     android:id="@+id/main_activity_navigation_graph"
     app:startDestination="@id/dashboardFragment">
 
+    <!--
+    This is the new global action.
+    It allows navigation to the 'newOrder' fragment from anywhere in the app,
+    which is essential for handling notifications correctly.
+    -->
+    <action
+        android:id="@+id/action_global_to_newOrder"
+        app:destination="@id/newOrder" />
+
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.eggbucket.b2c_delivery_app.DashboardFragment"
@@ -89,26 +98,35 @@
             app:uri="myapp://order_notification" />
         <argument
             android:name="ORDER_ID"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="N/A" />
         <argument
             android:name="PICKUP"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="N/A" />
         <argument
             android:name="DELIVERY"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="N/A" />
         <argument
             android:name="ORDER_VALUE"
-            app:argType="string" />
+            app:argType="float"
+            android:defaultValue="0.0" />
         <argument
             android:name="E6"
-            app:argType="string" />
+            app:argType="integer"
+            android:defaultValue="0" />
         <argument
             android:name="E12"
-            app:argType="string" />
+            app:argType="integer"
+            android:defaultValue="0" />
         <argument
             android:name="E30"
-            app:argType="string" />
-
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/orderDetails"
@@ -133,9 +151,9 @@
     </fragment>
     <activity
         android:id="@+id/login"
-        android:name="com.eggbucket.b2c_delivery_app.Login"
+        android:name="com.eggbucket.b2c_delivery_app.LoginActivity"
         android:label="activity_login"
-        tools:layout="@layout/activity_login" />
+        tools:layout="@layout/login" />
     <fragment
         android:id="@+id/personalDetails"
         android:name="com.eggbucket.b2c_delivery_app.personalDetails"
