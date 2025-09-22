@@ -69,6 +69,19 @@
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/mainProfileFragment"
+        android:name="com.eggbucket.b2c_delivery_app.MainProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_main_profile" >
+
+        <action
+            android:id="@+id/action_navigation_notifications_to_editProfile"
+            app:destination="@id/profileFragment" />
+
+    </fragment>
+
     <activity
         android:id="@+id/mainActivity"
         android:name="com.eggbucket.b2c_delivery_app.MainActivity"
