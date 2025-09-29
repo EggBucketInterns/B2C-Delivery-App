@@ -6,7 +6,6 @@ import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.eggbucket.b2c_delivery_app.databinding.OtpVerifiBinding
@@ -25,7 +24,6 @@ class OtpVerificationActivity : AppCompatActivity() {
     private var phoneNumber: String? = null
     private lateinit var countDownTimer: CountDownTimer
 
-    // --- onCreate and other setup methods remain the same ---
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = OtpVerifiBinding.inflate(layoutInflater)
@@ -108,54 +106,50 @@ class OtpVerificationActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 Log.d("API_RESPONSE", "Received response with code: ${response.code}")
 
-                if (response.isSuccessful) {
-                    val responseBody = response.body?.string()
-                    Log.d("API_RESPONSE_BODY", "Response JSON: $responseBody")
+                // --- MODIFICATION START ---
+                // Check the HTTP status code to determine the user's status
+                when (response.code) {
+                    200 -> { // HTTP 200 OK: Existing user.
+                        val responseBody = response.body?.string()
+                        if (responseBody != null) {
+                            try {
+                                val json = JSONObject(responseBody)
+                                val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+                                val editor = sharedPreferences.edit()
+                                val generalDetailsJson = json.optJSONObject("generalDetails")
 
-                    if (responseBody != null) {
-                        try {
-                            val json = JSONObject(responseBody)
-                            val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-                            val editor = sharedPreferences.edit()
+                                if (generalDetailsJson != null) {
+                                    editor.putString("firstName", generalDetailsJson.optString("firstName", "N/A"))
+                                    // ... add other fields from your API response
+                                }
 
-                            // FIX: Get the nested "generalDetails" object from the response.
-                            val generalDetailsJson = json.optJSONObject("generalDetails")
-
-                            if (generalDetailsJson != null) {
-                                // Parse the details that are available in the nested object
-                                editor.putString("firstName", generalDetailsJson.optString("firstName", "N/A"))
-                                editor.putString("lastName", generalDetailsJson.optString("lastName", ""))
-
-                                // NOTE: The following details are MISSING from your API response.
-                                // Your backend needs to be updated to send them inside the 'generalDetails' object.
-                                editor.putString("img", generalDetailsJson.optString("profileImageUrl"))
-                                editor.putString("fatherName", generalDetailsJson.optString("fatherName"))
-                                editor.putString("dob", generalDetailsJson.optString("dateOfBirth"))
-                                editor.putString("secondaryNumber", generalDetailsJson.optString("secondaryNumber"))
-                                editor.putString("bloodGroup", generalDetailsJson.optString("bloodGroup"))
-                                editor.putString("city", generalDetailsJson.optString("city"))
-                                editor.putString("address", generalDetailsJson.optString("address"))
-                                editor.putString("languageKnown", generalDetailsJson.optString("languages"))
+                                editor.putString("status", "logged_in")
+                                editor.putString("phone_no", phoneNumber)
+                                editor.apply()
+                                Log.d("API_PARSE_SUCCESS", "Successfully parsed and saved existing user data.")
+                                navigateToMainApp(isLoginComplete = true)
+                            } catch (e: Exception) {
+                                Log.e("API_PARSE_ERROR", "Error parsing JSON for existing user.", e)
+                                navigateToMainApp(isLoginComplete = false)
                             }
 
-                            // Save the login status and phone number regardless
-                            editor.putString("status", "logged_in")
-                            editor.putString("phone_no", phoneNumber)
-                            editor.apply()
-
-                            Log.d("API_PARSE_SUCCESS", "Successfully parsed and saved user data.")
-                            navigateToMainApp(isLoginComplete = true)
-                            return // Exit after successful navigation
-
-                        } catch (e: Exception) {
-                            Log.e("API_PARSE_ERROR", "Error parsing JSON response.", e)
+                        } else {
+                            navigateToMainApp(isLoginComplete = false)
                         }
                     }
-                } else {
-                    Log.e("API_RESPONSE_ERROR", "API call was not successful. Code: ${response.code}, Message: ${response.message}")
+                    404 -> { // HTTP 404 Not Found: New user.
+                        Log.d("API_RESPONSE", "User not found (404). Navigating to registration.")
+                        navigateToRegistration()
+                    }
+                    else -> { // Handle other server errors (500, 403, etc.)
+                        Log.e("API_RESPONSE_ERROR", "API Error. Code: ${response.code}")
+                        runOnUiThread {
+                            Toast.makeText(applicationContext, "An error occurred. Please try again.", Toast.LENGTH_LONG).show()
+                        }
+                    }
                 }
-
-                navigateToMainApp(isLoginComplete = false)
+                response.body?.close() // Always close the response body to prevent resource leaks
+                // --- MODIFICATION END ---
             }
         })
     }
@@ -173,6 +167,21 @@ class OtpVerificationActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    // --- NEW FUNCTION TO NAVIGATE TO THE REGISTRATION SCREEN ---
+    private fun navigateToRegistration() {
+        runOnUiThread {
+//            // IMPORTANT: You must create a new Activity called 'RegistrationActivity' for this to work.
+//            val intent = Intent(this, RegistrationActivity::class.java)
+//            // Pass the phone number so the registration screen can use it
+//            intent.putExtra("phoneNumber", phoneNumber)
+//            // Clear the back stack
+//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//            startActivity(intent)
+//            finish()
+        }
+    }
+    // --- END OF NEW FUNCTION ---
 
     private fun startTimer() {
         countDownTimer = object : CountDownTimer(60000, 1000) {
@@ -196,4 +205,3 @@ class OtpVerificationActivity : AppCompatActivity() {
         }
     }
 }
-

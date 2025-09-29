@@ -51,21 +51,6 @@
         android:label="Profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_profileFragment_to_orderSummary"
-            app:destination="@id/orderSummary" />
-        <action
-            android:id="@+id/action_profileFragment_to_login"
-            app:destination="@id/login" />
-        <action
-            android:id="@+id/action_profileFragment_to_newOrder"
-            app:destination="@id/newOrder" />
-        <action
-            android:id="@+id/action_profileFragment_to_personalDetails"
-            app:destination="@id/personalDetails" />
-        <action
-            android:id="@+id/action_profileFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
-        <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
     </fragment>
@@ -77,8 +62,18 @@
         tools:layout="@layout/fragment_main_profile" >
 
         <action
-            android:id="@+id/action_navigation_notifications_to_editProfile"
+            android:id="@+id/action_mainProfileFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+
+        <action
+            android:id="@+id/action_mainProfileFragment_to_orderSummary"
+            app:destination="@id/orderSummary" />
+
+        <action
+            android:id="@+id/action_mainProfileFragment_to_login"
+            app:destination="@id/login"
+            app:popUpTo="@id/main_activity_navigation_graph"
+            app:popUpToInclusive="true" />
 
     </fragment>
 
